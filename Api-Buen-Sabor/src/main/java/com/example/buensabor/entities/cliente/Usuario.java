@@ -3,16 +3,22 @@ package com.example.buensabor.entities.cliente;
 import com.example.buensabor.entities.EntityBean;
 import com.example.buensabor.entities.comprobantes.Pedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "usuario")
 public class Usuario extends EntityBean {
 
@@ -37,9 +43,10 @@ public class Usuario extends EntityBean {
     @NotNull
     private String clave;
 
-    @Column(name = "rol", length = 65)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
     @NotNull
-    private String rol;
+    private Set<Rol> roles = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

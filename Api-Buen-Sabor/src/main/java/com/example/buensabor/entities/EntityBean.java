@@ -13,5 +13,4 @@ public abstract class EntityBean implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
-
 }

@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class RubroArticulo extends EntityBean {
 
     @Column(name = "denominacion")
-    @NonNull
+    @NotNull
     private String denominacion;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,7 +29,7 @@ public class RubroArticulo extends EntityBean {
 
     @JsonIgnore
     @OneToMany(mappedBy = "rubroArticuloPadre", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<RubroArticulo>rubroArticulosHijos = new ArrayList<>();
+    private List<RubroArticulo> rubroArticulosHijos = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "rubroArticulo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

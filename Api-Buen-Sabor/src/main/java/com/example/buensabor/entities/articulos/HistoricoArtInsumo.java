@@ -1,7 +1,9 @@
 package com.example.buensabor.entities.articulos;
 
 import com.example.buensabor.entities.EntityBean;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +11,8 @@ import java.util.Date;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "historico_articulo_insumo")
 public class HistoricoArtInsumo extends EntityBean {
 
@@ -24,7 +28,7 @@ public class HistoricoArtInsumo extends EntityBean {
     @NotNull
     private double precioVenta;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "id_art_insumo")
     private ArticuloInsumo articuloInsumo;
 }

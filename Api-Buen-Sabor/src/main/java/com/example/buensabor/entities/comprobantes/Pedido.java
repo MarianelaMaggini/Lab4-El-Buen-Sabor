@@ -4,7 +4,10 @@ import com.example.buensabor.entities.MercadoPagoDatos;
 import com.example.buensabor.entities.cliente.Domicilio;
 import com.example.buensabor.entities.cliente.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +18,8 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "pedido")
 public class Pedido implements Serializable {
 
@@ -44,10 +49,10 @@ public class Pedido implements Serializable {
     private double total;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "pedido",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<DetallePedido> detallePedidos = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
@@ -62,5 +67,4 @@ public class Pedido implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_mercado_pago")
     private MercadoPagoDatos mercadoPagoDatos;
-
 }

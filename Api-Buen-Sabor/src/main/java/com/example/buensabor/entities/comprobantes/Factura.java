@@ -1,7 +1,9 @@
 package com.example.buensabor.entities.comprobantes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "factura")
 public class Factura implements Serializable {
 
@@ -40,6 +44,6 @@ public class Factura implements Serializable {
     private double totalCosto;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "factura",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "factura", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<DetalleFactura> detalleFacturas = new ArrayList<>();
 }

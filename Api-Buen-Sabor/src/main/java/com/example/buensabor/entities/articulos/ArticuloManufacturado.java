@@ -5,16 +5,19 @@ import com.example.buensabor.entities.comprobantes.DetalleFactura;
 import com.example.buensabor.entities.comprobantes.DetallePedido;
 import com.example.buensabor.entities.rubros.RubroGeneral;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "articulo_manufacturado")
 public class ArticuloManufacturado extends EntityBean {
 
@@ -46,7 +49,7 @@ public class ArticuloManufacturado extends EntityBean {
     @OneToMany(mappedBy = "articuloManufacturado", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ArticuloManufacturadoDetalle> articuloManufacturadoDetalles = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "id_rubro_general")
     private RubroGeneral rubroGeneral;
 }
