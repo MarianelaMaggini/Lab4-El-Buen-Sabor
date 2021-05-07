@@ -23,17 +23,17 @@ public class Factura implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero_factura")
-    private int numeroFactura;
+    private long numeroFactura;
 
-    @Column(name = "fecha")
+    @Column(name = "fecha", nullable = false)
     @NotNull
     private Date fecha;
 
-    @Column(name = "monto_descuento")
+    @Column(name = "monto_descuento", nullable = false)
     @NotNull
     private double montoDescuento;
 
-    @Column(name = "forma_pago", length = 50)
+    @Column(name = "forma_pago", length = 50, nullable = false)
     @NotNull
     private String formaPago;
 

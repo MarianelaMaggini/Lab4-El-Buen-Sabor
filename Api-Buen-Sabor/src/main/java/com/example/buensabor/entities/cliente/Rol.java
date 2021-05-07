@@ -4,6 +4,7 @@ import com.example.buensabor.entities.EntityBean;
 import com.example.buensabor.enums.RolNombre;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;

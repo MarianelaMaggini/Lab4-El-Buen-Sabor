@@ -15,15 +15,15 @@ import javax.validation.constraints.NotNull;
 @Table(name = "domicilio")
 public class Domicilio extends EntityBean {
 
-    @Column(name = "calle", length = 150)
+    @Column(name = "calle", length = 150, nullable = false)
     @NotNull
     private  String calle;
 
-    @Column(name = "numero")
+    @Column(name = "numero", nullable = false)
     @NotNull
     private int numero;
 
-    @Column(name = "localidad")
+    @Column(name = "localidad", length = 65, nullable = false)
     @NotNull
     private String localidad;
 

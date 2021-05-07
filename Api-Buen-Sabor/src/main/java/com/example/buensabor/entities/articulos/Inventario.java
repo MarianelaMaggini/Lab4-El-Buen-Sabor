@@ -18,11 +18,11 @@ import java.util.List;
 @Table(name = "inventario")
 public class Inventario extends EntityBean {
 
-    @Column(name = "stock_actual")
+    @Column(name = "stock_actual", nullable = false)
     @NotNull
     private double stockActual;
 
-    @Column(name = "stock_minimo")
+    @Column(name = "stock_minimo", nullable = false)
     @NotNull
     private double stockMinimo;
 
@@ -34,7 +34,7 @@ public class Inventario extends EntityBean {
     @JoinColumn(name = "id_unidad_medida")
     private UnidadMedida unidadMedida;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_articulo")
     private Articulo articulo;
 }

@@ -24,7 +24,7 @@ public class ArticuloElaboradoDetalle extends EntityBean {
     @NotNull
     private String descripcion;
 
-    @Column(name = "tiempo_estimado_cocina")
+    @Column(name = "tiempo_estimado_cocina", nullable = false)
     @NotNull
     private int tiempoEstimadoCocina;
 

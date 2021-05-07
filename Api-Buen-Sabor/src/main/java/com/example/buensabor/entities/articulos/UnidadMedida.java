@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name = "unidad_medida")
 public class UnidadMedida extends EntityBean {
 
-    @Column(name = "denominacion")
+    @Column(name = "denominacion", nullable = false)
     @NotNull
     private String denominacion;
 

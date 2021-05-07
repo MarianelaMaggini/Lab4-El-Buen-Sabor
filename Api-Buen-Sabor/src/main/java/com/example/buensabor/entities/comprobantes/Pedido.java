@@ -26,18 +26,18 @@ public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "numero_factura")
-    private int numero;
+    @Column(name = "numero_pedido")
+    private long numero;
 
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     @NotNull
     private int estado;
 
-    @Column(name = "hora_estimada_fin")
+    @Column(name = "hora_estimada_fin", nullable = false)
     @NotNull
     private Date horaEstimadaFin;
 
-    @Column(name = "tipo_envio")
+    @Column(name = "tipo_envio", nullable = false)
     @NotNull
     private int tipoEnvio;
 

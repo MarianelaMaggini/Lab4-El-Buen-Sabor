@@ -19,21 +19,17 @@ import java.util.List;
 @Table(name = "articulo")
 public class Articulo extends EntityBean {
 
-    @Column(name = "denominacion", length = 65)
+    @Column(name = "denominacion", length = 65, nullable = false)
     @NotNull
     private String denominacion;
 
-    @Column(name = "imagen")
+    @Column(name = "imagen", length = 65, nullable = false)
     @NotNull
     private String imagen;
 
     @JsonIgnore
     @OneToMany(mappedBy = "articulo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ArticuloElaboradoDetalle> articuloElaboradoDetalles = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "articulo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Inventario> inventarios = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "articulo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

@@ -22,24 +22,24 @@ import java.util.Set;
 @Table(name = "usuario")
 public class Usuario extends EntityBean {
 
-    @Column(name = "nombre", length = 65)
+    @Column(name = "nombre", length = 65, nullable = false)
     @NotNull
     private String nombre;
 
-    @Column(name = "apellido", length = 65)
+    @Column(name = "apellido", length = 65, nullable = false)
     @NotNull
     private String apellido;
 
-    @Column(name = "telefono", length = 65)
+    @Column(name = "telefono", length = 65, nullable = false)
     @NotNull
     private long telefono;
 
-    @Column(name = "email", length = 65)
+    @Column(name = "email", length = 65, nullable = false)
     @NotNull
     @Email
     private String email;
 
-    @Column(name = "clave", length = 65)
+    @Column(name = "clave", length = 150, nullable = false)
     @NotNull
     private String clave;
 

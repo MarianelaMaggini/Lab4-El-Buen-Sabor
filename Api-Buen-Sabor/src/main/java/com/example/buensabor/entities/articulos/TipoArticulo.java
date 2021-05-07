@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "tipo_articulo")
 public class TipoArticulo extends EntityBean {
 
-    @Column(name = "denominacion")
+    @Column(name = "denominacion", length = 65, nullable = false)
     @NotNull
     private String denominacion;
 }

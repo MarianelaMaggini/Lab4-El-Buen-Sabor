@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "rubro")
 public class Rubro extends EntityBean {
 
-    @Column(name = "denominacion")
+    @Column(name = "denominacion", length = 65, nullable = false)
     @NotNull
     private String denominacion;
 
