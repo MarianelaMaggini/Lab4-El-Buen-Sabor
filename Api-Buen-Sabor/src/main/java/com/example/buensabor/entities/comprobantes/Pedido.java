@@ -29,10 +29,6 @@ public class Pedido implements Serializable {
     @Column(name = "numero_factura")
     private int numero;
 
-    @Column(name = "fecha")
-    @NotNull
-    private Date fecha;
-
     @Column(name = "estado")
     @NotNull
     private int estado;

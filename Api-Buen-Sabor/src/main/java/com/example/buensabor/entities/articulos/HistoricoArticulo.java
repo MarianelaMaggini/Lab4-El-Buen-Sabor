@@ -6,22 +6,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "historico_articulo_manufacturado")
-public class HistoricoArtManufacturado extends EntityBean {
+@Table(name = "historico_articulo")
+public class HistoricoArticulo extends EntityBean {
 
     @Column(name = "fecha")
+    @NotNull
     private Date fecha;
 
-    @Column(name = "precio_venta")
-    private double precioVenta;
+    @Column(name = "precio_compra")
+    @NotNull
+    private double precioCompra;
+
+    @Column(name = "cantidad")
+    @NotNull
+    private int cantidad;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "id_art_manufacturado")
-    private ArticuloManufacturado articuloManufacturado;
+    @JoinColumn(name = "id_inventario")
+    private Inventario inventario;
 }

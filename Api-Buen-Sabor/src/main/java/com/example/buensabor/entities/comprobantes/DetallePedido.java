@@ -1,8 +1,7 @@
 package com.example.buensabor.entities.comprobantes;
 
 import com.example.buensabor.entities.EntityBean;
-import com.example.buensabor.entities.articulos.ArticuloInsumo;
-import com.example.buensabor.entities.articulos.ArticuloManufacturado;
+import com.example.buensabor.entities.articulos.Articulo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,17 +20,13 @@ public class DetallePedido extends EntityBean {
     @NotNull
     private int cantidad;
 
-    @Column(name = "subtotal")
-    @NotNull
+    @Transient
     private double subtotal;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    @JoinColumn(name = "id_art_insumo")
-    private ArticuloInsumo articuloInsumo;
+    @JoinColumn(name = "id_articulo")
+    private Articulo articulo;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    @JoinColumn(name = "id_art_manufacturado")
-    private ArticuloManufacturado articuloManufacturado;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "id_pedido")
