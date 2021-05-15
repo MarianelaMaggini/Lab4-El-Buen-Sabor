@@ -44,6 +44,6 @@ public class FacturaEntity implements Serializable {
     private double totalCosto;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "factura", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "facturaEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<DetalleFacturaEntity> detalleFacturaEntities = new ArrayList<>();
 }

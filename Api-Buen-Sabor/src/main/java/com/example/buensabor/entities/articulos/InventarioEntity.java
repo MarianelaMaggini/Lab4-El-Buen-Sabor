@@ -27,7 +27,7 @@ public class InventarioEntity extends EntityBean {
     private double stockMinimo;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "inventario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "inventarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<HistoricoArticuloEntity> historicoArticuloEntities = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

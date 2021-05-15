@@ -44,7 +44,7 @@ public class PedidoEntity implements Serializable {
     private double total;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "pedidoEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<DetallePedidoEntity> detallePedidoEntities = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

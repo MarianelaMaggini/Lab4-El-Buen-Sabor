@@ -49,10 +49,10 @@ public class UsuarioEntity extends EntityBean {
     private Set<RolEntity> roles = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "usuarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<DomicilioEntity> domicilioEntities = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "usuarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<PedidoEntity> pedidoEntities = new ArrayList<>();
 }

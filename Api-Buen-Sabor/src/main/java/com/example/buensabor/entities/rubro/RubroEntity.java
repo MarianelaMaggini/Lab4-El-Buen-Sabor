@@ -25,6 +25,6 @@ public class RubroEntity extends EntityBean {
     private String denominacion;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "rubro", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "rubroEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ArticuloEntity> articuloEntities = new ArrayList<>();
 }

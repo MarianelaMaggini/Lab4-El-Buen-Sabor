@@ -28,11 +28,11 @@ public class ArticuloEntity extends EntityBean {
     private String imagen;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articulo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "articuloEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ArticuloElaboradoDetalleEntity> articuloElaboradoDetalleEntities = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articulo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "articuloEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<RecetaElaboradoEntity> recetaElaboradoEntities = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
