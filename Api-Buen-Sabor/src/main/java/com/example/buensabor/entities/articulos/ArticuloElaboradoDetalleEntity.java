@@ -28,10 +28,10 @@ public class ArticuloElaboradoDetalleEntity extends EntityBean {
     private int tiempoEstimadoCocina;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articuloElaboradoDetalleEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "articuloElaboradoDetalleEntity")
     private List<RecetaElaboradoEntity> recetaElaboradoEntities = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
     private ArticuloEntity articuloEntity;
 }

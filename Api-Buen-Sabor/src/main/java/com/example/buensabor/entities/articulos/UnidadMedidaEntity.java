@@ -24,11 +24,11 @@ public class UnidadMedidaEntity extends EntityBean {
     private String denominacion;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "unidadMedidaEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "unidadMedidaEntity")
     private List<RecetaElaboradoEntity> recetaElaboradoEntities = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "unidadMedidaEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "unidadMedidaEntity")
     private List<InventarioEntity> inventarioEntities = new ArrayList<>();
 
 }

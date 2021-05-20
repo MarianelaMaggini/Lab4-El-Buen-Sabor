@@ -40,4 +40,12 @@ public class HistoricoArticuloService {
             return false;
         }
     }
+
+    public List<Double> getPrecioCompra(){
+        List<Double> preciosVentas = new ArrayList<>();
+        for (Double precioCompra: historicoArticuloRepository.getPrecioCompra()){
+            preciosVentas.add(precioCompra * 1.5);
+        }
+        return preciosVentas;
+    }
 }

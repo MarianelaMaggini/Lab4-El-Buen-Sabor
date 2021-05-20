@@ -28,7 +28,7 @@ public class HistoricoArticuloEntity extends EntityBean {
     @NotNull
     private int cantidad;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_inventario")
     private InventarioEntity inventarioEntity;
 }

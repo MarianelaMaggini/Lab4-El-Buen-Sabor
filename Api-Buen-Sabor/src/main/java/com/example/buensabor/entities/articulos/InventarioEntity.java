@@ -27,14 +27,14 @@ public class InventarioEntity extends EntityBean {
     private double stockMinimo;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "inventarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "inventarioEntity")
     private List<HistoricoArticuloEntity> historicoArticuloEntities = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_unidad_medida")
     private UnidadMedidaEntity unidadMedidaEntity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
     private ArticuloEntity articuloEntity;
 }

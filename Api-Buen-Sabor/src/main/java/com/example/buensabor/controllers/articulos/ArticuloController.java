@@ -17,7 +17,7 @@ public class ArticuloController {
     @Autowired
     ArticuloService articuloService;
 
-    @GetMapping()
+    @GetMapping("/todos")
     public List<ArticuloEntity> getArticulos() {
         return articuloService.getArticulos();
     }

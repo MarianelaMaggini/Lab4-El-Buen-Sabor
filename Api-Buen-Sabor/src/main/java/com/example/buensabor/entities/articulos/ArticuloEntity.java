@@ -2,6 +2,7 @@ package com.example.buensabor.entities.articulos;
 
 import com.example.buensabor.entities.EntityBean;
 import com.example.buensabor.entities.rubro.RubroEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,18 +29,18 @@ public class ArticuloEntity extends EntityBean {
     private String imagen;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articuloEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "articuloEntity")
     private List<ArticuloElaboradoDetalleEntity> articuloElaboradoDetalleEntities = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articuloEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "articuloEntity")
     private List<RecetaElaboradoEntity> recetaElaboradoEntities = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_tipo_articulo")
     private TipoArticuloEntity tipoArticuloEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_rubro")
     private RubroEntity rubroEntity;
 }
