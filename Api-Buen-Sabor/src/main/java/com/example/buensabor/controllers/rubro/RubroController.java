@@ -9,13 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/rubros")//ruta principal
 public class RubroController {
 
+    private final RubroService rubroService;
+
     @Autowired
-    RubroService rubroService;
+    public RubroController(RubroService rubroService) {
+        this.rubroService = rubroService;
+    }
 
     @GetMapping("/todos")
     public List<RubroEntity> getRubros() {

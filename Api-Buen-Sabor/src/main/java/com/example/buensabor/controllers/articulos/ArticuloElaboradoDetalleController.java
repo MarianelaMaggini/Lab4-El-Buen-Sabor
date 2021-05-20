@@ -4,17 +4,20 @@ import com.example.buensabor.entities.articulos.ArticuloElaboradoDetalleEntity;
 import com.example.buensabor.services.articulos.ArticuloElaboradoDetalleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/articulosElaboradosDetalles")//ruta principal
 public class ArticuloElaboradoDetalleController {
 
+    private final ArticuloElaboradoDetalleService articuloElaboradoDetalleService;
+
     @Autowired
-    ArticuloElaboradoDetalleService articuloElaboradoDetalleService;
+    public ArticuloElaboradoDetalleController(ArticuloElaboradoDetalleService articuloElaboradoDetalleService) {
+        this.articuloElaboradoDetalleService = articuloElaboradoDetalleService;
+    }
 
     @GetMapping("/todos")
     public List<ArticuloElaboradoDetalleEntity> getArticuloDetalles() {
@@ -23,7 +26,7 @@ public class ArticuloElaboradoDetalleController {
 
     @GetMapping("/{id}")
     public Optional<ArticuloElaboradoDetalleEntity> getArticuloDetalleById(@PathVariable("id") Long id) {
-        return  articuloElaboradoDetalleService.getArticuloDetalleById(id);
+        return articuloElaboradoDetalleService.getArticuloDetalleById(id);
     }
 
     @PostMapping()

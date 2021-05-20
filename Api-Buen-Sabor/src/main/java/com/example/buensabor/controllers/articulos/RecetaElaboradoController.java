@@ -4,18 +4,20 @@ import com.example.buensabor.entities.articulos.RecetaElaboradoEntity;
 import com.example.buensabor.services.articulos.RecetaElaboradoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/recetasElaborado")//ruta principal
 public class RecetaElaboradoController {
 
+    private final RecetaElaboradoService recetaElaboradoService;
+
     @Autowired
-    RecetaElaboradoService recetaElaboradoService;
+    public RecetaElaboradoController(RecetaElaboradoService recetaElaboradoService) {
+        this.recetaElaboradoService = recetaElaboradoService;
+    }
 
     @GetMapping("/todos")
     public List<RecetaElaboradoEntity> getRecetas() {

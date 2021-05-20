@@ -1,6 +1,6 @@
 package com.example.buensabor.entities.comprobantes;
 
-import com.example.buensabor.entities.MercadoPagoDatos;
+import com.example.buensabor.entities.mercadoPago.MercadoPagoDatos;
 import com.example.buensabor.entities.cliente.DomicilioEntity;
 import com.example.buensabor.entities.cliente.UsuarioEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;

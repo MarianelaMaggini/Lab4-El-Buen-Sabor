@@ -25,7 +25,8 @@ public class RubroEntity extends EntityBean {
     @NotNull
     private String denominacion;
 
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "rubroEntity")
     private List<ArticuloEntity> articuloEntities = new ArrayList<>();
 }

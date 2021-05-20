@@ -1,6 +1,7 @@
 package com.example.buensabor.entities.articulos;
 
 import com.example.buensabor.entities.EntityBean;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class HistoricoArticuloEntity extends EntityBean {
     @NotNull
     private int cantidad;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_inventario")
     private InventarioEntity inventarioEntity;

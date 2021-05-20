@@ -23,7 +23,8 @@ public class TipoArticuloEntity extends EntityBean {
     @NotNull
     private String denominacion;
 
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "tipoArticuloEntity")
     private List<ArticuloEntity> articuloEntities = new ArrayList<>();
 }

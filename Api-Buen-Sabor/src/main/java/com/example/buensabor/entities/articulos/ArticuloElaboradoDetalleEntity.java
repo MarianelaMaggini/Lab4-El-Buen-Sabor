@@ -2,7 +2,9 @@ package com.example.buensabor.entities.articulos;
 
 
 import com.example.buensabor.entities.EntityBean;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +21,7 @@ import java.util.List;
 @Table(name = "articulo_elaborado_detalle")
 public class ArticuloElaboradoDetalleEntity extends EntityBean {
 
-    @Column(name = "descripcion", length = 65)
+    @Column(name = "descripcion", length = 65, nullable = false)
     @NotNull
     private String descripcion;
 
@@ -27,10 +29,12 @@ public class ArticuloElaboradoDetalleEntity extends EntityBean {
     @NotNull
     private int tiempoEstimadoCocina;
 
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "articuloElaboradoDetalleEntity")
     private List<RecetaElaboradoEntity> recetaElaboradoEntities = new ArrayList<>();
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
     private ArticuloEntity articuloEntity;

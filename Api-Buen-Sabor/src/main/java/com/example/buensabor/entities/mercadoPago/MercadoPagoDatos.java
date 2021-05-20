@@ -1,4 +1,4 @@
-package com.example.buensabor.entities;
+package com.example.buensabor.entities.mercadoPago;
 
 import lombok.Data;
 

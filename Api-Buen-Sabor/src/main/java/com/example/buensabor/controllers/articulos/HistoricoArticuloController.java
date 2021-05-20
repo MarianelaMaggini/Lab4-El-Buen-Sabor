@@ -4,18 +4,20 @@ import com.example.buensabor.entities.articulos.HistoricoArticuloEntity;
 import com.example.buensabor.services.articulos.HistoricoArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/historicoArticulos")//ruta principal
 public class HistoricoArticuloController {
 
+    private final HistoricoArticuloService historicoArticuloService;
+
     @Autowired
-    HistoricoArticuloService historicoArticuloService;
+    public HistoricoArticuloController(HistoricoArticuloService historicoArticuloService) {
+        this.historicoArticuloService = historicoArticuloService;
+    }
 
     @GetMapping("/todos")
     public List<HistoricoArticuloEntity> getHistoricoArticulos() {

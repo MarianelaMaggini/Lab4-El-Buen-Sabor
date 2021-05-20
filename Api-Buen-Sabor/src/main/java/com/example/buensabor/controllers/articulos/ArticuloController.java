@@ -4,18 +4,20 @@ import com.example.buensabor.entities.articulos.ArticuloEntity;
 import com.example.buensabor.services.articulos.ArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/articulos")//ruta principal
 public class ArticuloController {
 
+    private final ArticuloService articuloService;
+
     @Autowired
-    ArticuloService articuloService;
+    public ArticuloController(ArticuloService articuloService) {
+        this.articuloService = articuloService;
+    }
 
     @GetMapping("/todos")
     public List<ArticuloEntity> getArticulos() {

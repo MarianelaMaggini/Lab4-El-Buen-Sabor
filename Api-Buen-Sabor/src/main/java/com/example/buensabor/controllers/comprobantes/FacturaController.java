@@ -4,18 +4,20 @@ import com.example.buensabor.entities.comprobantes.FacturaEntity;
 import com.example.buensabor.services.comprobantes.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/facturas")//ruta principal
 public class FacturaController {
 
+    private final FacturaService facturaService;
+
     @Autowired
-    FacturaService facturaService;
+    public FacturaController(FacturaService facturaService) {
+        this.facturaService = facturaService;
+    }
 
     @GetMapping("/todos")
     public List<FacturaEntity> getFacturas() {

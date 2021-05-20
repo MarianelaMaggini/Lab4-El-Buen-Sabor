@@ -4,7 +4,6 @@ import com.example.buensabor.entities.comprobantes.DetallePedidoEntity;
 import com.example.buensabor.services.comprobantes.DetallePedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +12,12 @@ import java.util.Optional;
 @RequestMapping("/detallesPedido")//ruta principal
 public class DetallePedidoController {
 
+    private final DetallePedidoService detallePedidoService;
+
     @Autowired
-    DetallePedidoService detallePedidoService;
+    public DetallePedidoController(DetallePedidoService detallePedidoService) {
+        this.detallePedidoService = detallePedidoService;
+    }
 
     @GetMapping("/todos")
     public List<DetallePedidoEntity> getDetallesPedido() {return detallePedidoService.getDetallesPedido();}
