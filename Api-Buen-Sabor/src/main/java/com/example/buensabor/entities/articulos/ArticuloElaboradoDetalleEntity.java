@@ -4,7 +4,6 @@ package com.example.buensabor.entities.articulos;
 import com.example.buensabor.entities.EntityBean;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,8 +28,7 @@ public class ArticuloElaboradoDetalleEntity extends EntityBean {
     @NotNull
     private int tiempoEstimadoCocina;
 
-    //@JsonIgnore
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "articuloElaboradoDetalleEntity")
     private List<RecetaElaboradoEntity> recetaElaboradoEntities = new ArrayList<>();
 

@@ -31,6 +31,10 @@ public class ArticuloService {
         return (ArticuloEntity) articuloRepository.save(articulo);
     }
 
+    public List<ArticuloEntity> getArticuloByIdRubro(Long id) {
+        return articuloRepository.findByIdRubro(id);
+    }
+
     public boolean deleteArticuloById(Long id) {
         try {
             articuloRepository.deleteById(id);

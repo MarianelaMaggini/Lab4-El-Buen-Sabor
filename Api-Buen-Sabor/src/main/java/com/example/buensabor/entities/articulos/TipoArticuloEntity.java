@@ -2,7 +2,6 @@ package com.example.buensabor.entities.articulos;
 
 import com.example.buensabor.entities.EntityBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,8 +22,7 @@ public class TipoArticuloEntity extends EntityBean {
     @NotNull
     private String denominacion;
 
-    //@JsonIgnore
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "tipoArticuloEntity")
     private List<ArticuloEntity> articuloEntities = new ArrayList<>();
 }

@@ -24,12 +24,10 @@ public class DetallePedidoEntity extends EntityBean {
     @Transient
     private double subtotal;
 
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "id_articulo")
     private ArticuloEntity articuloEntity;
 
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "id_pedido")
     private PedidoEntity pedidoEntity;

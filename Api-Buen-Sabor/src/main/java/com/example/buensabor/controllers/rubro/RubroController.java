@@ -4,12 +4,10 @@ import com.example.buensabor.entities.rubro.RubroEntity;
 import com.example.buensabor.services.rubro.RubroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/rubros")//ruta principal
 public class RubroController {

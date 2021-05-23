@@ -20,17 +20,14 @@ public class RecetaElaboradoEntity extends EntityBean {
     @NotNull
     private double cantidad;
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_unidad_medida")
     private UnidadMedidaEntity unidadMedidaEntity;
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
     private ArticuloEntity articuloEntity;
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo_elaborado_detalle")
     private ArticuloElaboradoDetalleEntity articuloElaboradoDetalleEntity;

@@ -2,7 +2,6 @@ package com.example.buensabor.entities.comprobantes;
 
 import com.example.buensabor.entities.EntityBean;
 import com.example.buensabor.entities.articulos.ArticuloEntity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,12 +23,10 @@ public class DetalleFacturaEntity extends EntityBean {
     @Transient
     private double subtotal;
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
     private ArticuloEntity articuloEntity;
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_factura")
     private FacturaEntity facturaEntity;

@@ -4,7 +4,6 @@ package com.example.buensabor.entities.rubro;
 import com.example.buensabor.entities.EntityBean;
 import com.example.buensabor.entities.articulos.ArticuloEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +24,7 @@ public class RubroEntity extends EntityBean {
     @NotNull
     private String denominacion;
 
-    //@JsonIgnore
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "rubroEntity")
     private List<ArticuloEntity> articuloEntities = new ArrayList<>();
 }

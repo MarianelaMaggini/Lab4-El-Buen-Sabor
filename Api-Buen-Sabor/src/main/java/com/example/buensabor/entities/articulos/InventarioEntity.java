@@ -1,9 +1,7 @@
 package com.example.buensabor.entities.articulos;
 
 import com.example.buensabor.entities.EntityBean;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,12 +26,10 @@ public class InventarioEntity extends EntityBean {
     @NotNull
     private double stockMinimo;
 
-    //@JsonIgnore
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "inventarioEntity")
     private List<HistoricoArticuloEntity> historicoArticuloEntities = new ArrayList<>();
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_unidad_medida")
     private UnidadMedidaEntity unidadMedidaEntity;

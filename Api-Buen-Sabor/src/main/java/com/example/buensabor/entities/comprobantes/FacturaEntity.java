@@ -1,7 +1,6 @@
 package com.example.buensabor.entities.comprobantes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,8 +43,7 @@ public class FacturaEntity implements Serializable {
     @Transient
     private double totalCosto;
 
-    //@JsonIgnore
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "facturaEntity")
     private List<DetalleFacturaEntity> detalleFacturaEntities = new ArrayList<>();
 }
