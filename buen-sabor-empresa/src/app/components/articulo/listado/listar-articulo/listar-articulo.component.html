@@ -1,0 +1,48 @@
+<app-header></app-header>
+<div class="container col-md-8" >
+    <div class="row">
+      <div class="col">
+        <div class="card-header">
+          
+          <h4>{{ titulo }}"{{ rubro.denominacion }}"</h4>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover text-center">
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>Denominación</th>
+                <th>Imagen</th>
+                <th>Tipo Articulo</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let articulo of articulos; let i = index" class="table-light">
+                <td>{{ i + 1 }}</td>
+                <td>{{ articulo.denominacion }}</td>
+                <td>{{ articulo.imagen }}</td>
+                <td>{{ articulo.tipoArticuloEntity.denominacion }}</td>
+                <td>
+                  <div class="form-group text-center" >
+                    <a
+                      routerLink=""
+                      class="btn btn-outline-secondary"
+                      ><i class="fas fa-edit"></i
+                    > Editar</a>
+                  </div>
+                </td>
+              </tr>
+              <tr><td colspan=5><a
+                routerLink="/rubros"
+                class="btn btn-warning btn-block"
+                ><i class="fas fa-backspace"></i
+              > Volver</a></td></tr>
+            </tbody>
+            
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
