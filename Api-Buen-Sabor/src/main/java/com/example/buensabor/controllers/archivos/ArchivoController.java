@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,6 @@ import java.util.stream.Collectors;
 public class ArchivoController {
 
     private final ArchivoService archivoService;
-
     @Autowired
     public ArchivoController(ArchivoService archivoService) {
         this.archivoService = archivoService;
@@ -31,6 +32,10 @@ public class ArchivoController {
     @PostMapping()
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
+            BufferedImage bi = ImageIO.read(file.getInputStream());
+            if (bi == null){
+                return  new ResponseEntity<>("Imagen no válida", HttpStatus.BAD_REQUEST);
+            }
             archivoService.save(file);
             return new ResponseEntity<>("El archivo " + file.getOriginalFilename() + " ha sido subido con éxito", HttpStatus.OK);
         } catch (Exception e) {
