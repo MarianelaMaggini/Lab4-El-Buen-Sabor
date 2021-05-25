@@ -1,0 +1,6 @@
+.slider {
+    background-image: url('../../../assets/img/slider.png');
+    background-size: cover;
+    background-position: center;
+    height: 600px;
+}
