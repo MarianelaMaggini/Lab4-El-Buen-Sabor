@@ -14,18 +14,24 @@ export class RubroService {
 
   constructor(private http: HttpClient) { }
 
-  //obtener todos los rubros
-  getAll(): Observable<Rubro[]> {
-    return this.http.get<Rubro[]>(this.rubroUrl+"/todos", { headers: this.header });
+  // Obtener todos los rubros
+  getAllRubros(): Observable<Rubro[]> {
+    return this.http.get<Rubro[]>(this.rubroUrl + "/todos", { headers: this.header });
   }
 
-  //obtener un rubro
-  getRubroPorId(id: number): Observable<Rubro> {
+  // Obtener un rubro por id
+  getRubroById(id: any): Observable<Rubro> {
     return this.http.get<Rubro>(this.rubroUrl + '/' + id, { headers: this.header });
   }
 
-  //Crear rubro
-  create(rubro: Rubro): Observable<Rubro> {
+  // Guardar-actualizar rubro
+  saveRubro(rubro: Rubro): Observable<Rubro> {
     return this.http.post<Rubro>(this.rubroUrl, rubro, { headers: this.header });
   }
+
+  // Eliminar un rubro por id
+  deleteRubroById(id: any) {
+    return this.http.delete(this.rubroUrl + '/' + id, { responseType: 'text' });
+  }
+
 }
