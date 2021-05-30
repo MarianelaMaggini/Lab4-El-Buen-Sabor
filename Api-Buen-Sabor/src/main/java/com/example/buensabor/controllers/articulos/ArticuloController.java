@@ -12,12 +12,8 @@ import java.util.Optional;
 @RequestMapping("/articulos")//ruta principal
 public class ArticuloController {
 
-    private final ArticuloService articuloService;
-
     @Autowired
-    public ArticuloController(ArticuloService articuloService) {
-        this.articuloService = articuloService;
-    }
+    ArticuloService articuloService;
 
     @GetMapping("/todos")
     public List<ArticuloEntity> getArticulos() {
@@ -25,17 +21,18 @@ public class ArticuloController {
     }
 
     @GetMapping("/{id}")
-    public Optional<ArticuloEntity> getArticuloById(@PathVariable("id") Long id) {
-        return articuloService.getArticuloById(id);
-    }
+    public Optional<ArticuloEntity> getArticuloById(@PathVariable("id") Long id) { return articuloService.getArticuloById(id); }
 
     @GetMapping("/idRubro")
-    public List<ArticuloEntity> getArticuloByIdRubro(@RequestParam("rubro") Long id) {
-        return articuloService.getArticuloByIdRubro(id);
-    }
+    public List<ArticuloEntity> getArticuloByIdRubro(@RequestParam("rubro") Long id) { return articuloService.getArticuloByIdRubro(id); }
 
     @PostMapping()
-    public ArticuloEntity saveOrUpdateArticulo(@RequestBody ArticuloEntity articulo) {
-        return articuloService.saveOrUpdateArticulo(articulo);
+    public ArticuloEntity saveOrUpdateArticulo(@RequestBody ArticuloEntity articulo) { return articuloService.saveOrUpdateArticulo(articulo); }
+
+    @DeleteMapping("/{id}")
+    public String deleteArticuloById(@PathVariable("id") Long id) {
+        boolean eliminado = articuloService.deleteArticuloById(id);
+        if(eliminado) { return "Artículo eliminado!"; }
+        else { return "No se puedo eliminar el artículo!"; }
     }
 }

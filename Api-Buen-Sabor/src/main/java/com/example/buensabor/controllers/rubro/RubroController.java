@@ -9,15 +9,11 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/rubros")//ruta principal
+@RequestMapping("/rubros") // Ruta principal
 public class RubroController {
 
-    private final RubroService rubroService;
-
     @Autowired
-    public RubroController(RubroService rubroService) {
-        this.rubroService = rubroService;
-    }
+    RubroService rubroService;
 
     @GetMapping("/todos")
     public List<RubroEntity> getRubros() {
@@ -30,7 +26,12 @@ public class RubroController {
     }
 
     @PostMapping()
-    public RubroEntity saveOrUpdateRubro(@RequestBody RubroEntity rubro) {
-        return rubroService.saveOrUpdateRubro(rubro);
+    public RubroEntity saveOrUpdateRubro(@RequestBody RubroEntity rubro) { return rubroService.saveOrUpdateRubro(rubro); }
+
+    @DeleteMapping("/{id}")
+    public String deleteRubroById(@PathVariable("id") Long id) {
+        boolean eliminado = rubroService.deleteRubroById(id);
+        if(eliminado) { return "Rubro eliminado!"; }
+        else { return "No se puedo eliminar el rubro!"; }
     }
 }

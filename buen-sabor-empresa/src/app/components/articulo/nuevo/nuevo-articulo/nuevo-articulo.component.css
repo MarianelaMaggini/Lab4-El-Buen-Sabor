@@ -1,0 +1,8 @@
+body{
+    background-image: url('src/assets/bar.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 110vh;
+    opacity: 0.95;
+}

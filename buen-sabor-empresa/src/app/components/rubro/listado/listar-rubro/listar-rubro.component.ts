@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Rubro } from 'src/app/models/rubro';
+import { Router, ActivatedRoute } from '@angular/router';
+
 import { RubroService } from 'src/app/services/rubro.service';
+
+import { Rubro } from 'src/app/models/rubro';
 
 @Component({
   selector: 'app-listar-rubro',
@@ -9,17 +12,23 @@ import { RubroService } from 'src/app/services/rubro.service';
 })
 export class ListarRubroComponent implements OnInit {
 
-  titulo: string = 'Lista de rubros';
+  titulo: string = 'Listado de rubros:';
   rubros: Rubro[];
-  constructor(private rubroService: RubroService) { }
+
+  constructor(private rubroService: RubroService, private router: Router) { }
 
   ngOnInit(): void {
-    this.listar()
+    this.getAllRubros();
   }
-  listar():void {
-    this.rubroService.getAll().subscribe((data) => {
-      console.log(data)
-      this.rubros = data
+
+  getAllRubros() {
+    this.rubroService.getAllRubros().subscribe(data =>{
+      this.rubros = data;
     })
   }
+
+  editarRubro(id: number): void {
+    this.router.navigate(['nuevo-rubro', id]);
+  }
+
 }

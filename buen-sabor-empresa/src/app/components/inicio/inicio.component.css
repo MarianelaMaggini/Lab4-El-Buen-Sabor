@@ -1,0 +1,14 @@
+body{
+    background-image: url('src/assets/bar.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 110vh;
+    opacity: 0.95;
+}
+table{
+    width: 30%;
+}
+h3{
+    color: white;
+}

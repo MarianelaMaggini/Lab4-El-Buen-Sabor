@@ -1,13 +1,18 @@
 <app-header></app-header>
-<div class="container">
-    <div class="jumbotron">
-      <h3  class="display-4">¡Bienvenido!</h3>
-      <p class="lead">
-        Aquí llevarás a cabo toda el sistema de gestión e inventario del Buen Sabor
-      </p>
-      <hr class="my-4" />
-      <p>
-        Puede ingresar en las distintas pestañas para ver la información
-      </p>
-    </div>
+<body>
+  <br/>
+  <div class="container">
+    <h3>Bienvenido Admin!</h3>
+    <br/>
+    <table class="table table-hover table-dark">
+      <thead>
+        <th scope="col">Secciones</th>
+      </thead>
+      <tbody>
+        <tr><td><a routerLink='/rubros'>Rubros</a></td></tr>
+        <tr><td><a routerLink='/articulos'>Artículos</a></td></tr>
+      </tbody>
+    </table>
   </div>
+  <br/>
+</body>
