@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MercadoPagoController {
-    //MercadoPago.SDK.setAccessToken(new ConfiguracionEntity().getTOKEN_MERCADO_PAGO());
+    //MercadoPago.SDK.setAccessToken(new Configuracion().getTOKEN_MERCADO_PAGO());
     @GetMapping("/createAndRedirect")
     public String createAndRedirect() throws MPException {
         Preference preference = new Preference();

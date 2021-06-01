@@ -1,6 +1,6 @@
 package com.example.buensabor.services.articulos;
 
-import com.example.buensabor.entities.articulos.HistoricoArticuloEntity;
+import com.example.buensabor.entities.articulos.HistoricoArticulo;
 import com.example.buensabor.repositories.articulos.HistoricoArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ public class HistoricoArticuloService {
     @Autowired
     HistoricoArticuloRepository historicoArticuloRepository;
 
-    public List<HistoricoArticuloEntity> getHistoricoArticulos() {
-        return (ArrayList<HistoricoArticuloEntity>) historicoArticuloRepository.findAll();
+    public List<HistoricoArticulo> getHistoricoArticulos() {
+        return (ArrayList<HistoricoArticulo>) historicoArticuloRepository.findAll();
     }
 
-    public Optional<HistoricoArticuloEntity> getHistoricoArticuloById(Long id) {
+    public Optional<HistoricoArticulo> getHistoricoArticuloById(Long id) {
         return historicoArticuloRepository.findById(id);
     }
 
-    public HistoricoArticuloEntity saveOrUpdateHistoricoArticulo(HistoricoArticuloEntity historicoArticulo) {
-        return (HistoricoArticuloEntity) historicoArticuloRepository.save(historicoArticulo);
+    public HistoricoArticulo saveOrUpdateHistoricoArticulo(HistoricoArticulo historicoArticulo) {
+        return (HistoricoArticulo) historicoArticuloRepository.save(historicoArticulo);
     }
 
-    public HistoricoArticuloEntity updateHistoricoArticulo(HistoricoArticuloEntity historicoArticulo) {
-        return (HistoricoArticuloEntity) historicoArticuloRepository.save(historicoArticulo);
+    public HistoricoArticulo updateHistoricoArticulo(HistoricoArticulo historicoArticulo) {
+        return (HistoricoArticulo) historicoArticuloRepository.save(historicoArticulo);
     }
 
     public boolean deleteHistoricoArticuloById(Long id) {

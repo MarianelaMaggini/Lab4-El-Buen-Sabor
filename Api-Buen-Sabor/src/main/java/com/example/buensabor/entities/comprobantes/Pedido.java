@@ -1,8 +1,8 @@
 package com.example.buensabor.entities.comprobantes;
 
 import com.example.buensabor.entities.mercadoPago.MercadoPagoDatos;
-import com.example.buensabor.entities.cliente.DomicilioEntity;
-import com.example.buensabor.entities.cliente.UsuarioEntity;
+import com.example.buensabor.entities.cliente.Domicilio;
+import com.example.buensabor.entities.cliente.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "pedido")
-public class PedidoEntity implements Serializable {
+public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,20 +44,20 @@ public class PedidoEntity implements Serializable {
     private double total;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "pedidoEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<DetallePedidoEntity> detallePedidoEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "pedido")
+    private List<DetallePedido> detallePedidos = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_usuario")
-    private UsuarioEntity usuarioEntity;
+    private Usuario usuario;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_domicilio")
-    private DomicilioEntity domicilioEntity;
+    private Domicilio domicilio;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "numero_factura")
-    private FacturaEntity facturaEntity;
+    private Factura factura;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_mercado_pago")

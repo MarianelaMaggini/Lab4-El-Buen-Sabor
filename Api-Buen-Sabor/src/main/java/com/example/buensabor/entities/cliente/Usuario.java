@@ -1,7 +1,7 @@
 package com.example.buensabor.entities.cliente;
 
 import com.example.buensabor.entities.EntityBean;
-import com.example.buensabor.entities.comprobantes.PedidoEntity;
+import com.example.buensabor.entities.comprobantes.Pedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "usuario")
-public class UsuarioEntity extends EntityBean {
+public class Usuario extends EntityBean {
 
     @Column(name = "nombre", length = 65, nullable = false)
     @NotNull
@@ -46,13 +46,13 @@ public class UsuarioEntity extends EntityBean {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
     @NotNull
-    private Set<RolEntity> roles = new HashSet<>();
+    private Set<Rol> roles = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "usuarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<DomicilioEntity> domicilioEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "usuario")
+    private List<Domicilio> domicilios = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "usuarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<PedidoEntity> pedidoEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "usuario")
+    private List<Pedido> pedidos = new ArrayList<>();
 }

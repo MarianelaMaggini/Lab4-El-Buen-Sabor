@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Entity
 @Table(name = "configuracion")
-public class ConfiguracionEntity extends EntityBean {
+public class Configuracion extends EntityBean {
 
     @Column(name = "cantidad_cocineros", nullable = false)
     @NotNull

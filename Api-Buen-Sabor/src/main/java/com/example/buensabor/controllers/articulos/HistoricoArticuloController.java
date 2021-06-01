@@ -1,6 +1,6 @@
 package com.example.buensabor.controllers.articulos;
 
-import com.example.buensabor.entities.articulos.HistoricoArticuloEntity;
+import com.example.buensabor.entities.articulos.HistoricoArticulo;
 import com.example.buensabor.services.articulos.HistoricoArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +20,17 @@ public class HistoricoArticuloController {
     }
 
     @GetMapping("/todos")
-    public List<HistoricoArticuloEntity> getHistoricoArticulos() {
+    public List<HistoricoArticulo> getHistoricoArticulos() {
         return historicoArticuloService.getHistoricoArticulos();
     }
 
     @GetMapping("/{id}")
-    public Optional<HistoricoArticuloEntity> getHistoricoArticuloById(@PathVariable("id") Long id) {
+    public Optional<HistoricoArticulo> getHistoricoArticuloById(@PathVariable("id") Long id) {
         return historicoArticuloService.getHistoricoArticuloById(id);
     }
 
     @PostMapping()
-    public HistoricoArticuloEntity saveOrUpdateHistoricoArticulo(@RequestBody HistoricoArticuloEntity historicoArticulo) {
+    public HistoricoArticulo saveOrUpdateHistoricoArticulo(@RequestBody HistoricoArticulo historicoArticulo) {
         return historicoArticuloService.saveOrUpdateHistoricoArticulo(historicoArticulo);
     }
 

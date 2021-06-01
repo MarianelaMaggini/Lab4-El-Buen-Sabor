@@ -1,10 +1,9 @@
 package com.example.buensabor.repositories.articulos;
 
-import com.example.buensabor.entities.articulos.ArticuloEntity;
-import com.example.buensabor.entities.articulos.UnidadMedidaEntity;
+import com.example.buensabor.entities.articulos.UnidadMedida;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UnidadMedidaRepository extends CrudRepository <UnidadMedidaEntity,Long>{
+public interface UnidadMedidaRepository extends CrudRepository <UnidadMedida,Long>{
 }

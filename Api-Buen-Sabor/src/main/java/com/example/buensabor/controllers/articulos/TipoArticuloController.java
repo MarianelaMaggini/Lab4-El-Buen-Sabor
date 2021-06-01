@@ -1,6 +1,6 @@
 package com.example.buensabor.controllers.articulos;
 
-import com.example.buensabor.entities.articulos.TipoArticuloEntity;
+import com.example.buensabor.entities.articulos.TipoArticulo;
 import com.example.buensabor.services.articulos.TipoArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +20,17 @@ public class TipoArticuloController {
     }
 
     @GetMapping("/todos")
-    public List<TipoArticuloEntity> getTiposArticulo() {
+    public List<TipoArticulo> getTiposArticulo() {
         return tipoArticuloService.getTiposArticulo();
     }
 
     @GetMapping("/{id}")
-    public Optional<TipoArticuloEntity> getTipoArticuloById(@PathVariable("id") Long id) {
+    public Optional<TipoArticulo> getTipoArticuloById(@PathVariable("id") Long id) {
         return tipoArticuloService.getTipoArticuloById(id) ;
     }
 
     @PostMapping()
-    public TipoArticuloEntity saveOrUpdateTipoArticulo(@RequestBody TipoArticuloEntity tipoArticulo) {
+    public TipoArticulo saveOrUpdateTipoArticulo(@RequestBody TipoArticulo tipoArticulo) {
         return tipoArticuloService.saveOrUpdateTipoArticulo(tipoArticulo);
     }
 }

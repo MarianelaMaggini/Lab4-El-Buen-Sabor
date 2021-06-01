@@ -1,6 +1,6 @@
 package com.example.buensabor.controllers.articulos;
 
-import com.example.buensabor.entities.articulos.UnidadMedidaEntity;
+import com.example.buensabor.entities.articulos.UnidadMedida;
 import com.example.buensabor.services.articulos.UnidadMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +20,17 @@ public class UnidadMedidaController {
     }
 
     @GetMapping("/todos")
-    public List<UnidadMedidaEntity> getUnidades() {
+    public List<UnidadMedida> getUnidades() {
         return unidadMedidaService.getUnidades();
     }
 
     @GetMapping("/{id}")
-    public Optional<UnidadMedidaEntity> getUnidadById(@PathVariable("id") Long id) {
+    public Optional<UnidadMedida> getUnidadById(@PathVariable("id") Long id) {
         return unidadMedidaService.getUnidadById(id);
     }
 
     @PostMapping()
-    public UnidadMedidaEntity saveOrUpdateUnidad(@RequestBody UnidadMedidaEntity unidad) {
+    public UnidadMedida saveOrUpdateUnidad(@RequestBody UnidadMedida unidad) {
         return unidadMedidaService.saveOrUpdateUnidad(unidad);
     }
 }

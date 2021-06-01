@@ -1,6 +1,6 @@
 package com.example.buensabor.services.rubro;
 
-import com.example.buensabor.entities.rubro.RubroEntity;
+import com.example.buensabor.entities.rubro.Rubro;
 import com.example.buensabor.repositories.rubro.RubroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ public class RubroService {
     @Autowired
     RubroRepository rubroRepository;
 
-    public List<RubroEntity> getRubros() {
-        return (ArrayList<RubroEntity>) rubroRepository.findAll();
+    public List<Rubro> getRubros() {
+        return (ArrayList<Rubro>) rubroRepository.findAll();
     }
 
-    public Optional<RubroEntity> getRubroById(Long id) {
+    public Optional<Rubro> getRubroById(Long id) {
         return rubroRepository.findById(id);
     }
 
-    public RubroEntity saveOrUpdateRubro(RubroEntity rubro) {
-        return (RubroEntity) rubroRepository.save(rubro);
+    public Rubro saveOrUpdateRubro(Rubro rubro) {
+        return (Rubro) rubroRepository.save(rubro);
     }
 
-    public RubroEntity updateRubro(RubroEntity rubro) {
-        return (RubroEntity) rubroRepository.save(rubro);
+    public Rubro updateRubro(Rubro rubro) {
+        return (Rubro) rubroRepository.save(rubro);
     }
 
     public boolean deleteRubroById(Long id) {

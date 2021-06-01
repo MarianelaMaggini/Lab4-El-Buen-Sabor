@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "historico_articulo")
-public class HistoricoArticuloEntity extends EntityBean {
+public class HistoricoArticulo extends EntityBean {
 
     @Column(name = "fecha", nullable = false)
     @NotNull
@@ -30,5 +30,5 @@ public class HistoricoArticuloEntity extends EntityBean {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_inventario")
-    private InventarioEntity inventarioEntity;
+    private Inventario inventario;
 }

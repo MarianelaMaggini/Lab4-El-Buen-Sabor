@@ -1,7 +1,7 @@
 package com.example.buensabor.entities.comprobantes;
 
 import com.example.buensabor.entities.EntityBean;
-import com.example.buensabor.entities.articulos.ArticuloEntity;
+import com.example.buensabor.entities.articulos.Articulo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Data
 @Table(name = "detalle_factura")
-public class DetalleFacturaEntity extends EntityBean {
+public class DetalleFactura extends EntityBean {
 
     @Column(name = "cantidad", nullable = false)
     @NotNull
@@ -25,9 +25,9 @@ public class DetalleFacturaEntity extends EntityBean {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
-    private ArticuloEntity articuloEntity;
+    private Articulo articulo;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_factura")
-    private FacturaEntity facturaEntity;
+    private Factura factura;
 }

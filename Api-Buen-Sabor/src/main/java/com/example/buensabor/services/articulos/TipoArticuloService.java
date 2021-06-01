@@ -1,6 +1,6 @@
 package com.example.buensabor.services.articulos;
 
-import com.example.buensabor.entities.articulos.TipoArticuloEntity;
+import com.example.buensabor.entities.articulos.TipoArticulo;
 import com.example.buensabor.repositories.articulos.TipoArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ public class TipoArticuloService {
     @Autowired
     TipoArticuloRepository tipoArticuloRepository;
 
-    public List<TipoArticuloEntity> getTiposArticulo() {
-        return (ArrayList<TipoArticuloEntity>) tipoArticuloRepository.findAll();
+    public List<TipoArticulo> getTiposArticulo() {
+        return (ArrayList<TipoArticulo>) tipoArticuloRepository.findAll();
     }
 
-    public Optional<TipoArticuloEntity> getTipoArticuloById(Long id) {
+    public Optional<TipoArticulo> getTipoArticuloById(Long id) {
         return tipoArticuloRepository.findById(id);
     }
 
-    public TipoArticuloEntity saveOrUpdateTipoArticulo(TipoArticuloEntity tipoArticulo) {
-        return (TipoArticuloEntity) tipoArticuloRepository.save(tipoArticulo);
+    public TipoArticulo saveOrUpdateTipoArticulo(TipoArticulo tipoArticulo) {
+        return (TipoArticulo) tipoArticuloRepository.save(tipoArticulo);
     }
 
-    public TipoArticuloEntity updateTipoArticulo(TipoArticuloEntity tipoArticulo) {
-        return (TipoArticuloEntity) tipoArticuloRepository.save(tipoArticulo);
+    public TipoArticulo updateTipoArticulo(TipoArticulo tipoArticulo) {
+        return (TipoArticulo) tipoArticuloRepository.save(tipoArticulo);
     }
 
     public boolean deleteTipoArticuloById(Long id) {

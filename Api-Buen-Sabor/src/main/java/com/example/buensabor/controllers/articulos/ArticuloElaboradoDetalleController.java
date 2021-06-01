@@ -1,6 +1,6 @@
 package com.example.buensabor.controllers.articulos;
 
-import com.example.buensabor.entities.articulos.ArticuloElaboradoDetalleEntity;
+import com.example.buensabor.entities.articulos.ArticuloElaboradoDetalle;
 import com.example.buensabor.services.articulos.ArticuloElaboradoDetalleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +20,17 @@ public class ArticuloElaboradoDetalleController {
     }
 
     @GetMapping("/todos")
-    public List<ArticuloElaboradoDetalleEntity> getArticuloDetalles() {
+    public List<ArticuloElaboradoDetalle> getArticuloDetalles() {
         return articuloElaboradoDetalleService.getArticuloDetalles();
     }
 
     @GetMapping("/{id}")
-    public Optional<ArticuloElaboradoDetalleEntity> getArticuloDetalleById(@PathVariable("id") Long id) {
+    public Optional<ArticuloElaboradoDetalle> getArticuloDetalleById(@PathVariable("id") Long id) {
         return articuloElaboradoDetalleService.getArticuloDetalleById(id);
     }
 
     @PostMapping()
-    public ArticuloElaboradoDetalleEntity saveOrUpdateArticuloDetalle(@RequestBody ArticuloElaboradoDetalleEntity articuloDetalle) {
+    public ArticuloElaboradoDetalle saveOrUpdateArticuloDetalle(@RequestBody ArticuloElaboradoDetalle articuloDetalle) {
         return articuloElaboradoDetalleService.saveOrUpdateArticuloDetalle(articuloDetalle);
     }
 }

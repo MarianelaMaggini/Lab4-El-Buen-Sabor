@@ -1,6 +1,6 @@
 package com.example.buensabor.services.articulos;
 
-import com.example.buensabor.entities.articulos.ArticuloElaboradoDetalleEntity;
+import com.example.buensabor.entities.articulos.ArticuloElaboradoDetalle;
 import com.example.buensabor.repositories.articulos.ArticuloElaboradoDetalleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,20 +14,20 @@ public class ArticuloElaboradoDetalleService {
     @Autowired
     ArticuloElaboradoDetalleRepository articuloElaboradoDetalleRepository;
 
-    public List<ArticuloElaboradoDetalleEntity> getArticuloDetalles() {
-        return (List<ArticuloElaboradoDetalleEntity>) articuloElaboradoDetalleRepository.findAll();
+    public List<ArticuloElaboradoDetalle> getArticuloDetalles() {
+        return (List<ArticuloElaboradoDetalle>) articuloElaboradoDetalleRepository.findAll();
     }
 
-    public Optional<ArticuloElaboradoDetalleEntity> getArticuloDetalleById(Long id) {
+    public Optional<ArticuloElaboradoDetalle> getArticuloDetalleById(Long id) {
         return articuloElaboradoDetalleRepository.findById(id);
     }
 
-    public ArticuloElaboradoDetalleEntity saveOrUpdateArticuloDetalle(ArticuloElaboradoDetalleEntity articuloDetalle) {
-        return (ArticuloElaboradoDetalleEntity) articuloElaboradoDetalleRepository.save(articuloDetalle);
+    public ArticuloElaboradoDetalle saveOrUpdateArticuloDetalle(ArticuloElaboradoDetalle articuloDetalle) {
+        return (ArticuloElaboradoDetalle) articuloElaboradoDetalleRepository.save(articuloDetalle);
     }
 
-    public ArticuloElaboradoDetalleEntity updateArticuloDetalle(ArticuloElaboradoDetalleEntity articuloDetalle) {
-        return (ArticuloElaboradoDetalleEntity) articuloElaboradoDetalleRepository.save(articuloDetalle);
+    public ArticuloElaboradoDetalle updateArticuloDetalle(ArticuloElaboradoDetalle articuloDetalle) {
+        return (ArticuloElaboradoDetalle) articuloElaboradoDetalleRepository.save(articuloDetalle);
     }
 
     public boolean deleteArticuloDetalleById(Long id) {

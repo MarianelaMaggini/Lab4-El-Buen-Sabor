@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "inventario")
-public class InventarioEntity extends EntityBean {
+public class Inventario extends EntityBean {
 
     @Column(name = "stock_actual", nullable = false)
     @NotNull
@@ -27,14 +27,14 @@ public class InventarioEntity extends EntityBean {
     private double stockMinimo;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "inventarioEntity")
-    private List<HistoricoArticuloEntity> historicoArticuloEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "inventario")
+    private List<HistoricoArticulo> historicoArticulos = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_unidad_medida")
-    private UnidadMedidaEntity unidadMedidaEntity;
+    private UnidadMedida unidadMedida;
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
-    private ArticuloEntity articuloEntity;
+    private Articulo articulo;
 }

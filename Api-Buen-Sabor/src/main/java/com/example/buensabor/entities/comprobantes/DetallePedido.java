@@ -1,8 +1,7 @@
 package com.example.buensabor.entities.comprobantes;
 
 import com.example.buensabor.entities.EntityBean;
-import com.example.buensabor.entities.articulos.ArticuloEntity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.buensabor.entities.articulos.Articulo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Data
 @Table(name = "detalle_pedido")
-public class DetallePedidoEntity extends EntityBean {
+public class DetallePedido extends EntityBean {
 
     @Column(name = "cantidad", nullable = false)
     @NotNull
@@ -24,11 +23,11 @@ public class DetallePedidoEntity extends EntityBean {
     @Transient
     private double subtotal;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
-    private ArticuloEntity articuloEntity;
+    private Articulo articulo;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_pedido")
-    private PedidoEntity pedidoEntity;
+    private Pedido pedido;
 }

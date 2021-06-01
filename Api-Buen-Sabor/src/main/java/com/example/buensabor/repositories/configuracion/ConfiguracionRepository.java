@@ -1,9 +1,9 @@
 package com.example.buensabor.repositories.configuracion;
 
-import com.example.buensabor.entities.configuracion.ConfiguracionEntity;
+import com.example.buensabor.entities.configuracion.Configuracion;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ConfiguracionRepository extends CrudRepository<ConfiguracionEntity,Long> {
+public interface ConfiguracionRepository extends CrudRepository<Configuracion,Long> {
 }

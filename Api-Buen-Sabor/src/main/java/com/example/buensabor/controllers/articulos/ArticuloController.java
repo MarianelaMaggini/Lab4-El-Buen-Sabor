@@ -1,6 +1,6 @@
 package com.example.buensabor.controllers.articulos;
 
-import com.example.buensabor.entities.articulos.ArticuloEntity;
+import com.example.buensabor.entities.articulos.Articulo;
 import com.example.buensabor.services.articulos.ArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +16,23 @@ public class ArticuloController {
     ArticuloService articuloService;
 
     @GetMapping("/todos")
-    public List<ArticuloEntity> getArticulos() {
+    public List<Articulo> getArticulos() {
         return articuloService.getArticulos();
     }
 
     @GetMapping("/{id}")
-    public Optional<ArticuloEntity> getArticuloById(@PathVariable("id") Long id) { return articuloService.getArticuloById(id); }
+    public Optional<Articulo> getArticuloById(@PathVariable("id") Long id) { return articuloService.getArticuloById(id); }
 
     @GetMapping("/idRubro")
-    public List<ArticuloEntity> getArticuloByIdRubro(@RequestParam("rubro") Long id) { return articuloService.getArticuloByIdRubro(id); }
+    public List<Articulo> getArticuloByIdRubro(@RequestParam("rubro") Long id) { return articuloService.getArticuloByIdRubro(id); }
+
+    @GetMapping("/idTipo")
+    public List<Articulo> getArticuloByIdTipo(@RequestParam("tipoUno") Long idUno, @RequestParam("tipoDos") Long idDos) {
+        return articuloService.getArticuloByIdTipoArticulo(idUno, idDos);
+    }
 
     @PostMapping()
-    public ArticuloEntity saveOrUpdateArticulo(@RequestBody ArticuloEntity articulo) { return articuloService.saveOrUpdateArticulo(articulo); }
+    public Articulo saveOrUpdateArticulo(@RequestBody Articulo articulo) { return articuloService.saveOrUpdateArticulo(articulo); }
 
     @DeleteMapping("/{id}")
     public String deleteArticuloById(@PathVariable("id") Long id) {
