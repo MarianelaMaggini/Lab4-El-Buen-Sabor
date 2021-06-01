@@ -4,3 +4,7 @@
     background-position: center;
     height: 600px;
 }
+.sizeImg{
+    max-width: 180px;
+    max-height: 180px
+}

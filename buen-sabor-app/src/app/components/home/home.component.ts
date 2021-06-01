@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   }
 
   listar():void {
-    this.articuloService.getArticulos().subscribe((data) => {
+    this.articuloService.getArticulosByTipoArticuloId().subscribe((data) => {
       console.log(data)
       this.articulos = data
     })
