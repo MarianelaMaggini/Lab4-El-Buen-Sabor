@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "domicilio")
-public class DomicilioEntity extends EntityBean {
+public class Domicilio extends EntityBean {
 
     @Column(name = "calle", length = 150, nullable = false)
     @NotNull
@@ -27,7 +27,7 @@ public class DomicilioEntity extends EntityBean {
     @NotNull
     private String localidad;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_usuario")
-    private UsuarioEntity usuarioEntity;
+    private Usuario usuario;
 }

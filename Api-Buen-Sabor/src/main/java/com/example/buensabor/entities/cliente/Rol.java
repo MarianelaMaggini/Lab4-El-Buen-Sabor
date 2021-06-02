@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "rol")
-public class RolEntity extends EntityBean {
+public class Rol extends EntityBean {
 
     @NotNull
     @Enumerated(EnumType.STRING)

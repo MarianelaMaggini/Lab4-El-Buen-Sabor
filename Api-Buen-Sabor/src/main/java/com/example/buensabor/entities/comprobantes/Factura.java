@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "factura")
-public class FacturaEntity implements Serializable {
+public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,6 +44,6 @@ public class FacturaEntity implements Serializable {
     private double totalCosto;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "facturaEntity")
-    private List<DetalleFacturaEntity> detalleFacturaEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "factura")
+    private List<DetalleFactura> detalleFacturas = new ArrayList<>();
 }

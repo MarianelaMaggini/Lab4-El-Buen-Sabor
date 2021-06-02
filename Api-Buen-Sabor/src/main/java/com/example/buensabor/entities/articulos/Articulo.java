@@ -1,9 +1,9 @@
 package com.example.buensabor.entities.articulos;
 
 import com.example.buensabor.entities.EntityBean;
-import com.example.buensabor.entities.comprobantes.DetalleFacturaEntity;
-import com.example.buensabor.entities.comprobantes.DetallePedidoEntity;
-import com.example.buensabor.entities.rubro.RubroEntity;
+import com.example.buensabor.entities.comprobantes.DetalleFactura;
+import com.example.buensabor.entities.comprobantes.DetallePedido;
+import com.example.buensabor.entities.rubro.Rubro;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "articulo")
-public class ArticuloEntity extends EntityBean {
+public class Articulo extends EntityBean {
 
     @Column(name = "denominacion", length = 65, nullable = false)
     @NotNull
@@ -30,26 +30,26 @@ public class ArticuloEntity extends EntityBean {
     private String imagen;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articuloEntity")
-    private List<DetalleFacturaEntity> detalleFacturaEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "articulo")
+    private List<DetalleFactura> detalleFacturas = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articuloEntity")
-    private List<DetallePedidoEntity> detallePedidoEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "articulo")
+    private List<DetallePedido> detallePedidos = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articuloEntity")
-    private List<ArticuloElaboradoDetalleEntity> articuloElaboradoDetalleEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "articulo")
+    private List<ArticuloElaboradoDetalle> articuloElaboradoDetalles = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articuloEntity")
-    private List<RecetaElaboradoEntity> recetaElaboradoEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "articulo")
+    private List<RecetaElaborado> recetaElaborados = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_tipo_articulo")
-    private TipoArticuloEntity tipoArticuloEntity;
+    private TipoArticulo tipoArticulo;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_rubro")
-    private RubroEntity rubroEntity;
+    private Rubro rubro;
 }

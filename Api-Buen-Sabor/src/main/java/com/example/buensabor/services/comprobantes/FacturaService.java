@@ -1,6 +1,6 @@
 package com.example.buensabor.services.comprobantes;
 
-import com.example.buensabor.entities.comprobantes.FacturaEntity;
+import com.example.buensabor.entities.comprobantes.Factura;
 import com.example.buensabor.repositories.comprobantes.FacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ public class FacturaService {
     @Autowired
     FacturaRepository facturaRepository;
 
-    public List<FacturaEntity> getFacturas() {
-        return (ArrayList<FacturaEntity>) facturaRepository.findAll();
+    public List<Factura> getFacturas() {
+        return (ArrayList<Factura>) facturaRepository.findAll();
     }
 
-    public Optional<FacturaEntity> getFacturaById(Long id) {
+    public Optional<Factura> getFacturaById(Long id) {
         return facturaRepository.findById(id);
     }
 
-    public FacturaEntity saveOrUpdateFactura(FacturaEntity factura) {
-        return (FacturaEntity) facturaRepository.save(factura);
+    public Factura saveOrUpdateFactura(Factura factura) {
+        return (Factura) facturaRepository.save(factura);
     }
 
-    public FacturaEntity updateFactura(FacturaEntity factura) {
-        return (FacturaEntity) facturaRepository.save(factura);
+    public Factura updateFactura(Factura factura) {
+        return (Factura) facturaRepository.save(factura);
     }
 
     public boolean deleteFacturaById(Long id) {

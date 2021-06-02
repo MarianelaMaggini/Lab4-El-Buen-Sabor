@@ -1,6 +1,6 @@
 package com.example.buensabor.services.configuracion;
 
-import com.example.buensabor.entities.configuracion.ConfiguracionEntity;
+import com.example.buensabor.entities.configuracion.Configuracion;
 import com.example.buensabor.repositories.configuracion.ConfiguracionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class ConfiguracionService {
         this.configuracionRepository = configuracionRepository;
     }
 
-    public List<ConfiguracionEntity> getConfiguraciones(){
-        return (List<ConfiguracionEntity>) this.configuracionRepository.findAll();
+    public List<Configuracion> getConfiguraciones(){
+        return (List<Configuracion>) this.configuracionRepository.findAll();
     }
 }

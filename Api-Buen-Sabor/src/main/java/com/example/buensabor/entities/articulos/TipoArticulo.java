@@ -11,24 +11,18 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "unidad_medida")
-public class UnidadMedidaEntity extends EntityBean {
+@Table(name = "tipo_articulo")
+public class TipoArticulo extends EntityBean {
 
-    @Column(name = "denominacion", nullable = false)
+    @Column(name = "denominacion", length = 65, nullable = false)
     @NotNull
     private String denominacion;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "unidadMedidaEntity")
-    private List<RecetaElaboradoEntity> recetaElaboradoEntities = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "unidadMedidaEntity")
-    private List<InventarioEntity> inventarioEntities = new ArrayList<>();
-
+    @OneToMany(mappedBy = "tipoArticulo")
+    private List<Articulo> articulos = new ArrayList<>();
 }

@@ -1,6 +1,6 @@
 package com.example.buensabor.services.cliente;
 
-import com.example.buensabor.entities.cliente.DomicilioEntity;
+import com.example.buensabor.entities.cliente.Domicilio;
 import com.example.buensabor.repositories.cliente.DomicilioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ public class DomicilioService {
     @Autowired
     DomicilioRepository domicilioRepository;
 
-    public List<DomicilioEntity> getDomicilios() {
-        return (ArrayList<DomicilioEntity>) domicilioRepository.findAll();
+    public List<Domicilio> getDomicilios() {
+        return (ArrayList<Domicilio>) domicilioRepository.findAll();
     }
 
-    public Optional<DomicilioEntity> getDomicilioById(Long id) {
+    public Optional<Domicilio> getDomicilioById(Long id) {
         return domicilioRepository.findById(id);
     }
 
-    public DomicilioEntity saveOrUpdateDomicilio(DomicilioEntity domicilio) {
-        return (DomicilioEntity) domicilioRepository.save(domicilio);
+    public Domicilio saveOrUpdateDomicilio(Domicilio domicilio) {
+        return (Domicilio) domicilioRepository.save(domicilio);
     }
 
-    public DomicilioEntity updateDomicilio(DomicilioEntity domicilio) {
-        return (DomicilioEntity) domicilioRepository.save(domicilio);
+    public Domicilio updateDomicilio(Domicilio domicilio) {
+        return (Domicilio) domicilioRepository.save(domicilio);
     }
 
     public boolean deleteDomicilioById(Long id) {

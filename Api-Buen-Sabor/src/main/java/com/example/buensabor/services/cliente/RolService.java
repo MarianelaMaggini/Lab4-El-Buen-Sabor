@@ -1,6 +1,6 @@
 package com.example.buensabor.services.cliente;
 
-import com.example.buensabor.entities.cliente.RolEntity;
+import com.example.buensabor.entities.cliente.Rol;
 import com.example.buensabor.repositories.cliente.RolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ public class RolService {
     @Autowired
     RolRepository rolRepository;
 
-    public List<RolEntity> getRoles() {
-        return (ArrayList<RolEntity>) rolRepository.findAll();
+    public List<Rol> getRoles() {
+        return (ArrayList<Rol>) rolRepository.findAll();
     }
 
-    public Optional<RolEntity> getRolById(Long id) {
+    public Optional<Rol> getRolById(Long id) {
         return rolRepository.findById(id);
     }
 
-    public RolEntity saveOrUpdateRol(RolEntity rol) {
-        return (RolEntity) rolRepository.save(rol);
+    public Rol saveOrUpdateRol(Rol rol) {
+        return (Rol) rolRepository.save(rol);
     }
 
-    public RolEntity updateRol(RolEntity rol) {
-        return (RolEntity) rolRepository.save(rol);
+    public Rol updateRol(Rol rol) {
+        return (Rol) rolRepository.save(rol);
     }
 
     public boolean deleteRolById(Long id) {

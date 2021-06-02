@@ -1,11 +1,10 @@
 package com.example.buensabor.controllers.cliente;
 
-import com.example.buensabor.entities.cliente.UsuarioEntity;
+import com.example.buensabor.entities.cliente.Usuario;
 import com.example.buensabor.services.cliente.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,17 +17,17 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
     @GetMapping("/todos")
-    public List<UsuarioEntity> getUsuarios() {
+    public List<Usuario> getUsuarios() {
         return usuarioService.getUsuarios();
     }
 
     @GetMapping("/{id}")
-    public Optional<UsuarioEntity> getUsuarioById(@PathVariable("id") Long id) {
+    public Optional<Usuario> getUsuarioById(@PathVariable("id") Long id) {
         return usuarioService.getUsuarioById(id);
     }
 
     @PostMapping()
-    public UsuarioEntity saveOrUpdateUsuario(@RequestBody UsuarioEntity usuario) {
+    public Usuario saveOrUpdateUsuario(@RequestBody Usuario usuario) {
         return usuarioService.saveOrUpdateUsuario(usuario);
     }
 }

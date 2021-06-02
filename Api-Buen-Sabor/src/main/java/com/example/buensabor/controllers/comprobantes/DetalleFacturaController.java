@@ -1,6 +1,6 @@
 package com.example.buensabor.controllers.comprobantes;
 
-import com.example.buensabor.entities.comprobantes.DetalleFacturaEntity;
+import com.example.buensabor.entities.comprobantes.DetalleFactura;
 import com.example.buensabor.services.comprobantes.DetalleFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +20,17 @@ public class DetalleFacturaController {
     }
 
     @GetMapping("/todos")
-    public List<DetalleFacturaEntity> getDetallesFactura() {
+    public List<DetalleFactura> getDetallesFactura() {
         return detalleFacturaService.getDetallesFactura();
     }
 
     @GetMapping("/{id}")
-    public Optional<DetalleFacturaEntity> getDetalleFacturaById(@PathVariable("id") Long id) {
+    public Optional<DetalleFactura> getDetalleFacturaById(@PathVariable("id") Long id) {
         return detalleFacturaService.getDetalleFacturaById(id);
     }
 
     @PostMapping()
-    public DetalleFacturaEntity saveOrUpdateDetalleFactura(@RequestBody DetalleFacturaEntity detalleFactura) {
+    public DetalleFactura saveOrUpdateDetalleFactura(@RequestBody DetalleFactura detalleFactura) {
         return detalleFacturaService.saveOrUpdateDetalleFactura(detalleFactura);
     }
 }

@@ -27,7 +27,7 @@ public class ArchivoService {
 
     public void save(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            Files.write(this.root.resolve(file.getOriginalFilename()), file.getBytes());
         } catch (Exception e) {
             throw new RuntimeException("No se pudo guardar el archivo. Error: " + e.getMessage());
         }

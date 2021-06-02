@@ -1,6 +1,6 @@
 package com.example.buensabor.controllers.articulos;
 
-import com.example.buensabor.entities.articulos.InventarioEntity;
+import com.example.buensabor.entities.articulos.Inventario;
 import com.example.buensabor.services.articulos.InventarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +20,17 @@ public class InventarioController {
     }
 
     @GetMapping("/todos")
-    public List<InventarioEntity> getInventarioCompleto() {
+    public List<Inventario> getInventarioCompleto() {
         return inventarioService.getInventarioCompleto() ;
     }
 
     @GetMapping("/{id}")
-    public Optional<InventarioEntity> getInventarioById(@PathVariable("id") Long id) {
+    public Optional<Inventario> getInventarioById(@PathVariable("id") Long id) {
         return inventarioService.getInventarioById(id);
     }
 
     @PostMapping()
-    public InventarioEntity saveOrUpdateInventario(@RequestBody InventarioEntity inventario) {
+    public Inventario saveOrUpdateInventario(@RequestBody Inventario inventario) {
         return inventarioService.saveOrUpdateInventario(inventario);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.buensabor.services.articulos;
 
-import com.example.buensabor.entities.articulos.InventarioEntity;
+import com.example.buensabor.entities.articulos.Inventario;
 import com.example.buensabor.repositories.articulos.InventarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ public class InventarioService {
     @Autowired
     InventarioRepository inventarioRepository;
 
-    public List<InventarioEntity> getInventarioCompleto() {
-        return (ArrayList<InventarioEntity>) inventarioRepository.findAll();
+    public List<Inventario> getInventarioCompleto() {
+        return (ArrayList<Inventario>) inventarioRepository.findAll();
     }
 
-    public Optional<InventarioEntity> getInventarioById(Long id) {
+    public Optional<Inventario> getInventarioById(Long id) {
         return inventarioRepository.findById(id);
     }
 
-    public InventarioEntity saveOrUpdateInventario(InventarioEntity inventario) {
-        return (InventarioEntity) inventarioRepository.save(inventario);
+    public Inventario saveOrUpdateInventario(Inventario inventario) {
+        return (Inventario) inventarioRepository.save(inventario);
     }
 
-    public InventarioEntity updateInventario(InventarioEntity inventario) {
-        return (InventarioEntity) inventarioRepository.save(inventario);
+    public Inventario updateInventario(Inventario inventario) {
+        return (Inventario) inventarioRepository.save(inventario);
     }
 
     public boolean deleteInventarioById(Long id) {

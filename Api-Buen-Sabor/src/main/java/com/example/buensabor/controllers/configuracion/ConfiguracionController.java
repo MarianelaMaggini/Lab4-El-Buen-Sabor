@@ -1,6 +1,6 @@
 package com.example.buensabor.controllers.configuracion;
 
-import com.example.buensabor.entities.configuracion.ConfiguracionEntity;
+import com.example.buensabor.entities.configuracion.Configuracion;
 import com.example.buensabor.services.configuracion.ConfiguracionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,7 +23,7 @@ public class ConfiguracionController {
         this.configuracionService = configuracionService;
     }
     @GetMapping("/todos")
-    public List<ConfiguracionEntity> getConfiguracion(){
+    public List<Configuracion> getConfiguracion(){
         return this.configuracionService.getConfiguraciones();
     }
 }

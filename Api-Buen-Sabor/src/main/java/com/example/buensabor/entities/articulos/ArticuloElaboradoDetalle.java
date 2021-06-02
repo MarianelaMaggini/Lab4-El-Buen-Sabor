@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "articulo_elaborado_detalle")
-public class ArticuloElaboradoDetalleEntity extends EntityBean {
+public class ArticuloElaboradoDetalle extends EntityBean {
 
     @Column(name = "descripcion", length = 65, nullable = false)
     @NotNull
@@ -29,11 +29,11 @@ public class ArticuloElaboradoDetalleEntity extends EntityBean {
     private int tiempoEstimadoCocina;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "articuloElaboradoDetalleEntity")
-    private List<RecetaElaboradoEntity> recetaElaboradoEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "articuloElaboradoDetalle")
+    private List<RecetaElaborado> recetaElaborado = new ArrayList<>();
 
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
-    private ArticuloEntity articuloEntity;
+    private Articulo articulo;
 }

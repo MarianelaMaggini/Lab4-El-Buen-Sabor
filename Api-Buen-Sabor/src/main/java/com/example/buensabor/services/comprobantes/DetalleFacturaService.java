@@ -1,6 +1,6 @@
 package com.example.buensabor.services.comprobantes;
 
-import com.example.buensabor.entities.comprobantes.DetalleFacturaEntity;
+import com.example.buensabor.entities.comprobantes.DetalleFactura;
 import com.example.buensabor.repositories.comprobantes.DetalleFacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ public class DetalleFacturaService {
     @Autowired
     DetalleFacturaRepository detalleFacturaRepository;
 
-    public List<DetalleFacturaEntity> getDetallesFactura() {
-        return (ArrayList<DetalleFacturaEntity>) detalleFacturaRepository.findAll();
+    public List<DetalleFactura> getDetallesFactura() {
+        return (ArrayList<DetalleFactura>) detalleFacturaRepository.findAll();
     }
 
-    public Optional<DetalleFacturaEntity> getDetalleFacturaById(Long id) {
+    public Optional<DetalleFactura> getDetalleFacturaById(Long id) {
         return detalleFacturaRepository.findById(id);
     }
 
-    public DetalleFacturaEntity saveOrUpdateDetalleFactura(DetalleFacturaEntity detalleFactura) {
-        return (DetalleFacturaEntity) detalleFacturaRepository.save(detalleFactura);
+    public DetalleFactura saveOrUpdateDetalleFactura(DetalleFactura detalleFactura) {
+        return (DetalleFactura) detalleFacturaRepository.save(detalleFactura);
     }
 
-    public DetalleFacturaEntity updateDetalleFactura(DetalleFacturaEntity detalleFactura) {
-        return (DetalleFacturaEntity) detalleFacturaRepository.save(detalleFactura);
+    public DetalleFactura updateDetalleFactura(DetalleFactura detalleFactura) {
+        return (DetalleFactura) detalleFacturaRepository.save(detalleFactura);
     }
 
     public boolean deleteDetalleFacturaById(Long id) {
