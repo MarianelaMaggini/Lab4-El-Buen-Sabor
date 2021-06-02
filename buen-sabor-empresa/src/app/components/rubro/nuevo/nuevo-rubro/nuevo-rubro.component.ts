@@ -16,7 +16,7 @@ export class NuevoRubroComponent implements OnInit {
   id = this.activatedRoute.snapshot.paramMap.get('id');
 
   rubroForm = new FormGroup({
-    id: new FormControl(),
+    id: new FormControl(''),
     denominacion: new FormControl('', Validators.required)
   });
 

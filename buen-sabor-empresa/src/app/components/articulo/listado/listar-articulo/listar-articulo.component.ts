@@ -5,7 +5,6 @@ import { ArticuloService } from 'src/app/services/articulo.service';
 import { RubroService } from 'src/app/services/rubro.service';
 
 import { Articulo } from 'src/app/models/articulo';
-import { Rubro } from 'src/app/models/rubro';
 
 @Component({
   selector: 'app-listar-articulo',
@@ -16,7 +15,6 @@ export class ListarArticuloComponent implements OnInit {
 
   titulo: string = 'Listado de articulos:';
   articulos: Articulo[];
-  rubro: Rubro;
 
   constructor(private articuloService: ArticuloService, private rubroService: RubroService, private router: Router, private activatedRoute: ActivatedRoute) { }
 

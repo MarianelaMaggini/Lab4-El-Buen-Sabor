@@ -6,6 +6,6 @@ export interface Articulo {
     id: number;
     denominacion: string;
     imagen: string;
-    rubro: Rubro;
-    tipoArticulo: TipoArticulo;
+    rubroEntity: Rubro;
+    tipoArticuloEntity: TipoArticulo;
 }

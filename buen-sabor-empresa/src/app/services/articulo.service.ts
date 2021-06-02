@@ -9,7 +9,7 @@ import { Articulo } from '../models/articulo';
 })
 export class ArticuloService {
 
-  private articuloUrl = environment.articuloUrl;
+  private articuloUrl: string = environment.articuloUrl;
   private header: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) { }

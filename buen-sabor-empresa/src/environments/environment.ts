@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   rubroUrl: 'http://localhost:8080/rubros',
   tipoArticuloUrl: 'http://localhost:8080/tipoArticulos',
-  articuloUrl: 'http://localhost:8080/articulos',
+  articuloUrl: "http://localhost:8080/articulos",
+  fileUrl: "http://localhost:8080/upload"
 };
 
 /*

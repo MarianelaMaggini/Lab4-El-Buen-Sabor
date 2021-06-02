@@ -24,6 +24,9 @@ import { NuevoArticuloComponent } from './components/articulo/nuevo/nuevo-articu
 // Tipo Artículo
 import { TipoArticuloService } from './services/tipoArticulo.service';
 
+// File
+import { FileService } from './services/file.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +44,7 @@ import { TipoArticuloService } from './services/tipoArticulo.service';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [RubroService, ArticuloService, TipoArticuloService],
+  providers: [RubroService, ArticuloService, TipoArticuloService, FileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
