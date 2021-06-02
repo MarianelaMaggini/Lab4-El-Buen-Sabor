@@ -45,6 +45,10 @@ public class Articulo extends EntityBean {
     @OneToMany(mappedBy = "articulo")
     private List<RecetaElaborado> recetaElaborados = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "articulo")
+    private List<Inventario> inventarios = new ArrayList<>();
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_tipo_articulo")
     private TipoArticulo tipoArticulo;
@@ -52,4 +56,5 @@ public class Articulo extends EntityBean {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_rubro")
     private Rubro rubro;
+
 }

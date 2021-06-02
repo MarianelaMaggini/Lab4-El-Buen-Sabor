@@ -34,7 +34,7 @@ public class HistoricoArticuloController {
         return historicoArticuloService.saveOrUpdateHistoricoArticulo(historicoArticulo);
     }
 
-    @GetMapping("precioVenta")
+    @GetMapping("/precioVenta")
     public List<Double> getPrice(){
         return historicoArticuloService.getPrecioCompra();
     }

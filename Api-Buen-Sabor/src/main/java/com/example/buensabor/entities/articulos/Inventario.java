@@ -34,7 +34,8 @@ public class Inventario extends EntityBean {
     @JoinColumn(name = "id_unidad_medida")
     private UnidadMedida unidadMedida;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
     private Articulo articulo;
+
 }
