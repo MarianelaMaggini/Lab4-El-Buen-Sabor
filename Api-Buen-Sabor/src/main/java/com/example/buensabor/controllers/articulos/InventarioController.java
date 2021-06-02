@@ -1,6 +1,7 @@
 package com.example.buensabor.controllers.articulos;
 
 import com.example.buensabor.entities.articulos.Inventario;
+import com.example.buensabor.services.articulos.HistoricoArticuloService;
 import com.example.buensabor.services.articulos.InventarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +14,18 @@ import java.util.Optional;
 public class InventarioController {
 
     private final InventarioService inventarioService;
-
+    private final HistoricoArticuloService historicoArticuloService;
     @Autowired
-    public InventarioController(InventarioService inventarioService) {
+    public InventarioController(InventarioService inventarioService, HistoricoArticuloService historicoArticuloService) {
         this.inventarioService = inventarioService;
+        this.historicoArticuloService = historicoArticuloService;
     }
 
     @GetMapping("/todos")
     public List<Inventario> getInventarioCompleto() {
-        return inventarioService.getInventarioCompleto() ;
+        Inventario inventario = new Inventario();
+            inventario.setPrecioVenta(20);
+        return inventarioService.getInventarioCompleto();
     }
 
     @GetMapping("/{id}")
@@ -31,6 +35,7 @@ public class InventarioController {
 
     @PostMapping()
     public Inventario saveOrUpdateInventario(@RequestBody Inventario inventario) {
+
         return inventarioService.saveOrUpdateInventario(inventario);
     }
 }
