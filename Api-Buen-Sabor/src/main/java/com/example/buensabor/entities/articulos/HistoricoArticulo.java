@@ -29,6 +29,6 @@ public class HistoricoArticulo extends EntityBean {
     private int cantidad;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id_inventario")
-    private Inventario inventario;
+    @JoinColumn(name = "id_articulo")
+    private Articulo articulo;
 }

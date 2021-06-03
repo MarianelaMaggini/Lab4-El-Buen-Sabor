@@ -5,7 +5,6 @@ import com.example.buensabor.repositories.articulos.InventarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +14,14 @@ public class InventarioService {
     @Autowired
     InventarioRepository inventarioRepository;
 
+    /**
+     * Cargo en un listado de inventarios los inventarios de la base de datos
+     * Recorro y seteo el precioVenta TRANSIENT (no se persite en la base) con el metodo damePrecioVenta
+     * de la clase Inventario
+     * Retorno esos inventarios con el precio de venta incluido
+     * */
     public List<Inventario> getInventarioCompleto() {
-        return (ArrayList<Inventario>) inventarioRepository.findAll();
+        return (List<Inventario>) inventarioRepository.findAll();
     }
 
     public Optional<Inventario> getInventarioById(Long id) {

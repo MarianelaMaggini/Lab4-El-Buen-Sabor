@@ -30,4 +30,5 @@ public class RecetaElaborado extends EntityBean {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo_elaborado_detalle")
     private ArticuloElaboradoDetalle articuloElaboradoDetalle;
+
 }

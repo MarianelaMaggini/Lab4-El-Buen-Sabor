@@ -14,6 +14,5 @@ public interface ArticuloRepository extends CrudRepository<Articulo, Long> {
     @Query(value = "SELECT a FROM Articulo a WHERE a.rubro.id = :idRubro")
     List<Articulo> findByIdRubro(@Param("idRubro") Long idRubro);
 
-    //@Query(value="SELECT a FROM Articulo a WHERE a.tipoArticuloEntity.id = :idTipoUno OR a.tipoArticuloEntity.id = :idTipoDos")
     List<Articulo> findByTipoArticuloIdOrTipoArticuloId(@Param("idTipoUno") Long idTipoUno, @Param("idTipoDos") Long idTipoDos);
 }

@@ -4,8 +4,6 @@ import com.example.buensabor.entities.articulos.HistoricoArticulo;
 import com.example.buensabor.repositories.articulos.HistoricoArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +14,7 @@ public class HistoricoArticuloService {
     HistoricoArticuloRepository historicoArticuloRepository;
 
     public List<HistoricoArticulo> getHistoricoArticulos() {
-        return (ArrayList<HistoricoArticulo>) historicoArticuloRepository.findAll();
+        return  (List<HistoricoArticulo>) historicoArticuloRepository.findAll();
     }
 
     public Optional<HistoricoArticulo> getHistoricoArticuloById(Long id) {
@@ -41,11 +39,4 @@ public class HistoricoArticuloService {
         }
     }
 
-    public List<Double> getPrecioCompra(){
-        List<Double> preciosVentas = new ArrayList<>();
-        for (Double precioCompra: historicoArticuloRepository.getPrecioCompra()){
-            preciosVentas.add(precioCompra * 1.5);
-        }
-        return preciosVentas;
-    }
 }

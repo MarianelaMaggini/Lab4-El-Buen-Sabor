@@ -32,7 +32,6 @@ public class ArticuloElaboradoDetalle extends EntityBean {
     @OneToMany(mappedBy = "articuloElaboradoDetalle")
     private List<RecetaElaborado> recetaElaborado = new ArrayList<>();
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
     private Articulo articulo;

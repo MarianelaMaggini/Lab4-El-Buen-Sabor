@@ -15,8 +15,18 @@ public class ArticuloService {
     @Autowired
     ArticuloRepository articuloRepository;
 
+    /**
+     * Cargo en un listado de inventarios los inventarios de la base de datos
+     * Recorro y seteo el precioVenta TRANSIENT (no se persite en la base) con el metodo damePrecioVenta
+     * de la clase Inventario
+     * Retorno esos inventarios con el precio de venta incluido
+     * */
     public List<Articulo> getArticulos() {
-        return (ArrayList<Articulo>) articuloRepository.findAll();
+        List<Articulo> articulos = (ArrayList<Articulo>) articuloRepository.findAll();
+        for (Articulo a : articulos){
+            a.setPrecioVenta(a.damePrecioVenta());
+        }
+        return articulos;
     }
 
     public Optional<Articulo> getArticuloById(Long id) {
