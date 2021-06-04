@@ -19,7 +19,7 @@ export class ArticuloService {
   }
 
   getArticulosByTipoArticuloId(): Observable<Articulo[]>{
-    return this.http.get<Articulo[]>(this.articuloUrl + '/idTipo?tipoUno=2&tipoDos=3', {headers: this.header});
+    return this.http.get<Articulo[]>(this.articuloUrl + '/idTiposArticulos?tipoUno=2&tipoDos=3', {headers: this.header});
   }
 
 }
