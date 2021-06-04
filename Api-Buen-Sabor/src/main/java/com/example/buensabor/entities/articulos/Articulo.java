@@ -30,7 +30,7 @@ public class Articulo extends EntityBean {
     private String imagen;
 
     @Transient
-    private double precioVenta;
+    private Double precioVenta;
 
     @JsonIgnore
     @OneToMany(mappedBy = "articulo")
@@ -63,12 +63,14 @@ public class Articulo extends EntityBean {
     /**
      * Voy hasta el historico de articulos y le asigno al precio de venta
      * el precio de compra * el 50%
+     *
      * @return un double con el atributo del precio de venta
      */
-    public double damePrecioVenta(){
-        for (HistoricoArticulo h : historicoArticulos){
+    public Double getPrecioNoElaborado() {
+        for (HistoricoArticulo h : historicoArticulos) {
             precioVenta = h.getPrecioCompra() * 1.5;
         }
         return precioVenta;
     }
+
 }

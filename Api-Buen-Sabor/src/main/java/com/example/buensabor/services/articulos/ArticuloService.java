@@ -5,7 +5,6 @@ import com.example.buensabor.repositories.articulos.ArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,22 +14,19 @@ public class ArticuloService {
     @Autowired
     ArticuloRepository articuloRepository;
 
-    /**
-     * Cargo en un listado de inventarios los inventarios de la base de datos
-     * Recorro y seteo el precioVenta TRANSIENT (no se persite en la base) con el metodo damePrecioVenta
-     * de la clase Inventario
-     * Retorno esos inventarios con el precio de venta incluido
-     * */
     public List<Articulo> getArticulos() {
-        List<Articulo> articulos = (ArrayList<Articulo>) articuloRepository.findAll();
-        for (Articulo a : articulos){
-            a.setPrecioVenta(a.damePrecioVenta());
-        }
-        return articulos;
+        return (List<Articulo>) articuloRepository.findAll();
     }
 
     public Optional<Articulo> getArticuloById(Long id) {
-        return articuloRepository.findById(id);
+        Optional<Articulo> articulo = articuloRepository.findById(id);
+        if (articulo.get().getTipoArticulo().getId() == 2) {
+            articulo.get().setPrecioVenta(articuloRepository.getPrecioElaborado(id));
+        } else {
+            articulo.get().setPrecioVenta(articulo.get().getPrecioNoElaborado());
+        }
+
+        return articulo;
     }
 
     public Articulo saveOrUpdateArticulo(Articulo articulo) {
@@ -45,8 +41,36 @@ public class ArticuloService {
         return articuloRepository.findByIdRubro(id);
     }
 
-    public List<Articulo> getArticuloByIdTipoArticulo(Long idUno, Long idDos){
+    /**
+     * Metodo para filtrar por tipo articulo no elaborado OR elaborado
+     */
+    public List<Articulo> getArticuloByIdTipoArticuloOrIdTipoArticulo(Long idUno, Long idDos) {
         return articuloRepository.findByTipoArticuloIdOrTipoArticuloId(idUno, idDos);
+    }
+
+    /**
+     * Guardo en un listado de articulos los asociados al tipo articulos
+     * luego recorro y seteo el atributo TRANSIENT con el precio elaborado
+     * caso contrario con el precio NO elaborado
+     *
+     * @param id Long
+     * @return List<Articulo>
+     */
+    public List<Articulo> getArticuloByIdTipoArticulo(Long id) {
+        List<Articulo> articulos = articuloRepository.findByTipoArticuloId(id);
+        if (id == 2) {
+            for (Articulo articulo : articulos) {
+                Double precio = articuloRepository.getPrecioElaborado(articulo.getId());
+                if (precio != null) {
+                    articulo.setPrecioVenta(precio);
+                }
+            }
+        } else {
+            for (Articulo articulo : articulos) {
+                articulo.setPrecioVenta(articulo.getPrecioNoElaborado());
+            }
+        }
+        return articulos;
     }
 
     public boolean deleteArticuloById(Long id) {
