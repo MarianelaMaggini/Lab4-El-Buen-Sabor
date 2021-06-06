@@ -16,9 +16,12 @@ export class HomeComponent implements OnInit {
   }
 
   listar():void {
-    this.articuloService.getArticulosByTipoArticuloId().subscribe((data) => {
-      console.log(data)
-      this.articulos = data
+    this.articuloService.getArticulosByTipoArticuloIdElaborado().subscribe((elaborado) => {
+      console.log(elaborado)
+      this.articuloService.getArticulosByTipoArticuloIdNoElaborado().subscribe((noElaborado) => {
+        console.log(noElaborado)
+        this.articulos = elaborado.concat(noElaborado);
+      })
     })
   }
 
