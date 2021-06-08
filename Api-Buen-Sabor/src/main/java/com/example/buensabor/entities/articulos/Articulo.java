@@ -29,6 +29,9 @@ public class Articulo extends EntityBean {
     @NotNull
     private String imagen;
 
+    @Transient
+    private Double precioVenta;
+
     @JsonIgnore
     @OneToMany(mappedBy = "articulo")
     private List<DetalleFactura> detalleFacturas = new ArrayList<>();
@@ -43,11 +46,11 @@ public class Articulo extends EntityBean {
 
     @JsonIgnore
     @OneToMany(mappedBy = "articulo")
-    private List<RecetaElaborado> recetaElaborados = new ArrayList<>();
+    private List<HistoricoArticulo> historicoArticulos = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "articulo")
-    private List<Inventario> inventarios = new ArrayList<>();
+    private List<RecetaElaborado> recetaElaborados = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_tipo_articulo")
@@ -56,5 +59,18 @@ public class Articulo extends EntityBean {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_rubro")
     private Rubro rubro;
+
+    /**
+     * Voy hasta el historico de articulos y le asigno al precio de venta
+     * el precio de compra * el 50%
+     *
+     * @return un double con el atributo del precio de venta
+     */
+    public Double getPrecioNoElaborado() {
+        for (HistoricoArticulo h : historicoArticulos) {
+            precioVenta = h.getPrecioCompra() * 1.5;
+        }
+        return precioVenta;
+    }
 
 }

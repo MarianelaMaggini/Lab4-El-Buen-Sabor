@@ -33,10 +33,5 @@ public class HistoricoArticuloController {
     public HistoricoArticulo saveOrUpdateHistoricoArticulo(@RequestBody HistoricoArticulo historicoArticulo) {
         return historicoArticuloService.saveOrUpdateHistoricoArticulo(historicoArticulo);
     }
-
-    @GetMapping("/precioVenta")
-    public List<Double> getPrice(){
-        return historicoArticuloService.getPrecioCompra();
-    }
 }
 

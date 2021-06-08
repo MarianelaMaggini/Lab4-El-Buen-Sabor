@@ -18,8 +18,16 @@ export class ArticuloService {
     return this.http.get<Articulo[]>(this.articuloUrl + '/todos', { headers: this.header });
   }
 
-  getArticulosByTipoArticuloId(): Observable<Articulo[]>{
-    return this.http.get<Articulo[]>(this.articuloUrl + '/idTipo?tipoUno=2&tipoDos=3', {headers: this.header});
+  getArticulosByTipoArticuloIdOrTipoArticulo(): Observable<Articulo[]>{
+    return this.http.get<Articulo[]>(this.articuloUrl + '/idTiposArticulos?tipoUno=2&tipoDos=3', {headers: this.header});
+  }
+
+  getArticulosByTipoArticuloIdElaborado(): Observable<Articulo[]>{
+    return this.http.get<Articulo[]>(this.articuloUrl + '/idTipoArticulo?id=2', {headers: this.header});
+  }
+
+  getArticulosByTipoArticuloIdNoElaborado(): Observable<Articulo[]>{
+    return this.http.get<Articulo[]>(this.articuloUrl + '/idTipoArticulo?id=3', {headers: this.header});
   }
 
 }
