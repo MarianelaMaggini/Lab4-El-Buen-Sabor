@@ -1,6 +1,7 @@
 package com.example.buensabor.services.articulos;
 
 import com.example.buensabor.entities.articulos.Articulo;
+import com.example.buensabor.entities.articulos.RecetaElaborado;
 import com.example.buensabor.repositories.articulos.ArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,16 @@ public class ArticuloService {
     }
 
     public Optional<Articulo> getArticuloById(Long id) {
+        List<Long> articulosIdInsumos = articuloRepository.getIdArticuloInsumosByElaborado(id);
         Optional<Articulo> articulo = articuloRepository.findById(id);
         if (articulo.get().getTipoArticulo().getId() == 2) {
-            articulo.get().setPrecioVenta(articuloRepository.getPrecioElaborado(id));
+            double precioTotal = 0.0;
+            for (Long idArticulo : articulosIdInsumos){
+                double precio = articuloRepository.getPrecioInsumosByElaborado(idArticulo);
+                //double cantidad = articuloRepository.getCantidadInsumosByElaborado(idArticulo);
+                //precioTotal += (precio * cantidad) * 1.5;
+            }
+            articulo.get().setPrecioVenta(precioTotal);
         } else {
             articulo.get().setPrecioVenta(articulo.get().getPrecioNoElaborado());
         }
@@ -58,12 +66,17 @@ public class ArticuloService {
      */
     public List<Articulo> getArticuloByIdTipoArticulo(Long id) {
         List<Articulo> articulos = articuloRepository.findByTipoArticuloId(id);
+        List<Long> articulosIdInsumos;
         if (id == 2) {
             for (Articulo articulo : articulos) {
-                Double precio = articuloRepository.getPrecioElaborado(articulo.getId());
-                if (precio != null) {
-                    articulo.setPrecioVenta(precio);
+                double precioTotal = 0.0;
+                articulosIdInsumos = articuloRepository.getIdArticuloInsumosByElaborado(articulo.getId());
+                for (Long idArticulo : articulosIdInsumos){
+                    double precio = articuloRepository.getPrecioInsumosByElaborado(idArticulo);
+                    double cantidad = articuloRepository.getCantidadInsumosByElaborado(articulo.getId(), idArticulo);
+                    precioTotal += (precio * cantidad) * 1.5;
                 }
+                articulo.setPrecioVenta(precioTotal);
             }
         } else {
             for (Articulo articulo : articulos) {
