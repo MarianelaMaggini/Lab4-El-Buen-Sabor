@@ -21,8 +21,21 @@ import { ArticuloService } from './services/articulo.service';
 import { ListarArticuloComponent } from './components/articulo/listado/listar-articulo/listar-articulo.component';
 import { NuevoArticuloComponent } from './components/articulo/nuevo/nuevo-articulo/nuevo-articulo.component';
 
+// Artículo Elaborado Detalle
+import { AedService } from './services/aed.service';
+import { ListarAedComponent } from './components/articulo-elaborado-detalle/listado/listar-aed/listar-aed.component';
+import { NuevoAedComponent } from './components/articulo-elaborado-detalle/nuevo/nuevo-aed/nuevo-aed.component';
+
 // Tipo Artículo
 import { TipoArticuloService } from './services/tipoArticulo.service';
+
+// Receta
+import { RecetaService } from './services/receta.service'
+import { ListarRecetaComponent } from './components/receta/listado/listar-receta/listar-receta.component';
+import { NuevaRecetaComponent } from './components/receta/nueva/nueva-receta/nueva-receta.component';
+
+// Unidad de Medida
+import { UnidadMedidaService } from './services/unidadMedida.service';
 
 // File
 import { FileService } from './services/file.service';
@@ -36,6 +49,10 @@ import { FileService } from './services/file.service';
     NuevoRubroComponent,
     ListarArticuloComponent,
     NuevoArticuloComponent,
+    ListarAedComponent,
+    NuevoAedComponent,
+    ListarRecetaComponent,
+    NuevaRecetaComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +61,7 @@ import { FileService } from './services/file.service';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [RubroService, ArticuloService, TipoArticuloService, FileService],
+  providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, UnidadMedidaService, FileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

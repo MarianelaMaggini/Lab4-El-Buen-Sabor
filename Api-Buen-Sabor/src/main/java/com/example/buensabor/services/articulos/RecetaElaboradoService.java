@@ -22,6 +22,8 @@ public class RecetaElaboradoService {
         return recetaElaboradoRepository.findById(id);
     }
 
+    public List<RecetaElaborado> getRecetaByIdArticulo(Long id) { return recetaElaboradoRepository.getRecetaByIdArticulo(id); }
+
     public RecetaElaborado saveOrUpdateReceta(RecetaElaborado receta) {
         return (RecetaElaborado) recetaElaboradoRepository.save(receta);
     }

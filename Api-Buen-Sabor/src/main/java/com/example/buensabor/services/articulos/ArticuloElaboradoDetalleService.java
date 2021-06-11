@@ -22,6 +22,10 @@ public class ArticuloElaboradoDetalleService {
         return articuloElaboradoDetalleRepository.findById(id);
     }
 
+    public Optional<ArticuloElaboradoDetalle> getArticuloDetalleByIdArticulo(Long id) {
+        return articuloElaboradoDetalleRepository.getArticuloDetalleByIdArticulo(id);
+    }
+
     public ArticuloElaboradoDetalle saveOrUpdateArticuloDetalle(ArticuloElaboradoDetalle articuloDetalle) {
         return (ArticuloElaboradoDetalle) articuloElaboradoDetalleRepository.save(articuloDetalle);
     }

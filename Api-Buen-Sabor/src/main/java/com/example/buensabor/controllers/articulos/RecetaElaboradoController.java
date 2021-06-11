@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/recetasElaborado")//ruta principal
 public class RecetaElaboradoController {
@@ -27,6 +27,11 @@ public class RecetaElaboradoController {
     @GetMapping("/{id}")
     public Optional<RecetaElaborado> getRecetaById(@PathVariable("id") Long id) {
         return recetaElaboradoService.getRecetaById(id);
+    }
+
+    @GetMapping("/articulo")
+    public List<RecetaElaborado> getRecetaByIdArticulo(@RequestParam("id") Long id) {
+        return recetaElaboradoService.getRecetaByIdArticulo(id);
     }
 
     @PostMapping()

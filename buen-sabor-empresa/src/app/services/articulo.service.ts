@@ -24,6 +24,11 @@ export class ArticuloService {
     return this.http.get<Articulo>(this.articuloUrl + '/' + id, { headers: this.header });
   }
 
+  // Obtener artículos por tipo (1, 2 ó 3)
+  getArticulosByTipo(tipo: any): Observable<Articulo[]> {
+    return this.http.get<Articulo[]>(this.articuloUrl + "/idTipoArticulo?id=" + tipo, { headers: this.header });
+  }
+
   // Guardar-actualizar artículo
   saveArticulo(articulo: Articulo): Observable<Articulo> {
     return this.http.post<Articulo>(this.articuloUrl, articulo, { headers: this.header });
@@ -32,11 +37,6 @@ export class ArticuloService {
   // Eliminar un artículo por id
   deleteArticuloById(id: any) {
     return this.http.delete(this.articuloUrl + '/' + id, { responseType: 'text' });
-  }
-
-  //petición para obtener mediante un id rubro los productos asociados
-  getArticuloPorIdRubro(id: number): Observable<Articulo[]> {
-    return this.http.get<Articulo[]>(this.articuloUrl + '/idRubro?rubro=' + id, { headers: this.header });
   }
 
 }

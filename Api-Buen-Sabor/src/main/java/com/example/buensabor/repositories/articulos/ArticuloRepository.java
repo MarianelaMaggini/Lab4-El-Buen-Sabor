@@ -55,12 +55,12 @@ public interface ArticuloRepository extends CrudRepository<Articulo, Long> {
             "inner join historico_articulo ha on ha.id_articulo = a.id \n" +
             "inner join receta_elaborado r on r.id_articulo = ha.id_articulo\n" +
             "where ha.id_articulo = :idArticulo order by ha.id desc limit 1", nativeQuery = true)
-    double getPrecioInsumosByElaborado(@Param("idArticulo") Long idArticulo);
+    Double getPrecioInsumosByElaborado(@Param("idArticulo") Long idArticulo);
 
     // selecciona la cantidad relacionada al articulo id
     @Query(value = "select r.cantidad from articulo a\n" +
             "inner join articulo_elaborado_detalle aed on aed.id_articulo = a.id \n" +
             "inner join receta_elaborado r on r.id_articulo_elaborado_detalle = aed.id \n" +
             "where aed.id_articulo = :idArticuloDetalle and r.id_articulo = :idArticulo", nativeQuery = true)
-    double getCantidadInsumosByElaborado(@Param("idArticuloDetalle") Long idArticuloDetalle, @Param("idArticulo") Long idArticulo);
+    Double getCantidadInsumosByElaborado(@Param("idArticuloDetalle") Long idArticuloDetalle, @Param("idArticulo") Long idArticulo);
 }

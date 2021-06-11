@@ -44,8 +44,8 @@ export class NuevoArticuloComponent implements OnInit {
           'id': data.id,
           'denominacion': data.denominacion,
           'imagen': null,
-          'rubro': data.rubroEntity.id,
-          'tipoArticulo': data.tipoArticuloEntity.id
+          'rubro': data.rubro.id,
+          'tipoArticulo': data.tipoArticulo.id
         });
       });
     }
@@ -69,7 +69,7 @@ export class NuevoArticuloComponent implements OnInit {
     this.rubroService.getRubroById(form.rubro).subscribe(rubro =>{
       this.tipoArticuloService.getTipoArticuloById(form.tipoArticulo).subscribe(tipoArticulo =>{
         let articulo: Articulo = { "id": +(this.id)!, "denominacion": form.denominacion, "imagen": this.imagenName, 
-        "rubroEntity": rubro, "tipoArticuloEntity": tipoArticulo };
+        "rubro": rubro, "tipoArticulo": tipoArticulo };
         this.articuloService.saveArticulo(articulo).subscribe();
         this.fileService.upload(this.file).subscribe();
       });
