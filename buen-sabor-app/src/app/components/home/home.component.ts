@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Articulo } from 'src/app/models/articulo';
-import { ArticuloService } from 'src/app/services/articulo.service';
 
 @Component({
   selector: 'app-home',
@@ -8,21 +6,19 @@ import { ArticuloService } from 'src/app/services/articulo.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  articulos: Articulo[];
-  constructor(private articuloService: ArticuloService) { }
+
+  animate: string = "animate__bounceOutRight"; 
+  slow: string = "animate__slow"
+  constructor() { }
 
   ngOnInit(): void {
-    this.listar();
   }
-
-  listar():void {
-    this.articuloService.getArticulosByTipoArticuloIdElaborado().subscribe((elaborado) => {
-      console.log(elaborado)
-      this.articuloService.getArticulosByTipoArticuloIdNoElaborado().subscribe((noElaborado) => {
-        console.log(noElaborado)
-        this.articulos = elaborado.concat(noElaborado);
-      })
+  over(){
+    const element = document.getElementById("delivery");
+    element!.classList.add("animate__animated", this.animate);
+    element!.classList.add("animate__animated", this.slow);
+    element!.addEventListener('animationend', () => {
+      element!.classList.remove("animate__animated", this.animate);
     })
   }
-
 }
