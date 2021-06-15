@@ -12,12 +12,20 @@ import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ArticuloService } from './services/articulo.service';
+import { CartComponent } from './components/cart/cart.component';
+import { DetallePedidoComponent } from './components/detalle-pedido/detalle-pedido.component';
+import { ArticulosComponent } from './components/articulos/articulos.component';
+import { ItemArticuloComponent } from './components/item-articulo/item-articulo.component';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    CartComponent,
+    DetallePedidoComponent,
+    ArticulosComponent,
+    ItemArticuloComponent
   ],
   imports: [
     BrowserModule,

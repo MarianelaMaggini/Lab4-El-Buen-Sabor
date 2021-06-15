@@ -1,37 +1,27 @@
-
-  <!-- JUMBOTRON -->
-  <div class="jumbotron jumbotron-fluid fondoJumbo rounded-0">
-    <div class="container">
-      <h1 class="display-3 text-white">¡Antojate tranquilo y pedi lo quieras!</h1>
-        <p class="lead text-white d-flex justify-content-end align-items-center">Nosotros te lo llevamos</p>
-    </div>
+<!-- JUMBOTRON -->
+<div class="jumbotron jumbotron-fluid fondoJumbo rounded-0">
+  <div class="container">
+    <h1 class="display-3 text-white">¡Antojate tranquilo y pedí lo quieras!</h1>
+    <p class="lead text-white d-flex justify-content-end align-items-center">
+      Nosotros te lo llevamos
+    </p>
+    <img src="../../../assets/img/deliveryBoy.png"
+    alt="delivery"
+    id="delivery"
+    class="sizeImg"
+    (mouseover)='over()'>
+    
   </div>
-  <!-- SUB-TITULO -->
-<div class="container" >
-  <h2>Productos</h2>
-  <hr>
 </div>
-
-<!-- TARJETAS -->
-<div class="container mt-4">
-  <div class="row mx-4">
-    <div class="col-md-6" *ngFor="let articulo of articulos; let i = index">
-      <div class="card col mb-3" style="width: 30em;">
-        <div class="row">
-          <div class="col-md-6 d-flex justify-content-center align-items-center">
-            <img src="http://localhost:8080/upload/files/{{ articulo.imagen }}" alt="imagen artículo" class="sizeImg">
-          </div>
-          <div class="col-md-6 d-flex justify-content-center align-items-center">
-            <div class="card-body">
-              <h5 class="card-title">{{ articulo.denominacion }}</h5>
-              <p class="card-text">{{ articulo.precioVenta | currency: "AR":"$" }}</p>
-              <p class="card-text"><small class="text-muted">Rubro: {{ articulo.rubro.denominacion }}</small></p>
-              <button class="btn btn-danger">Añadir</button>
-            </div>
-          </div>
-        </div>
-      </div>
+<!-- SUB-TITULO -->
+<div class="container">
+  <h2>🍔 Nuestros productos</h2>
+  <hr />
+</div>
+<div class="container">
+  <div class="row my-2 mx-4">
+    <div class="col">
+      <app-articulos></app-articulos>
     </div>
   </div>
 </div>
-
