@@ -12,7 +12,7 @@ export class MercadoPagoService {
   private header: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  getMp(precio: number):Observable<any> {
-    return this.http.get<any>(this.mpUrl + '?precio=' + precio, {headers: this.header});
+  getMp(precio: number):Observable<string> {
+    return this.http.get<string>(this.mpUrl + '?precio=' + precio, {headers: this.header});
   }
 }

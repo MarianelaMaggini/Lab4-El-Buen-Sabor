@@ -27,8 +27,8 @@ export class CartComponent implements OnInit {
     this.total = this.getTotal();
   }
 
-  refresh():void {
-    location.reload()
+  refresh(): void {
+    location.reload();
   }
 
   getItem(): void {
@@ -65,16 +65,17 @@ export class CartComponent implements OnInit {
     }
     this.total = this.getTotal();
     this.storageService.setCart(this.cartItems);
-    
   }
 
-  // pagar():void {
-  //   this.mercadoPagoService.getMp(this.total).subscribe((data) => {
-  //     console.log(JSON.parse(data))
-  //   },
-  //   (err) => {
-  //     console.log(err.error.text)
-  //     window.location.href = err.error.text
-  //   });
-  // }
+  pagar(): void {
+    this.mercadoPagoService.getMp(this.total).subscribe(
+      (data) => {
+        console.log(data)
+      },
+      (err) => {
+        console.log(err.error.text);
+        window.location.href = err.error.text
+      }
+    );
+  }
 }
