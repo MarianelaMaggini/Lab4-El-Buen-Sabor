@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Articulo } from 'src/app/models/articulo';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-item-articulo',
@@ -8,16 +8,16 @@ import { Articulo } from 'src/app/models/articulo';
   styleUrls: ['./item-articulo.component.css']
 })
 export class ItemArticuloComponent implements OnInit {
-  
+
   @Input() articulo: Articulo;
   @Input() index: number;
 
-  constructor(private router: Router) { }
+  constructor(
+    private messageService: MessageService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+  
+  addCart():void{
+    this.messageService.sendMessage(this.articulo);
   }
-  cart(): void {
-    this.router.navigate(['/cart'])
-  }
-
 }

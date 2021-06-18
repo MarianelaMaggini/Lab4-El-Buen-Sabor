@@ -9,23 +9,19 @@ import { ArticuloService } from 'src/app/services/articulo.service';
   styleUrls: ['./articulos.component.css']
 })
 export class ArticulosComponent implements OnInit {
-
   articulos: Articulo[];
   constructor(private articuloService: ArticuloService, private router: Router) { }
 
   ngOnInit(): void {
     this.listar();
   }
-
-
   listar():void {
-    this.articuloService.getArticulosByTipoArticuloIdElaborado().subscribe((elaborado) => {
+    this.articuloService.getArticulosByTipoArticuloId(2).subscribe((elaborado) => {
       console.log(elaborado)
-      this.articuloService.getArticulosByTipoArticuloIdNoElaborado().subscribe((noElaborado) => {
+      this.articuloService.getArticulosByTipoArticuloId(3).subscribe((noElaborado) => {
         console.log(noElaborado)
         this.articulos = elaborado.concat(noElaborado);
       })
     })
   }
-
 }
