@@ -1,7 +1,48 @@
-<div class="row">
-    <ul class="list-group">
-        <li class="list-group-item" *ngFor="let detalle of ['pizza', 'bebida', 'hamburguesa']; let i = index">
-            <app-detalle-pedido></app-detalle-pedido>
-        </li>
-      </ul>
+<div class="modal" id="cartModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mi pedido</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="refresh()" 
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="cartItems.length < 1">
+          <div class="alert alert-light text-center">
+            <h4>🛒 Tu carrito está vacío 😭</h4>
+          </div>
+        </div>
+        <div class="text-center" *ngIf="cartItems.length > 0">
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let item of cartItems; let i = index">
+                <div class="row">
+                    <div class="col-md-10">
+                        <app-detalle-pedido [cartItem]="item"></app-detalle-pedido>
+                    </div>
+                    <div class="col-md-2">
+                        <i class="text-danger fas fa-trash" style="cursor: pointer; padding-top: 15px;" (click)="deleteItem(i)"></i>
+                    </div>
+                </div>
+              </li>
+            </ul>
+        </div>
+        <div class="alert alert-success text-center" *ngIf="cartItems.length > 0">
+            <strong>Total: </strong>{{ total | currency}}
+        </div>
+        <div class="modal-footer" *ngIf="cartItems.length > 0">
+          <button type="button" (click)="refresh()" class="btn btn-secondary" data-dismiss="modal">
+            Seguir comprando
+          </button>
+          <button type="button" (click)="pagar()" class="btn btn-primary">Finalizar compra</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

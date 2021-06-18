@@ -13,21 +13,22 @@ export class ArticuloService {
   private header: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  //petición para obtener mediante un id rubro los productos asociados
+  //petición para obtener todos los articulos
   getArticulos(): Observable<Articulo[]> {
     return this.http.get<Articulo[]>(this.articuloUrl + '/todos', { headers: this.header });
+  }
+
+  //petición para obtener todos los articulos
+  getArticuloById(id: number): Observable<Articulo> {
+    return this.http.get<Articulo>(this.articuloUrl + '/' + id, { headers: this.header });
   }
 
   getArticulosByTipoArticuloIdOrTipoArticulo(): Observable<Articulo[]>{
     return this.http.get<Articulo[]>(this.articuloUrl + '/idTiposArticulos?tipoUno=2&tipoDos=3', {headers: this.header});
   }
 
-  getArticulosByTipoArticuloIdElaborado(): Observable<Articulo[]>{
-    return this.http.get<Articulo[]>(this.articuloUrl + '/idTipoArticulo?id=2', {headers: this.header});
-  }
-
-  getArticulosByTipoArticuloIdNoElaborado(): Observable<Articulo[]>{
-    return this.http.get<Articulo[]>(this.articuloUrl + '/idTipoArticulo?id=3', {headers: this.header});
+  getArticulosByTipoArticuloId(id:number): Observable<Articulo[]>{
+    return this.http.get<Articulo[]>(this.articuloUrl + '/idTipoArticulo?id=' + id, {headers: this.header});
   }
 
 }

@@ -23,11 +23,13 @@ public class ArticuloService {
         List<Long> articulosIdInsumos = articuloRepository.getIdArticuloInsumosByElaborado(id);
         Optional<Articulo> articulo = articuloRepository.findById(id);
         if (articulo.get().getTipoArticulo().getId() == 2) {
-            double precioTotal = 0.0;
+            Double precioTotal = 0.0;
             for (Long idArticulo : articulosIdInsumos){
-                double precio = articuloRepository.getPrecioInsumosByElaborado(idArticulo);
-                //double cantidad = articuloRepository.getCantidadInsumosByElaborado(idArticulo);
-                //precioTotal += (precio * cantidad) * 1.5;
+                Double precio = articuloRepository.getPrecioInsumosByElaborado(idArticulo);
+                Double cantidad = articuloRepository.getCantidadInsumosByElaborado(articulo.get().getId(), idArticulo);
+                if(precio != null && cantidad != null) {
+                    precioTotal += (precio * cantidad) * 1.5;
+                }
             }
             articulo.get().setPrecioVenta(precioTotal);
         } else {
