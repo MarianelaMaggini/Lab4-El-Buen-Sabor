@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { RubroService } from 'src/app/services/rubro.service';
+import { AlertaService } from 'src/app/services/alerta.service'; 
 
 import { Rubro } from 'src/app/models/rubro';
 
@@ -20,7 +21,7 @@ export class NuevoRubroComponent implements OnInit {
     denominacion: new FormControl('', Validators.required)
   });
 
-  constructor(private rubroService: RubroService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private rubroService: RubroService, private alerta: AlertaService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     if(this.id != "0") {
@@ -35,14 +36,22 @@ export class NuevoRubroComponent implements OnInit {
 
   async postForm(form: Rubro) {
     this.rubroService.saveRubro(form).subscribe(data =>{
-      console.log(data);
+      if(data == null) {
+        this.alerta.mostrarError("No se pudo guardar el rubro!", "Error");
+      } else {
+        this.alerta.mostrarSuccess("Rubro guardado!", "Hecho");
+      }
     });
     await this.router.navigate(['rubros']);
   }
 
   async deleteRubro() {
     this.rubroService.deleteRubroById(this.id).subscribe(data =>{
-      console.log(data);
+      if(data == null) {
+        this.alerta.mostrarError("No se pudo eliminar el rubro!", "Error");
+      } else {
+        this.alerta.mostrarSuccess("Rubro eliminado!", "Hecho");
+      }
     });
     await this.router.navigate(['rubros']);
   }

@@ -6,6 +6,7 @@ import { ArticuloService } from 'src/app/services/articulo.service';
 import { RubroService } from 'src/app/services/rubro.service';
 import { TipoArticuloService } from 'src/app/services/tipoArticulo.service';
 import { FileService } from 'src/app/services/file.service';
+import { AlertaService } from 'src/app/services/alerta.service'; 
 
 import { Articulo } from 'src/app/models/articulo';
 import { ArticuloForm } from 'src/app/models/articuloForm';
@@ -33,7 +34,7 @@ export class NuevoArticuloComponent implements OnInit {
     tipoArticulo: new FormControl('', Validators.required)
   });
 
-  constructor(private articuloService: ArticuloService, private rubroService: RubroService, private tipoArticuloService: TipoArticuloService, private fileService: FileService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private articuloService: ArticuloService, private rubroService: RubroService, private tipoArticuloService: TipoArticuloService, private fileService: FileService, private alerta: AlertaService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getAllRubrosAndTiposArticulo();
@@ -70,7 +71,13 @@ export class NuevoArticuloComponent implements OnInit {
       this.tipoArticuloService.getTipoArticuloById(form.tipoArticulo).subscribe(tipoArticulo =>{
         let articulo: Articulo = { "id": +(this.id)!, "denominacion": form.denominacion, "imagen": this.imagenName, 
         "rubro": rubro, "tipoArticulo": tipoArticulo };
-        this.articuloService.saveArticulo(articulo).subscribe();
+        this.articuloService.saveArticulo(articulo).subscribe(data =>{
+          if(data == null) {
+            this.alerta.mostrarError("No se pudo guardar el artículo!", "Error");
+          } else {
+            this.alerta.mostrarSuccess("Artículo guardado!", "Hecho");
+          }
+        });
         this.fileService.upload(this.file).subscribe();
       });
     });
@@ -79,7 +86,11 @@ export class NuevoArticuloComponent implements OnInit {
 
   async deleteArticulo() {
     this.articuloService.deleteArticuloById(this.id).subscribe(data =>{
-      console.log(data);
+      if(data == null) {
+        this.alerta.mostrarError("No se pudo eliminar el artículo!", "Error");
+      } else {
+        this.alerta.mostrarSuccess("Artículo eliminado!", "Hecho");
+      }
     });
     await this.router.navigate(['articulos']);
   }

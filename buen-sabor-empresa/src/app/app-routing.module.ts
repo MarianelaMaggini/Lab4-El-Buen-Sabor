@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+
+// Rutas
 import { RouterModule, Routes } from '@angular/router';
 
 // Inicio
@@ -20,6 +22,13 @@ import { NuevoAedComponent } from './components/articulo-elaborado-detalle/nuevo
 import { ListarRecetaComponent } from './components/receta/listado/listar-receta/listar-receta.component';
 import { NuevaRecetaComponent } from './components/receta/nueva/nueva-receta/nueva-receta.component';
 
+// Histórico Artículo
+import { ListarHistoricoComponent } from './components/historico-articulo/listado/listar-historico/listar-historico.component';
+import { NuevoHistoricoComponent } from './components/historico-articulo/nuevo/nuevo-historico/nuevo-historico.component';
+
+// Inventario
+import { ListarInventarioComponent } from './components/inventario/listado/listar-inventario/listar-inventario.component';
+
 const routes: Routes = [
   // Inicio
   {path:'', component: InicioComponent},
@@ -39,6 +48,13 @@ const routes: Routes = [
   // Receta
   {path:'recetas', component: ListarRecetaComponent},
   {path:'nueva-receta/:id1/:id2', component: NuevaRecetaComponent},
+
+  // Histórico Artículo
+  {path: 'historico-articulos', component: ListarHistoricoComponent},
+  {path: 'nuevo-historico/:id', component: NuevoHistoricoComponent},
+
+  // Inventario
+  {path: 'inventario', component: ListarInventarioComponent},
   
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];

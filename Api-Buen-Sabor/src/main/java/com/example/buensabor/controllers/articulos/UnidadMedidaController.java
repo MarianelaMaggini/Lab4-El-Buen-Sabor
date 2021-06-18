@@ -29,6 +29,11 @@ public class UnidadMedidaController {
         return unidadMedidaService.getUnidadById(id);
     }
 
+    @GetMapping("/articulo")
+    public Optional<UnidadMedida> getUnidadMedidaByIdArticulo(@RequestParam("id") Long id) {
+        return unidadMedidaService.getUnidadMedidaByIdArticulo(id);
+    }
+
     @PostMapping()
     public UnidadMedida saveOrUpdateUnidad(@RequestBody UnidadMedida unidad) {
         return unidadMedidaService.saveOrUpdateUnidad(unidad);

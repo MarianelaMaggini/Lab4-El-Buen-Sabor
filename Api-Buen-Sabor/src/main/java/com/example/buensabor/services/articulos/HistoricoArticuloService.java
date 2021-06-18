@@ -14,11 +14,19 @@ public class HistoricoArticuloService {
     HistoricoArticuloRepository historicoArticuloRepository;
 
     public List<HistoricoArticulo> getHistoricoArticulos() {
-        return  (List<HistoricoArticulo>) historicoArticuloRepository.findAll();
+        return (List<HistoricoArticulo>) historicoArticuloRepository.findAll();
     }
 
     public Optional<HistoricoArticulo> getHistoricoArticuloById(Long id) {
         return historicoArticuloRepository.findById(id);
+    }
+
+    public List<HistoricoArticulo> getHistoricoArticuloByIdArticulo(Long id) {
+        List<HistoricoArticulo> lista = historicoArticuloRepository.getHistoricoArticuloByIdArticulo(id);
+        for (HistoricoArticulo item : lista) {
+            item.setUnidadMedida(historicoArticuloRepository.getUnidadMedidaByIdArticulo(id));
+        }
+        return lista;
     }
 
     public HistoricoArticulo saveOrUpdateHistoricoArticulo(HistoricoArticulo historicoArticulo) {

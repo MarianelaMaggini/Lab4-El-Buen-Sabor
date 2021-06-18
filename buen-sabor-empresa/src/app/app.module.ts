@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
+
+// Rutas
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+
+// Peticiones HTTP
 import { HttpClientModule } from '@angular/common/http';
+
+// Formularios
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Header
 import { HeaderComponent } from './components/header/header.component';
@@ -34,11 +40,25 @@ import { RecetaService } from './services/receta.service'
 import { ListarRecetaComponent } from './components/receta/listado/listar-receta/listar-receta.component';
 import { NuevaRecetaComponent } from './components/receta/nueva/nueva-receta/nueva-receta.component';
 
+// Histórico Artículo
+import { HistoricoArticuloService } from './services/historico-articulo.service';
+import { ListarHistoricoComponent } from './components/historico-articulo/listado/listar-historico/listar-historico.component';
+import { NuevoHistoricoComponent } from './components/historico-articulo/nuevo/nuevo-historico/nuevo-historico.component';
+
+// Inventario
+import { InventarioService } from './services/inventario.service';
+import { ListarInventarioComponent } from './components/inventario/listado/listar-inventario/listar-inventario.component';
+
 // Unidad de Medida
 import { UnidadMedidaService } from './services/unidadMedida.service';
 
 // File
 import { FileService } from './services/file.service';
+
+// Alerta
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AlertaService } from './services/alerta.service';
 
 @NgModule({
   declarations: [
@@ -53,6 +73,9 @@ import { FileService } from './services/file.service';
     NuevoAedComponent,
     ListarRecetaComponent,
     NuevaRecetaComponent,
+    ListarHistoricoComponent,
+    NuevoHistoricoComponent,
+    ListarInventarioComponent
   ],
   imports: [
     BrowserModule,
@@ -60,8 +83,10 @@ import { FileService } from './services/file.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
-  providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, UnidadMedidaService, FileService],
+  providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, HistoricoArticuloService, InventarioService, UnidadMedidaService, FileService, AlertaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

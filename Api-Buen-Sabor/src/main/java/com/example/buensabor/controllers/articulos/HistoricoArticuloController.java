@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/historicoArticulos")//ruta principal
 public class HistoricoArticuloController {
@@ -27,6 +27,11 @@ public class HistoricoArticuloController {
     @GetMapping("/{id}")
     public Optional<HistoricoArticulo> getHistoricoArticuloById(@PathVariable("id") Long id) {
         return historicoArticuloService.getHistoricoArticuloById(id);
+    }
+
+    @GetMapping("/articulo")
+    public List<HistoricoArticulo> getHistoricoArticuloByIdArticulo(@RequestParam("id") Long id) {
+        return historicoArticuloService.getHistoricoArticuloByIdArticulo(id);
     }
 
     @PostMapping()

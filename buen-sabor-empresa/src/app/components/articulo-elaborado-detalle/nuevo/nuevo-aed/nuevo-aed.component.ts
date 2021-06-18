@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { AedService } from 'src/app/services/aed.service'
 import { ArticuloService } from 'src/app/services/articulo.service';
+import { AlertaService } from 'src/app/services/alerta.service'; 
 
 import { Aed } from 'src/app/models/aed';
 import { AedForm } from 'src/app/models/aedForm';
@@ -26,7 +27,7 @@ export class NuevoAedComponent implements OnInit {
     articulo: new FormControl('', Validators.required)
   });
 
-  constructor(private aedService: AedService, private articuloService: ArticuloService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private aedService: AedService, private articuloService: ArticuloService, private alerta: AlertaService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getArticulosElaboradosPropios();
@@ -53,14 +54,24 @@ export class NuevoAedComponent implements OnInit {
     this.articuloService.getArticuloById(form.articulo).subscribe(articulo =>{
       let aed: Aed = { "id": +(this.id)!, "descripcion": form.descripcion, "tiempoEstimadoCocina": form.tiempoEstimadoCocina,
       "articulo": articulo };
-      this.aedService.saveAed(aed).subscribe();
+      this.aedService.saveAed(aed).subscribe(data =>{
+        if(data == null) {
+          this.alerta.mostrarError("No se pudo guardar el detalle!", "Error");
+        } else {
+          this.alerta.mostrarSuccess("Detalle guardado!", "Hecho");
+        }
+      });
     });
     await this.router.navigate(['aeds']);
   }
 
   async deleteAed() {
     this.aedService.deleteAedById(this.id).subscribe(data =>{
-      console.log(data);
+      if(data == null) {
+        this.alerta.mostrarError("No se pudo eliminar el detalle!", "Error");
+      } else {
+        this.alerta.mostrarSuccess("Detalle eliminado!", "Hecho");
+      }
     });
     await this.router.navigate(['aeds']);
   }

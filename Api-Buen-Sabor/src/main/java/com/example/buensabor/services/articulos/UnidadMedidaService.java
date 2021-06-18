@@ -23,6 +23,8 @@ public class UnidadMedidaService {
         return unidadMedidaRepository.findById(id);
     }
 
+    public Optional<UnidadMedida> getUnidadMedidaByIdArticulo(Long id) { return unidadMedidaRepository.getUnidadMedidaByIdArticulo(id); }
+
     public UnidadMedida saveOrUpdateUnidad(UnidadMedida unidad) {
         return (UnidadMedida) unidadMedidaRepository.save(unidad);
     }

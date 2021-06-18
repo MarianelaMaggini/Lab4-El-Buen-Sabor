@@ -1,0 +1,24 @@
+<body>
+	<br />
+	<div class="container">
+		<h3>{{ titulo }}</h3>
+		<br /><br />
+		<table class="table table-hover table-dark">
+			<thead>
+				<th scope="col">#</th>
+                <th scope="col">Artículo</th>
+				<th scope="col">Stock mínimo</th>
+				<th scope="col">Stock actual</th>
+			</thead>
+			<tbody>
+				<tr *ngFor="let item of inventario, let i = index">
+					<td>{{ i+1 }}</td>
+                    <td>{{ item.articulo.denominacion }}</td>
+					<td>{{ item.stockMinimo }}</td>
+					<td>{{ item.stockActual }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br />
+</body>

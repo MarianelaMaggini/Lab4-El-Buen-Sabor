@@ -24,4 +24,9 @@ export class UnidadMedidaService {
     return this.http.get<UnidadMedida>(this.unidadMedidaUrl + '/' + id, { headers: this.header });
   }
 
+  // Obtener una unidad de medida por id de artículo
+  getUnidadByIdArticulo(id: any): Observable<UnidadMedida> {
+    return this.http.get<UnidadMedida>(this.unidadMedidaUrl + '/articulo?id=' + id, { headers: this.header });
+  }
+
 }

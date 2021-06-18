@@ -6,6 +6,7 @@ import { RecetaService } from 'src/app/services/receta.service';
 import { ArticuloService } from 'src/app/services/articulo.service';
 import { AedService } from 'src/app/services/aed.service';
 import { UnidadMedidaService } from 'src/app/services/unidadMedida.service';
+import { AlertaService } from 'src/app/services/alerta.service'; 
 
 import { Receta } from 'src/app/models/receta';
 import { RecetaForm } from 'src/app/models/recetaForm';
@@ -32,7 +33,7 @@ export class NuevaRecetaComponent implements OnInit {
     unidadMedida: new FormControl('', Validators.required)
   });
 
-  constructor(private recetaService: RecetaService, private articuloService: ArticuloService, private aedService: AedService, private unidadMedidaService: UnidadMedidaService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private recetaService: RecetaService, private articuloService: ArticuloService, private aedService: AedService, private unidadMedidaService: UnidadMedidaService, private alerta: AlertaService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getArticulosInsumoAndUnidadesMedida();
@@ -64,7 +65,13 @@ export class NuevaRecetaComponent implements OnInit {
         this.unidadMedidaService.getUnidadById(form.unidadMedida).subscribe(unidadMedida =>{
           let receta: Receta = { "id": +(this.idItem)!, "cantidad": form.cantidad, "articulo": articulo,
           "articuloElaboradoDetalle": aed, "unidadMedida": unidadMedida };
-          this.recetaService.saveReceta(receta).subscribe();
+          this.recetaService.saveReceta(receta).subscribe(data =>{
+            if(data == null) {
+              this.alerta.mostrarError("No se pudo guardar la receta!", "Error");
+            } else {
+              this.alerta.mostrarSuccess("Receta guardada!", "Hecho");
+            }
+          });
         });
       });
     });
@@ -73,7 +80,11 @@ export class NuevaRecetaComponent implements OnInit {
 
   async deleteItem() {
     this.recetaService.deleteRecetaById(this.idItem).subscribe(data =>{
-      console.log(data);
+      if(data == null) {
+        this.alerta.mostrarError("No se pudo eliminar la receta!", "Error");
+      } else {
+        this.alerta.mostrarSuccess("Receta eliminada!", "Hecho");
+      }
     });
     await this.router.navigate(['recetas']);
   }
