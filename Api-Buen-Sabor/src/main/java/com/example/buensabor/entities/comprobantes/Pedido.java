@@ -1,8 +1,8 @@
 package com.example.buensabor.entities.comprobantes;
 
 import com.example.buensabor.entities.mercadoPago.MercadoPagoDatos;
-import com.example.buensabor.entities.cliente.Domicilio;
-import com.example.buensabor.entities.cliente.Usuario;
+import com.example.buensabor.entities.domicilio.Domicilio;
+import com.example.buensabor.security.entities.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,8 @@
-package com.example.buensabor.entities.cliente;
+package com.example.buensabor.security.entities;
 
 import com.example.buensabor.entities.EntityBean;
 import com.example.buensabor.entities.comprobantes.Pedido;
+import com.example.buensabor.entities.domicilio.Domicilio;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,8 +18,6 @@ import java.util.Set;
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "usuario")
 public class Usuario extends EntityBean {
 
@@ -55,4 +54,14 @@ public class Usuario extends EntityBean {
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private List<Pedido> pedidos = new ArrayList<>();
+
+    public Usuario() { }
+
+    public Usuario(@NotNull String nombre, @NotNull String apellido, long telefono, String email, @NotNull String clave) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
+        this.email = email;
+        this.clave = clave;
+    }
 }

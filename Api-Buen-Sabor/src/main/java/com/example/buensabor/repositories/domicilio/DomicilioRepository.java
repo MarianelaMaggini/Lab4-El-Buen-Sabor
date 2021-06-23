@@ -1,6 +1,6 @@
-package com.example.buensabor.repositories.cliente;
+package com.example.buensabor.repositories.domicilio;
 
-import com.example.buensabor.entities.cliente.Domicilio;
+import com.example.buensabor.entities.domicilio.Domicilio;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

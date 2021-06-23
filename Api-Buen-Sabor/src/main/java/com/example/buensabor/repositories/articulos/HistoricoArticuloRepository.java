@@ -17,6 +17,6 @@ public interface HistoricoArticuloRepository extends CrudRepository <HistoricoAr
     @Query(value = "SELECT u.denominacion \n" +
                    "FROM receta_elaborado r \n" +
                    "INNER JOIN unidad_medida u ON u.id = r.id_unidad_medida \n" +
-                   "WHERE r.id_articulo = :idArticulo", nativeQuery = true)
+                   "WHERE r.id_articulo = :idArticulo limit 1", nativeQuery = true)
     String getUnidadMedidaByIdArticulo(@Param("idArticulo") Long idArticulo);
 }

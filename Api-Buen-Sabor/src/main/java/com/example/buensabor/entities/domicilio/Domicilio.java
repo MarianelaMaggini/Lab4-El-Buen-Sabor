@@ -1,6 +1,7 @@
-package com.example.buensabor.entities.cliente;
+package com.example.buensabor.entities.domicilio;
 
 import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.security.entities.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

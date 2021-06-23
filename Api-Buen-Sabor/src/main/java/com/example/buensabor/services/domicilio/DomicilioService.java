@@ -1,7 +1,7 @@
-package com.example.buensabor.services.cliente;
+package com.example.buensabor.services.domicilio;
 
-import com.example.buensabor.entities.cliente.Domicilio;
-import com.example.buensabor.repositories.cliente.DomicilioRepository;
+import com.example.buensabor.entities.domicilio.Domicilio;
+import com.example.buensabor.repositories.domicilio.DomicilioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

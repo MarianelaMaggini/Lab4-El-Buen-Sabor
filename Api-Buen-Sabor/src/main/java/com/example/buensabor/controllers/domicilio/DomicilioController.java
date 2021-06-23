@@ -1,7 +1,7 @@
-package com.example.buensabor.controllers.cliente;
+package com.example.buensabor.controllers.domicilio;
 
-import com.example.buensabor.entities.cliente.Domicilio;
-import com.example.buensabor.services.cliente.DomicilioService;
+import com.example.buensabor.entities.domicilio.Domicilio;
+import com.example.buensabor.services.domicilio.DomicilioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
