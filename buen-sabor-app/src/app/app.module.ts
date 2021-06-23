@@ -16,6 +16,8 @@ import { CartComponent } from './components/cart/cart.component';
 import { DetallePedidoComponent } from './components/detalle-pedido/detalle-pedido.component';
 import { ArticulosComponent } from './components/articulos/articulos.component';
 import { ItemArticuloComponent } from './components/item-articulo/item-articulo.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegistroComponent } from './components/auth/registro/registro.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +27,9 @@ import { ItemArticuloComponent } from './components/item-articulo/item-articulo.
     CartComponent,
     DetallePedidoComponent,
     ArticulosComponent,
-    ItemArticuloComponent
+    ItemArticuloComponent,
+    LoginComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
