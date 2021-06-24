@@ -13,12 +13,12 @@ public class UsuarioPrincipal implements UserDetails {
 
     private String nombre;
     private String apellido;
-    private long telefono;
+    private String telefono;
     private String email;
     private String clave;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UsuarioPrincipal(String nombre, String apellido, long telefono, String email, String clave, Collection<? extends GrantedAuthority> authorities) {
+    public UsuarioPrincipal(String nombre, String apellido, String telefono, String email, String clave, Collection<? extends GrantedAuthority> authorities) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;

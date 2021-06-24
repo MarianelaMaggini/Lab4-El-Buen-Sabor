@@ -31,7 +31,7 @@ public class Usuario extends EntityBean {
 
     @Column(name = "telefono", length = 65, nullable = false)
     @NotNull
-    private long telefono;
+    private String telefono;
 
     @Column(name = "email", length = 65, nullable = false)
     @NotNull
@@ -57,7 +57,7 @@ public class Usuario extends EntityBean {
 
     public Usuario() { }
 
-    public Usuario(@NotNull String nombre, @NotNull String apellido, long telefono, String email, @NotNull String clave) {
+    public Usuario(@NotNull String nombre, @NotNull String apellido, String telefono, String email, @NotNull String clave) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;

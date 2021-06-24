@@ -13,7 +13,7 @@ public class NuevoUsuario {
     private String nombre;
     @NotBlank
     private String apellido;
-    private long telefono;
+    private String telefono;
     @Email
     private String email;
     @NotBlank
@@ -36,11 +36,11 @@ public class NuevoUsuario {
         this.apellido = apellido;
     }
 
-    public long getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(long telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
