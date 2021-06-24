@@ -18,6 +18,9 @@ import { ArticulosComponent } from './components/articulos/articulos.component';
 import { ItemArticuloComponent } from './components/item-articulo/item-articulo.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegistroComponent } from './components/auth/registro/registro.component';
+import { interceptorProvider } from './interceptors/prod-interceptor.service';
+import { MercadoPagoService } from './services/mercado-pago.service';
+import { RubroService } from './services/rubro.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,10 +39,11 @@ import { RegistroComponent } from './components/auth/registro/registro.component
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
   ],
-  providers: [ArticuloService],
+  providers: [ArticuloService, MercadoPagoService, RubroService,interceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

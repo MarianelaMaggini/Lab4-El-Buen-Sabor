@@ -1,4 +1,4 @@
-<main class="d-flex align-items-center py-3">
+<main class="d-flex align-items-center" style="height: 800px;">
     <div class="container col-md-8">
       <div class="card login-card">
         <div class="row no-gutters">
@@ -11,30 +11,35 @@
                 <img src="assets/img/logo.png" alt="logo" class="logo">
               </div>
               <p class="login-card-description">Registro</p>
-              <form action="#!">
+              <form #f="ngForm" (ngSubmit)="onRegister()" novalidate>
                   <div class="row">
                       <div class="col">
                         <label for="nombre" class="sr-only">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre">
+                        <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre" [(ngModel)]="nombre"
+                        required>
                       </div>
                       <div class="col">
                         <label for="apellido" class="sr-only">Apellido</label>
-                        <input type="text" name="apellido" id="apellido" class="form-control" placeholder="Apellido">
+                        <input type="text" name="apellido" id="apellido" class="form-control" placeholder="Apellido" [(ngModel)]="apellido"
+                        required>
                       </div>
                   </div>
                   <div class="form-group">
                     <label for="telefono" class="sr-only">Teléfono</label>
-                    <input type="tel" name="telefono" id="telefono" class="form-control" placeholder="Teléfono">
+                    <input type="text" name="telefono" id="telefono" class="form-control" placeholder="Teléfono" [(ngModel)]="telefono"
+                    required>
                   </div>
                   <div class="form-group">
                     <label for="email" class="sr-only">Email</label>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Correo electrónico">
+                    <input type="text" autocomplete="off" name="email" id="email" class="form-control" placeholder="Correo electrónico" [(ngModel)]="email"
+                    required>
                   </div>
                   <div class="form-group mb-4">
-                    <label for="password" class="sr-only">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="***********">
+                    <label for="clave" class="sr-only">Contraseña</label>
+                    <input type="password" autocomplete="off" name="clave" id="clave" class="form-control" placeholder="***********" [(ngModel)]="clave"
+                    required>
                   </div>
-                  <input name="login" id="login" class="btn btn-block login-btn mb-4" type="button" value="Registrarse">
+                  <button name="login" id="login" class="btn btn-block login-btn mb-4" [disabled]="!f.valid">Registrarse</button>
                 </form>
             </div>
           </div>

@@ -70,11 +70,10 @@ export class CartComponent implements OnInit {
   pagar(): void {
     this.mercadoPagoService.getMp(this.total).subscribe(
       (data) => {
-        console.log(data)
+        window.location.href = data;
       },
       (err) => {
         console.log(err.error.text);
-        window.location.href = err.error.text
       }
     );
   }

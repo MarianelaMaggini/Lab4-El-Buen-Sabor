@@ -10,6 +10,7 @@ import { ArticuloService } from 'src/app/services/articulo.service';
 })
 export class ArticulosComponent implements OnInit {
   articulos: Articulo[];
+  
   constructor(private articuloService: ArticuloService, private router: Router) { }
 
   ngOnInit(): void {

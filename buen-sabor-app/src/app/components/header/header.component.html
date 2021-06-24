@@ -1,3 +1,4 @@
+  <div class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top text-center">
     <div class="container-fluid">
       <a routerLink="/" class="navbar-brand">
@@ -13,20 +14,27 @@
   
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a routerLink="/" class="nav-link active"><i class="fas fa-home"></i> Inicio</a>
+          <li class="nav-item active">
+            <a routerLink="/" class="nav-link active" data-toggle="collapse" data-target=".navbar-collapse.show"><i class="fas fa-home"></i> Inicio</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="modal" data-target="#cartModal" style="cursor: pointer;"><i class="fas fa-shopping-cart"></i><span class='badge badge-warning' id='lblCartCount'>{{ cantidad }}</span> Carrito</a>
           </li>
+          <li class="nav-item" *ngIf="!isLogged">
+            <a class="nav-link" routerLink="/login" data-toggle="collapse" data-target=".navbar-collapse.show"><i class="fas fa-user-check"></i> Iniciar sesión
+            </a>
+          </li>
+          <li class="nav-item dropdown" *ngIf="isLogged">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Mi perfil
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" (click)="onLogOut()" data-toggle="collapse" data-target=".navbar-collapse.show" style="cursor: pointer;"><i class="fas fa-user-lock"></i> Cerrar sesión</a>
+            </div>
+          </li>
         </ul>
-        <form class="form-inline">
-          <button class="btn btn-outline-success my-2 my-sm-0" routerLink="/login"><i class="fas fa-user-check" ></i> Iniciar sesión
-          </button>
-          <button class="btn btn-outline-danger my-2 my-sm-0" style="cursor: pointer;" type="reset"><i class="fas fa-user-lock"></i> Cerrar sesión
-          </button>
-        </form>
       </div>
       </div>
   </nav>
-<app-cart ></app-cart>
+</div>
+<app-cart></app-cart>

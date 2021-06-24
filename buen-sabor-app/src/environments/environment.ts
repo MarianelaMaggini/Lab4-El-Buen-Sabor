@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   articuloUrl: 'http://localhost:8080/articulos',
-  mpUrl: 'http://localhost:8080/createAndRedirect'
+  mpUrl: 'http://localhost:8080/createAndRedirect',
+  authUrl: 'http://localhost:8080/auth/'
 };
 
 /*
