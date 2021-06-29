@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { RecetaService } from 'src/app/services/receta.service';
 import { ArticuloService } from 'src/app/services/articulo.service';
+import { AedService } from 'src/app/services/aed.service';
 
 import { Receta } from 'src/app/models/receta';
 import { Articulo } from 'src/app/models/articulo';
@@ -19,7 +20,7 @@ export class ListarRecetaComponent implements OnInit {
   articulos: Articulo[];
   idArticulo: number;
 
-  constructor(private recetaService: RecetaService, private articuloService: ArticuloService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private recetaService: RecetaService, private articuloService: ArticuloService, private aedService: AedService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getArticulosElaboradosPropios();
@@ -34,8 +35,10 @@ export class ListarRecetaComponent implements OnInit {
   capturarValor(event: any) {
     this.idArticulo = event.target.value;
     if(this.idArticulo != 0 && this.idArticulo != null) {
-      this.recetaService.getRecetaByIdArticulo(this.idArticulo).subscribe(data =>{
-        this.receta = data;
+      this.aedService.getAedByIdArticulo(this.idArticulo).subscribe(aed =>{
+        this.recetaService.getRecetaByIdArticulo(aed.id).subscribe(data =>{
+          this.receta = data;
+        });
       });
     }
   }

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { ArticuloService } from 'src/app/services/articulo.service';
+import { UnidadMedidaService } from 'src/app/services/unidadMedida.service';
 import { RubroService } from 'src/app/services/rubro.service';
 import { TipoArticuloService } from 'src/app/services/tipoArticulo.service';
 import { FileService } from 'src/app/services/file.service';
@@ -10,6 +11,7 @@ import { AlertaService } from 'src/app/services/alerta.service';
 
 import { Articulo } from 'src/app/models/articulo';
 import { ArticuloForm } from 'src/app/models/articuloForm';
+import { UnidadMedida } from 'src/app/models/unidad-medida';
 import { Rubro } from 'src/app/models/rubro';
 import { TipoArticulo } from 'src/app/models/tipo-articulo';
 
@@ -20,6 +22,7 @@ import { TipoArticulo } from 'src/app/models/tipo-articulo';
 })
 export class NuevoArticuloComponent implements OnInit {
 
+  unidadesMedida: UnidadMedida[];
   rubros: Rubro[];
   tiposArticulo: TipoArticulo[];
   imagenName: string;
@@ -30,14 +33,15 @@ export class NuevoArticuloComponent implements OnInit {
     id: new FormControl(''),
     denominacion: new FormControl('', Validators.required),
     imagen: new FormControl('', Validators.required),
+    unidadMedida: new FormControl('', Validators.required),
     rubro: new FormControl('', Validators.required),
     tipoArticulo: new FormControl('', Validators.required)
   });
 
-  constructor(private articuloService: ArticuloService, private rubroService: RubroService, private tipoArticuloService: TipoArticuloService, private fileService: FileService, private alerta: AlertaService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private articuloService: ArticuloService, private unidadMedidaService: UnidadMedidaService, private rubroService: RubroService, private tipoArticuloService: TipoArticuloService, private fileService: FileService, private alerta: AlertaService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getAllRubrosAndTiposArticulo();
+    this.getCombos();
 
     if(this.id != "0") {
       this.articuloService.getArticuloById(this.id).subscribe(data =>{
@@ -45,6 +49,7 @@ export class NuevoArticuloComponent implements OnInit {
           'id': data.id,
           'denominacion': data.denominacion,
           'imagen': null,
+          'unidadMedida': data.unidadMedida.id,
           'rubro': data.rubro.id,
           'tipoArticulo': data.tipoArticulo.id
         });
@@ -52,7 +57,10 @@ export class NuevoArticuloComponent implements OnInit {
     }
   }
 
-  getAllRubrosAndTiposArticulo() {
+  getCombos() {
+    this.unidadMedidaService.getAllUnidades().subscribe(data =>{
+      this.unidadesMedida = data;
+    });
     this.rubroService.getAllRubros().subscribe(data =>{
       this.rubros = data;
     });
@@ -67,18 +75,20 @@ export class NuevoArticuloComponent implements OnInit {
   }
 
   async postForm(form: ArticuloForm) {
-    this.rubroService.getRubroById(form.rubro).subscribe(rubro =>{
-      this.tipoArticuloService.getTipoArticuloById(form.tipoArticulo).subscribe(tipoArticulo =>{
-        let articulo: Articulo = { "id": +(this.id)!, "denominacion": form.denominacion, "imagen": this.imagenName, 
-        "rubro": rubro, "tipoArticulo": tipoArticulo };
-        this.articuloService.saveArticulo(articulo).subscribe(data =>{
-          if(data == null) {
-            this.alerta.mostrarError("No se pudo guardar el artículo!", "Error");
-          } else {
-            this.alerta.mostrarSuccess("Artículo guardado!", "Hecho");
-          }
+    this.unidadMedidaService.getUnidadById(form.unidadMedida).subscribe(unidadMedida =>{
+      this.rubroService.getRubroById(form.rubro).subscribe(rubro =>{
+        this.tipoArticuloService.getTipoArticuloById(form.tipoArticulo).subscribe(tipoArticulo =>{
+          let articulo: Articulo = { "id": +(this.id)!, "denominacion": form.denominacion, "imagen": this.imagenName, 
+          "precioVenta": 0, "unidadMedida": unidadMedida, "rubro": rubro, "tipoArticulo": tipoArticulo };
+          this.articuloService.saveArticulo(articulo).subscribe(data =>{
+            if(data == null) {
+              this.alerta.mostrarError("No se pudo guardar el artículo!", "Error");
+            } else {
+              this.alerta.mostrarSuccess("Artículo guardado!", "Hecho");
+            }
+          });
+          this.fileService.upload(this.file).subscribe();
         });
-        this.fileService.upload(this.file).subscribe();
       });
     });
     await this.router.navigate(['articulos']);

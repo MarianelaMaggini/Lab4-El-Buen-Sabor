@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { UnidadMedida } from '../models/unidadMedida'; 
+import { UnidadMedida } from '../models/unidad-medida'; 
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +22,6 @@ export class UnidadMedidaService {
   // Obtener una unidad de medida por id
   getUnidadById(id: any): Observable<UnidadMedida> {
     return this.http.get<UnidadMedida>(this.unidadMedidaUrl + '/' + id, { headers: this.header });
-  }
-
-  // Obtener una unidad de medida por id de artículo
-  getUnidadByIdArticulo(id: any): Observable<UnidadMedida> {
-    return this.http.get<UnidadMedida>(this.unidadMedidaUrl + '/articulo?id=' + id, { headers: this.header });
   }
 
 }

@@ -27,6 +27,11 @@ public class DetallePedidoController {
         return detallePedidoService.getDetallePedidoById(id);
     }
 
+    @GetMapping("/pedido")
+    public List<DetallePedido> getDetalleByIdPedido(@RequestParam("id") Long id) {
+        return detallePedidoService.getDetalleByIdPedido(id);
+    }
+
     @PostMapping()
     public DetallePedido saveOrUpdateDetallePedido(@RequestBody DetallePedido detallePedido) {
         return detallePedidoService.saveOrUpdateDetallePedido(detallePedido);

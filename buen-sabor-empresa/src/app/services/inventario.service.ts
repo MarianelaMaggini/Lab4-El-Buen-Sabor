@@ -20,8 +20,9 @@ export class InventarioService {
     return this.http.get<Inventario[]>(this.inventarioUrl + "/todos", { headers: this.header });
   }
 
-  // Actualizar inventario
-  saveInventario(inventario: Inventario): Observable<Inventario> {
+  // Guardar-actualizar inventario
+  saveUpdateInventario(inventario: Inventario): Observable<Inventario> {
     return this.http.post<Inventario>(this.inventarioUrl, inventario, { headers: this.header });
   }
+
 }

@@ -14,6 +14,7 @@
 				<th scope="col">#</th>
 				<th scope="col">Denominación</th>
 				<th scope="col">Imágen</th>
+				<th scope="col">Unidad</th>
 				<th scope="col">Rubro</th>
 				<th scope="col">Tipo</th>
 				<th scope="col">Editar</th>
@@ -23,6 +24,7 @@
 					<td>{{ i+1 }}</td>
 					<td>{{ articulo.denominacion }}</td>
 					<td>{{ articulo.imagen }}</td>
+					<td>{{ articulo.unidadMedida.denominacion }}</td>
 					<td>{{ articulo.rubro.denominacion }}</td>
 					<td>{{ articulo.tipoArticulo.denominacion }}</td>
 					<td (click)="editarArticulo(articulo.id)"><a class="btn btn-link">

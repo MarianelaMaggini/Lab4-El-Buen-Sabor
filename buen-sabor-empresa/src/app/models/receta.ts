@@ -1,6 +1,6 @@
 import { Aed } from "./aed";
 import { Articulo } from "./articulo";
-import { UnidadMedida } from "./unidadMedida";
+import { UnidadMedida } from "./unidad-medida";
 
 export interface Receta {
     

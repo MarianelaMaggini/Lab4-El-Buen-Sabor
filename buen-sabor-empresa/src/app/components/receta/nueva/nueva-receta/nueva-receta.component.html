@@ -7,18 +7,15 @@
                     <div class="card card-body">
                         <form [formGroup]="recetaForm" (ngSubmit)="postForm(recetaForm.value)" #f="ngForm">
                             <div class="form-group">
-                                <select formControlName="articulo" class="form-select" required>
+                                <select formControlName="articulo" class="form-select" (change)="capturarValor($event)" required>
                                     <option value="">Ingrese ingrediente</option>
                                     <option *ngFor="let articulo of articulos" [value]="articulo.id">{{
                                         articulo.denominacion }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <select formControlName="unidadMedida" class="form-select" required>
-                                    <option value="">Ingrese unidad de medida</option>
-                                    <option *ngFor="let unidad of unidadesMedida" [value]="unidad.id">{{
-                                        unidad.denominacion }}</option>
-                                </select>
+                                <input type="text" formControlName="unidadMedida" class="form-control"
+                                    placeholder="Ingrese unidad" required />
                             </div>
                             <div class="form-group">
                                 <input type="number" formControlName="cantidad" class="form-control"

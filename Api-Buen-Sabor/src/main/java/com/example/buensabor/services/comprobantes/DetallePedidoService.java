@@ -23,6 +23,10 @@ public class DetallePedidoService {
         return detallePedidoRepository.findById(id);
     }
 
+    public List<DetallePedido> getDetalleByIdPedido(Long id) {
+        return (ArrayList<DetallePedido>) detallePedidoRepository.getDetalleByIdPedido(id);
+    }
+
     public DetallePedido saveOrUpdateDetallePedido(DetallePedido detallePedido) {
         return (DetallePedido) detallePedidoRepository.save(detallePedido);
     }

@@ -20,8 +20,4 @@ public class ConfiguracionService {
     public List<Configuracion> getConfiguraciones(){
         return (List<Configuracion>) this.configuracionRepository.findAll();
     }
-
-    public String getToken(){
-        return this.configuracionRepository.getTokenMercadoPago();
-    }
 }

@@ -28,9 +28,6 @@ public class HistoricoArticulo extends EntityBean {
     @NotNull
     private int cantidad;
 
-    @Transient
-    private String unidadMedida;
-
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_articulo")
     private Articulo articulo;

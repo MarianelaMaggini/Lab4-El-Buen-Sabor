@@ -27,6 +27,10 @@ public class UnidadMedida extends EntityBean {
     @OneToMany(mappedBy = "unidadMedida")
     private List<RecetaElaborado> recetaElaborados = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "unidadMedida")
+    private List<Articulo> articulos;
+
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "unidadMedida")
 //    private List<Inventario> inventarios = new ArrayList<>();

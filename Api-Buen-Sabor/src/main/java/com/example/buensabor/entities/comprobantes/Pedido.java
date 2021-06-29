@@ -1,5 +1,6 @@
 package com.example.buensabor.entities.comprobantes;
 
+import com.example.buensabor.entities.articulos.TipoArticulo;
 import com.example.buensabor.entities.mercadoPago.MercadoPagoDatos;
 import com.example.buensabor.entities.cliente.Domicilio;
 import com.example.buensabor.entities.cliente.Usuario;
@@ -26,19 +27,11 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero_pedido")
-    private long numero;
-
-    @Column(name = "estado", nullable = false)
-    @NotNull
-    private int estado;
+    private long numeroPedido;
 
     @Column(name = "hora_estimada_fin", nullable = false)
     @NotNull
     private Date horaEstimadaFin;
-
-    @Column(name = "tipo_envio", nullable = false)
-    @NotNull
-    private int tipoEnvio;
 
     @Transient
     private double total;
@@ -51,6 +44,14 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_tipo_envio")
+    private TipoEnvio tipoEnvio;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_estado")
+    private PedidoEstado pedidoEstado;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_domicilio")
     private Domicilio domicilio;
@@ -62,4 +63,5 @@ public class Pedido implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_mercado_pago")
     private MercadoPagoDatos mercadoPagoDatos;
+
 }

@@ -49,6 +49,20 @@ import { NuevoHistoricoComponent } from './components/historico-articulo/nuevo/n
 import { InventarioService } from './services/inventario.service';
 import { ListarInventarioComponent } from './components/inventario/listado/listar-inventario/listar-inventario.component';
 
+// Pedido
+import { PedidoService } from './services/pedido.service';
+import { ListarPedidoComponent } from './components/pedido/listado/listar-pedido/listar-pedido.component';
+
+// Detalle Pedido
+import { DetallePedidoService } from './services/detalle-pedido.service';
+
+// Factura
+import { FacturaService } from './services/factura.service';  
+import { ListarFacturaComponent } from './components/factura/listado/listar-factura/listar-factura.component';
+
+// Detalle Factura
+import { DetalleFacturaService } from './services/detalle-factura.service';
+
 // Unidad de Medida
 import { UnidadMedidaService } from './services/unidadMedida.service';
 
@@ -75,7 +89,9 @@ import { AlertaService } from './services/alerta.service';
     NuevaRecetaComponent,
     ListarHistoricoComponent,
     NuevoHistoricoComponent,
-    ListarInventarioComponent
+    ListarInventarioComponent,
+    ListarPedidoComponent,
+    ListarFacturaComponent
   ],
   imports: [
     BrowserModule,
@@ -86,7 +102,7 @@ import { AlertaService } from './services/alerta.service';
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, HistoricoArticuloService, InventarioService, UnidadMedidaService, FileService, AlertaService],
+  providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, HistoricoArticuloService, InventarioService, PedidoService, DetallePedidoService, FacturaService, DetalleFacturaService, UnidadMedidaService, FileService, AlertaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

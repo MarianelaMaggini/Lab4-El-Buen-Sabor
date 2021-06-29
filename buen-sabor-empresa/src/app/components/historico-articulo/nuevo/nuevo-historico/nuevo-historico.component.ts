@@ -4,12 +4,13 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { HistoricoArticuloService } from 'src/app/services/historico-articulo.service';
 import { ArticuloService } from 'src/app/services/articulo.service';
-import { UnidadMedidaService } from 'src/app/services/unidadMedida.service';
+import { InventarioService } from 'src/app/services/inventario.service';
 import { AlertaService } from 'src/app/services/alerta.service'; 
 
 import { HistoricoArticulo } from 'src/app/models/historico-articulo';
 import { HistoricoArticuloForm } from 'src/app/models/historico-articuloForm';
 import { Articulo } from 'src/app/models/articulo';
+import { Inventario } from 'src/app/models/inventario';
 
 @Component({
   selector: 'app-nuevo-historico',
@@ -32,7 +33,7 @@ export class NuevoHistoricoComponent implements OnInit {
     unidadMedida: new FormControl({value: '', disabled: true}, Validators.required)
   });
 
-  constructor(private historicoService: HistoricoArticuloService, private articuloService: ArticuloService, private unidadService: UnidadMedidaService, private alerta: AlertaService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private historicoService: HistoricoArticuloService, private articuloService: ArticuloService, private inventarioService: InventarioService, private alerta: AlertaService, private router: Router, private activatedRoute: ActivatedRoute) { }
   
   ngOnInit(): void {
     this.getArticulosHistorico();
@@ -55,14 +56,8 @@ export class NuevoHistoricoComponent implements OnInit {
   }
 
   getUnidad() {
-    this.articuloService.getArticuloById(this.idArticulo).subscribe(data =>{
-      if(data.tipoArticulo.id == 3) {
-        this.historicoForm.patchValue({'unidadMedida': 'botellas'})
-      } else {
-        this.unidadService.getUnidadByIdArticulo(this.idArticulo).subscribe(data =>{
-          this.historicoForm.patchValue({'unidadMedida': data.denominacion})
-        });
-      }
+    this.articuloService.getArticuloById(this.idArticulo).subscribe(articulo =>{
+      this.historicoForm.patchValue({'unidadMedida': articulo.unidadMedida.denominacion})
     });
   }
 
@@ -76,6 +71,19 @@ export class NuevoHistoricoComponent implements OnInit {
           this.alerta.mostrarError("No se pudo guardar el registro!", "Error");
         } else {
           this.alerta.mostrarSuccess("Registro guardado!", "Hecho");
+        }
+      });
+      this.inventarioService.getAllInventario().subscribe(data =>{
+        let cantidad = 0;
+        let resultado: any = data.filter(item => item.articulo.id == articulo.id);
+        if(resultado.length == 0) {
+          cantidad = form.cantidad;
+          let inventarioS: Inventario = {"id": 0, "articulo": articulo, "stockMinimo": 1, "stockActual": cantidad};
+          this.inventarioService.saveUpdateInventario(inventarioS).subscribe();
+        } else {
+          cantidad = resultado[0].stockActual + form.cantidad;
+          let inventarioU: Inventario = {"id": resultado[0].id, "articulo": articulo, "stockMinimo": 1, "stockActual": cantidad};
+          this.inventarioService.saveUpdateInventario(inventarioU).subscribe();
         }
       });
     });
