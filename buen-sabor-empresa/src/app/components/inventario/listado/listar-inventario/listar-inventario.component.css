@@ -6,6 +6,9 @@ body{
     height: 300vh;
     opacity: 0.95;
 }
+input{
+    width: 70%;
+}
 table{
     width: 80%;
 }

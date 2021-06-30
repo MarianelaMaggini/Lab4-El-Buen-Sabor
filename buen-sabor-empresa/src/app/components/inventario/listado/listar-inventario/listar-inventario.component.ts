@@ -27,4 +27,15 @@ export class ListarInventarioComponent implements OnInit {
     });
   }
 
+  buscar(texto: string) {
+    texto = texto.toLowerCase();
+    this.inventarioService.getAllInventario().subscribe(data =>{
+      this.inventario = data.filter(item => item.articulo.denominacion.toLowerCase().indexOf(texto) >= 0);
+    });
+  }
+
+  restaurar() {
+    this.getInventario();
+  }
+
 }

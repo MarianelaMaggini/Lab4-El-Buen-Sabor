@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface ArticuloElaboradoDetalleRepository extends CrudRepository <ArticuloElaboradoDetalle,Long>{
 
-    @Query(value = "SELECT * FROM articulo_elaborado_detalle a WHERE a.id_articulo = :idArticulo", nativeQuery = true)
+    @Query(value = "SELECT * FROM articulo_elaborado_detalle a WHERE a.id_articulo = :idArticulo LIMIT 1", nativeQuery = true)
     Optional<ArticuloElaboradoDetalle> getArticuloDetalleByIdArticulo(@Param("idArticulo") Long idArticulo);
 }

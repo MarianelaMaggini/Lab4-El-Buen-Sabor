@@ -13,12 +13,8 @@ import java.util.Optional;
 @RequestMapping("/pedidos")//ruta principal
 public class PedidoController {
 
-    private final PedidoService pedidoService;
     @Autowired
-
-    public PedidoController(PedidoService pedidoService) {
-        this.pedidoService = pedidoService;
-    }
+    PedidoService pedidoService;
 
     @GetMapping("/todos")
     public List<Pedido> getPedidos() {

@@ -29,6 +29,12 @@ import { NuevoHistoricoComponent } from './components/historico-articulo/nuevo/n
 // Inventario
 import { ListarInventarioComponent } from './components/inventario/listado/listar-inventario/listar-inventario.component';
 
+// Pedido
+import { ListarPedidoComponent } from './components/pedido/listado/listar-pedido/listar-pedido.component';
+
+// Factura
+import { ListarFacturaComponent } from './components/factura/listado/listar-factura/listar-factura.component';
+
 const routes: Routes = [
   // Inicio
   {path:'', component: InicioComponent},
@@ -55,6 +61,12 @@ const routes: Routes = [
 
   // Inventario
   {path: 'inventario', component: ListarInventarioComponent},
+
+  // Pedido
+  {path: 'pedidos', component: ListarPedidoComponent},
+
+  // Factura
+  {path: 'facturas', component: ListarFacturaComponent},
   
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];

@@ -11,6 +11,12 @@ export const environment = {
   recetaUrl: "http://localhost:8080/recetasElaborado",
   historicoArticuloUrl: "http://localhost:8080/historicoArticulos",
   inventarioUrl: "http://localhost:8080/inventarios",
+  pedidoUrl: "http://localhost:8080/pedidos",
+  pedidoEstadoUrl: "http://localhost:8080/pedidoEstados",
+  detallePedidoUrl: "http://localhost:8080/detallesPedido",
+  facturaUrl: "http://localhost:8080/facturas",
+  detalleFacturaUrl: "http://localhost:8080/detallesFactura",
+  tipoEnvioUrl: "http://localhost:8080/tiposEnvio",
   unidadMedidaUrl: "http://localhost:8080/unidadesMedida",
   fileUrl: "http://localhost:8080/upload"
 };

@@ -22,7 +22,7 @@
 						<td>{{ i+1 }}</td>
 						<td>{{ item.articulo.denominacion }}</td>
 						<td>{{ item.cantidad }}</td>
-						<td>{{ item.unidadMedida.denominacion }}</td>
+						<td>{{ item.articulo.unidadMedida.denominacion }}</td>
 						<td (click)="editarItem(item.id, idArticulo)"><a class="btn btn-link">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 								class="bi bi-pencil" viewBox="0 0 16 16">

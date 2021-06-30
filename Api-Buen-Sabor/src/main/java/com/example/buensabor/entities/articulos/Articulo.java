@@ -4,6 +4,7 @@ import com.example.buensabor.entities.EntityBean;
 import com.example.buensabor.entities.comprobantes.DetalleFactura;
 import com.example.buensabor.entities.comprobantes.DetallePedido;
 import com.example.buensabor.entities.rubro.Rubro;
+import com.example.buensabor.entities.articulos.UnidadMedida;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -59,6 +60,10 @@ public class Articulo extends EntityBean {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_rubro")
     private Rubro rubro;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_unidad_medida")
+    private UnidadMedida unidadMedida;
 
     /**
      * Voy hasta el historico de articulos y le asigno al precio de venta

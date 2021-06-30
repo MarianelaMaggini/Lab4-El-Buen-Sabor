@@ -2,13 +2,18 @@
 	<br />
 	<div class="container">
 		<h3>{{ titulo }}</h3>
-		<br /><br />
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Buscar" #b (keypress)="buscar(b.value)"><br />
+            <button type="button" (click)="restaurar()" class="btn btn-success">RESTAURAR</button>
+        </form>
+        <br />
 		<table class="table table-hover table-dark">
 			<thead>
 				<th scope="col">#</th>
                 <th scope="col">Artículo</th>
 				<th scope="col">Stock mínimo</th>
 				<th scope="col">Stock actual</th>
+				<th scope="col">Unidad</th>
 			</thead>
 			<tbody>
 				<tr *ngFor="let item of inventario, let i = index">
@@ -16,6 +21,7 @@
                     <td>{{ item.articulo.denominacion }}</td>
 					<td>{{ item.stockMinimo }}</td>
 					<td>{{ item.stockActual }}</td>
+					<td>{{ item.articulo.unidadMedida.denominacion }}</td>
 				</tr>
 			</tbody>
 		</table>

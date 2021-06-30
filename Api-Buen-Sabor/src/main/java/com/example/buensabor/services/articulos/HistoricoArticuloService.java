@@ -22,11 +22,7 @@ public class HistoricoArticuloService {
     }
 
     public List<HistoricoArticulo> getHistoricoArticuloByIdArticulo(Long id) {
-        List<HistoricoArticulo> lista = historicoArticuloRepository.getHistoricoArticuloByIdArticulo(id);
-        for (HistoricoArticulo item : lista) {
-            item.setUnidadMedida(historicoArticuloRepository.getUnidadMedidaByIdArticulo(id));
-        }
-        return lista;
+        return (List<HistoricoArticulo>) historicoArticuloRepository.getHistoricoArticuloByIdArticulo(id);
     }
 
     public HistoricoArticulo saveOrUpdateHistoricoArticulo(HistoricoArticulo historicoArticulo) {
