@@ -5,13 +5,13 @@ import { environment } from 'src/environments/environment';
 import { JwtDto } from '../models/jwt-dto';
 import { LoginUsuario } from '../models/login-usuario';
 import { NuevoUsuario } from '../models/nuevo-usuario';
+import { Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private authUrl = environment.authUrl;
-  private header: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
   public nuevo(nuevoUsuario: NuevoUsuario):Observable<any>{
@@ -28,5 +28,9 @@ export class AuthService {
 
   public refresh(jwtDto: JwtDto):Observable<JwtDto>{
     return this.http.post<JwtDto>(this.authUrl + 'refresh', jwtDto);
+  }
+
+  getDataUsuario(email: string): Observable<Usuario> {
+    return this.http.get<Usuario>(this.authUrl + email);
   }
 }

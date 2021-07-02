@@ -68,7 +68,7 @@ export class CartComponent implements OnInit {
   }
 
   pagar(): void {
-    this.mercadoPagoService.getMp(this.total).subscribe(
+    this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
       (data) => {
         window.location.href = data;
       },

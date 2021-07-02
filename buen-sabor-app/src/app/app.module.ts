@@ -20,7 +20,6 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RegistroComponent } from './components/auth/registro/registro.component';
 import { interceptorProvider } from './interceptors/prod-interceptor.service';
 import { MercadoPagoService } from './services/mercado-pago.service';
-import { RubroService } from './services/rubro.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +42,7 @@ import { RubroService } from './services/rubro.service';
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
   ],
-  providers: [ArticuloService, MercadoPagoService, RubroService,interceptorProvider],
+  providers: [ArticuloService, MercadoPagoService,interceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

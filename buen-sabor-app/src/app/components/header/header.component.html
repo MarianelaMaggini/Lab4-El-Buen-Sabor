@@ -26,9 +26,10 @@
           </li>
           <li class="nav-item dropdown" *ngIf="isLogged">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Mi perfil
+             {{ usuario?.nombre | slice:0:1 | uppercase }} {{ usuario?.apellido | slice:0:1 | uppercase}}
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show" style="cursor: pointer;"><i class="fas fa-clipboard-list"></i> Mis pedidos</a>
               <a class="dropdown-item" (click)="onLogOut()" data-toggle="collapse" data-target=".navbar-collapse.show" style="cursor: pointer;"><i class="fas fa-user-lock"></i> Cerrar sesión</a>
             </div>
           </li>

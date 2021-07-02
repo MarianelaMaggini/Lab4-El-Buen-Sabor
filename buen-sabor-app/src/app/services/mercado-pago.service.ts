@@ -11,7 +11,7 @@ export class MercadoPagoService {
   private mpUrl = environment.mpUrl;
   constructor(private http: HttpClient) { }
 
-  getMp(precio: number):Observable<string> {
+  redirectMercadoPago(precio: number):Observable<string> {
     const requestOptions: Object = {
       /* other options here */
       responseType: 'text'
