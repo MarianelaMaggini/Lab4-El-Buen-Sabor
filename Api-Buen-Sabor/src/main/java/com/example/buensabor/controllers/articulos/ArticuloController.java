@@ -3,12 +3,13 @@ package com.example.buensabor.controllers.articulos;
 import com.example.buensabor.entities.articulos.Articulo;
 import com.example.buensabor.services.articulos.ArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:59787"})
 @RestController
 @RequestMapping("/articulos")//ruta principal
 public class ArticuloController {
@@ -41,11 +42,12 @@ public class ArticuloController {
         return articuloService.getArticuloByIdTipoArticulo(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Articulo saveOrUpdateArticulo(@RequestBody Articulo articulo) {
         return articuloService.saveOrUpdateArticulo(articulo);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public String deleteArticuloById(@PathVariable("id") Long id) {
         boolean eliminado = articuloService.deleteArticuloById(id);

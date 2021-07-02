@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,5 +79,10 @@ public class UsuarioController {
         String jwt = jwtProvider.generarToken(authentication);
         JwtDto jwtDto = new JwtDto(jwt);
         return new ResponseEntity<>(jwtDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{email}")
+    public Optional<Usuario> getUsuario(@PathVariable("email") String email){
+        return usuarioService.getByEmail(email);
     }
 }

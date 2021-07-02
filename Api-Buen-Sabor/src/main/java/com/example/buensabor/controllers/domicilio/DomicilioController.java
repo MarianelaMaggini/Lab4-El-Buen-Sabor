@@ -3,12 +3,12 @@ package com.example.buensabor.controllers.domicilio;
 import com.example.buensabor.entities.domicilio.Domicilio;
 import com.example.buensabor.services.domicilio.DomicilioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:59787"})
 @RestController
 @RequestMapping("/domicilios")//ruta principal
 public class DomicilioController {
@@ -25,7 +25,7 @@ public class DomicilioController {
     public Optional<Domicilio> getDomicilioById(@PathVariable("id") Long id) {
         return domicilioService.getDomicilioById(id);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Domicilio saveOrUpdateDomicilio(@RequestBody Domicilio domicilio) {
         return domicilioService.saveOrUpdateDomicilio(domicilio);

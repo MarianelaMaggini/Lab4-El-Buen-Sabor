@@ -3,12 +3,13 @@ package com.example.buensabor.controllers.comprobantes;
 import com.example.buensabor.entities.comprobantes.Pedido;
 import com.example.buensabor.services.comprobantes.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:59787"})
 @RestController
 @RequestMapping("/pedidos")//ruta principal
 public class PedidoController {
@@ -26,6 +27,7 @@ public class PedidoController {
         return pedidoService.getPedidoById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Pedido saveOrUpdatePedido(@RequestBody Pedido pedido) {
         return pedidoService.saveOrUpdatePedido(pedido);

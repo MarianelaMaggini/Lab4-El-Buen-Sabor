@@ -2,22 +2,21 @@ package com.example.buensabor.controllers.mercadoPago;
 
 import com.example.buensabor.services.configuracion.ConfiguracionService;
 import com.google.gson.GsonBuilder;
+import com.mercadopago.MercadoPago;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.Payment;
 import com.mercadopago.resources.Preference;
+import com.mercadopago.resources.datastructures.preference.BackUrls;
 import com.mercadopago.resources.datastructures.preference.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class MercadoPagoController {
     private final ConfiguracionService configuracionService;
@@ -27,11 +26,13 @@ public class MercadoPagoController {
         this.configuracionService = configuracionService;
     }
 
-    //MercadoPago.SDK.setAccessToken(new Configuracion().getTOKEN_MERCADO_PAGO());
     @GetMapping("/createAndRedirect")
-    public ResponseEntity<?> createAndRedirect(@RequestParam("precio") float precio) throws MPException {
+    public ResponseEntity<?> createAndRedirect(@RequestParam float precio) throws MPException {
+        MercadoPago.SDK.setAccessToken(this.configuracionService.getToken());
         Preference preference = new Preference();
-        // Crea un ítem en la preferencia
+        preference.setBackUrls(
+                new BackUrls().setSuccess("http://localhost:4200")
+        );
         Item item = new Item();
         item.setTitle("Mi producto")
                 .setQuantity(1)
