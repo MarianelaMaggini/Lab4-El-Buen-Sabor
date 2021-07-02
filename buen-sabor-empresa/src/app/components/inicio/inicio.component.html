@@ -1,8 +1,19 @@
 <body>
   <br />
   <div class="container">
-    <h3>Bienvenido Admin!</h3>
-    <table class="table table-hover table-dark animate__animated animate__bounceInLeft">
+    <h3 *ngIf="emailUsuario" class="display-4">Hola {{ usuario?.nombre }} {{ usuario?.apellido }}!</h3>
+    <h3 *ngIf="!emailUsuario" class="display-4">¡Hola, debes iniciar sesión para gestionar!</h3>
+    <div class="card col-md-6 animate__animated animate__flipInY mt-4" *ngIf="!emailUsuario">
+      <div class="card-header">
+        Te damos la bienvenida
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Buen Sabor tips</h5>
+        <p class="card-text">¿Sabías que una hamburguesa tiene 295 calorías?</p>
+        <a routerLink="/login" class="btn btn-primary">Inicia sesión</a>
+      </div>
+    </div>
+    <table class="table table-hover table-dark animate__animated animate__bounceInLeft" *ngIf="emailUsuario">
       <thead>
         <th scope="col">SECCIONES</th>
       </thead>

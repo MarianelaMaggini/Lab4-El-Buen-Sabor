@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AedService } from 'src/app/services/aed.service'
 
 import { Aed } from 'src/app/models/aed'
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-listar-aed',
@@ -14,10 +15,18 @@ export class ListarAedComponent implements OnInit {
 
   titulo: string = 'Listado de detalles:';
   aeds: Aed[];
-
-  constructor(private aedService: AedService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  isLogged = false;
+  isAdmin = false;
+  constructor(
+    private aedService: AedService, 
+    private router: Router, 
+    private activatedRoute: ActivatedRoute,
+    private tokenService: TokenService
+    ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isLogged = this.tokenService.isLogged();
     this.getAllAed();
   }
 

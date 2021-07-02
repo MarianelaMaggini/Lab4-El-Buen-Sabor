@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ArticuloService } from 'src/app/services/articulo.service';
 
 import { Articulo } from 'src/app/models/articulo';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-listar-articulo',
@@ -14,10 +15,18 @@ export class ListarArticuloComponent implements OnInit {
 
   titulo: string = 'Listado de articulos:';
   articulos: Articulo[];
-
-  constructor(private articuloService: ArticuloService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  isLogged = false;
+  isAdmin = false;
+  constructor(
+    private articuloService: ArticuloService, 
+    private router: Router, 
+    private activatedRoute: ActivatedRoute,
+    private tokenService: TokenService
+    ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isLogged = this.tokenService.isLogged();
     this.getAllArticulos();
   }
 

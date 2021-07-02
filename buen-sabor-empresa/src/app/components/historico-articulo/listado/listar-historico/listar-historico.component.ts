@@ -6,6 +6,7 @@ import { ArticuloService } from 'src/app/services/articulo.service';
 
 import { HistoricoArticulo } from 'src/app/models/historico-articulo';
 import { Articulo } from 'src/app/models/articulo';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-listar-historico',
@@ -18,10 +19,18 @@ export class ListarHistoricoComponent implements OnInit {
   historicoArticulo: HistoricoArticulo[];
   articulos: Articulo[];
   idArticulo: number;
-
-  constructor(private historicoService: HistoricoArticuloService, private articuloService: ArticuloService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  isLogged = false;
+  isAdmin = false;
+  constructor(
+    private historicoService: HistoricoArticuloService, 
+    private articuloService: ArticuloService, 
+    private router: Router, private activatedRoute: ActivatedRoute,
+    private tokenService: TokenService
+    ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isLogged = this.tokenService.isLogged();
     this.getArticulosHistorico();
   }
 

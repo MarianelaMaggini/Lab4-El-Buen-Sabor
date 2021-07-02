@@ -35,38 +35,50 @@ import { ListarPedidoComponent } from './components/pedido/listado/listar-pedido
 // Factura
 import { ListarFacturaComponent } from './components/factura/listado/listar-factura/listar-factura.component';
 
+// Usuario 
+import { RegistroComponent } from './components/auth/registro/registro.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { LoginGuard } from './guard/login.guard';
+import { ProdGuardService } from './guard/prod-guard.service';
+
 const routes: Routes = [
   // Inicio
   {path:'', component: InicioComponent},
 
+  // Login
+  {path:'login', component: LoginComponent, canActivate: [LoginGuard]},
+
+  // Registro usuario
+  {path:'registro', component: RegistroComponent, canActivate: [LoginGuard]},
+
   // Rubro
-  {path:'rubros', component: ListarRubroComponent},
-  {path:'nuevo-rubro/:id', component: NuevoRubroComponent},
+  {path:'rubros', component: ListarRubroComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path:'nuevo-rubro/:id', component: NuevoRubroComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Articulo
-  {path:'articulos', component: ListarArticuloComponent},
-  {path:'nuevo-articulo/:id', component: NuevoArticuloComponent},
+  {path:'articulos', component: ListarArticuloComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path:'nuevo-articulo/:id', component: NuevoArticuloComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Artículo Elaborado Detalle
-  {path:'aeds', component: ListarAedComponent},
-  {path:'nuevo-aed/:id', component: NuevoAedComponent},
+  {path:'aeds', component: ListarAedComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path:'nuevo-aed/:id', component: NuevoAedComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Receta
-  {path:'recetas', component: ListarRecetaComponent},
-  {path:'nueva-receta/:id1/:id2', component: NuevaRecetaComponent},
+  {path:'recetas', component: ListarRecetaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path:'nueva-receta/:id1/:id2', component: NuevaRecetaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Histórico Artículo
-  {path: 'historico-articulos', component: ListarHistoricoComponent},
-  {path: 'nuevo-historico/:id', component: NuevoHistoricoComponent},
+  {path: 'historico-articulos', component: ListarHistoricoComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path: 'nuevo-historico/:id', component: NuevoHistoricoComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Inventario
-  {path: 'inventario', component: ListarInventarioComponent},
+  {path: 'inventario', component: ListarInventarioComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
 
   // Pedido
-  {path: 'pedidos', component: ListarPedidoComponent},
+  {path: 'pedidos', component: ListarPedidoComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
 
   // Factura
-  {path: 'facturas', component: ListarFacturaComponent},
+  {path: 'facturas', component: ListarFacturaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
   
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];

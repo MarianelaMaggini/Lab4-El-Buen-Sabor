@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { RubroService } from 'src/app/services/rubro.service';
 
 import { Rubro } from 'src/app/models/rubro';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-listar-rubro',
@@ -14,10 +15,14 @@ export class ListarRubroComponent implements OnInit {
 
   titulo: string = 'Listado de rubros:';
   rubros: Rubro[];
-
-  constructor(private rubroService: RubroService, private router: Router) { }
+  isLogged = false;
+  isAdmin = false;
+  
+  constructor(private rubroService: RubroService, private router: Router, private tokenService: TokenService) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isLogged = this.tokenService.isLogged();
     this.getAllRubros();
   }
 

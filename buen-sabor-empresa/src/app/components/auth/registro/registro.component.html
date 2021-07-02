@@ -1,0 +1,88 @@
+<div class="container d-flex justify-content-center my-4">
+  <div class="card">
+    <div class="card-header">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">Iniciar Sesión</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" routerLink="/registro">Crear cuenta</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <form #f="ngForm" (ngSubmit)="onRegister()" novalidate>
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input
+            type="text"
+            name="nombre"
+            id="nombre"
+            class="form-control"
+            placeholder="Nombre"
+            [(ngModel)]="nombre"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="apellido">Apellido</label>
+          <input
+            type="text"
+            name="apellido"
+            id="apellido"
+            class="form-control"
+            placeholder="Apellido"
+            [(ngModel)]="apellido"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="telefono">Teléfono</label>
+          <input
+            type="text"
+            name="telefono"
+            id="telefono"
+            class="form-control"
+            placeholder="Teléfono"
+            [(ngModel)]="telefono"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            autocomplete="off"
+            name="email"
+            id="email"
+            class="form-control"
+            placeholder="Correo electrónico"
+            [(ngModel)]="email"
+            required
+          />
+        </div>
+        <div class="form-group mb-4">
+          <label for="clave">Contraseña</label>
+          <input
+            type="password"
+            autocomplete="off"
+            name="clave"
+            id="clave"
+            class="form-control"
+            placeholder="***********"
+            [(ngModel)]="clave"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <button
+            class="btn btn-outline-success btn-block"
+            [disabled]="!f.valid"
+          >
+            <i class="fas fa-sign-in-alt"></i> Crear cuenta
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

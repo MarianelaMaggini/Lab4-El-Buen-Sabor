@@ -11,7 +11,7 @@
         <li class="nav-item">
           <a class="nav-link" routerLink='/'>INICIO</a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="isLogged">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
             aria-expanded="false">SECCIONES</a>
           <div class="dropdown-menu">
@@ -26,6 +26,12 @@
           </div>
         </li>
       </ul>
+      <form class="form-inline">
+        <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!isLogged" routerLink="/login"><i class="fas fa-user-check" ></i> Iniciar sesión
+        </button>
+        <button class="btn btn-outline-danger my-2 my-sm-0" style="cursor: pointer;" *ngIf="isLogged" (click)="onLogOut()"><i class="fas fa-user-lock"></i> Cerrar sesión
+        </button>
+      </form>
     </div>
   </div>
 </nav>

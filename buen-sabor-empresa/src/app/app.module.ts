@@ -74,6 +74,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertaService } from './services/alerta.service';
 
+// Usuario login y nuevo
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegistroComponent } from './components/auth/registro/registro.component';
+import { interceptorProvider } from './interceptors/prod-interceptor.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,7 +96,9 @@ import { AlertaService } from './services/alerta.service';
     NuevoHistoricoComponent,
     ListarInventarioComponent,
     ListarPedidoComponent,
-    ListarFacturaComponent
+    ListarFacturaComponent,
+    LoginComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +109,7 @@ import { AlertaService } from './services/alerta.service';
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, HistoricoArticuloService, InventarioService, PedidoService, DetallePedidoService, FacturaService, DetalleFacturaService, UnidadMedidaService, FileService, AlertaService],
+  providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, HistoricoArticuloService, InventarioService, PedidoService, DetallePedidoService, FacturaService, DetalleFacturaService, UnidadMedidaService, FileService, AlertaService, interceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -18,7 +18,8 @@ export const environment = {
   detalleFacturaUrl: "http://localhost:8080/detallesFactura",
   tipoEnvioUrl: "http://localhost:8080/tiposEnvio",
   unidadMedidaUrl: "http://localhost:8080/unidadesMedida",
-  fileUrl: "http://localhost:8080/upload"
+  fileUrl: "http://localhost:8080/upload",
+  authUrl: 'http://localhost:8080/auth/'
 };
 
 /*
