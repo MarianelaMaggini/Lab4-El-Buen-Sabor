@@ -4,8 +4,8 @@ import com.example.buensabor.entities.EntityBean;
 import com.example.buensabor.entities.comprobantes.DetalleFactura;
 import com.example.buensabor.entities.comprobantes.DetallePedido;
 import com.example.buensabor.entities.rubro.Rubro;
-import com.example.buensabor.entities.articulos.UnidadMedida;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Clase Articulo almacenará todos los artículos y tiene muchos detalles artículos, recetas, históricos, detalles
+ * pedidos, detalles facturas. También pertenece a un rubro, a un tipo artículo y a una unidad de medida
+ * Se utiliza anotaciones lombok para constructores, getters and setters
+ * Se utiliza anotaciones para la persistencia en la base de datos
+ * @author Maggini - Panella - Tarditi
+ */
 @Data
 @Entity
 @AllArgsConstructor
@@ -66,10 +72,10 @@ public class Articulo extends EntityBean {
     private UnidadMedida unidadMedida;
 
     /**
-     * Voy hasta el historico de articulos y le asigno al precio de venta
+     * Se navega hasta el historico de articulos y se le asigna al precio de venta
      * el precio de compra * el 50%
      *
-     * @return un double con el atributo del precio de venta
+     * @return precioVenta
      */
     public Double getPrecioNoElaborado() {
         for (HistoricoArticulo h : historicoArticulos) {

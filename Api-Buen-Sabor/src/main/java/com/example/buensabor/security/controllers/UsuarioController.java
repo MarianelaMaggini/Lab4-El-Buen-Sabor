@@ -80,7 +80,12 @@ public class UsuarioController {
         JwtDto jwtDto = new JwtDto(jwt);
         return new ResponseEntity<>(jwtDto, HttpStatus.OK);
     }
-
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtDto> refreshToken(@RequestBody JwtDto jwtDto) throws ParseException {
+        String token = jwtProvider.refreshToken(jwtDto);
+        JwtDto jwt = new JwtDto(token);
+        return new ResponseEntity<>(jwt, HttpStatus.OK);
+    }
     @GetMapping("/{email}")
     public Optional<Usuario> getUsuario(@PathVariable("email") String email){
         return usuarioService.getByEmail(email);

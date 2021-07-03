@@ -2,6 +2,7 @@ package com.example.buensabor.controllers.articulos;
 
 import com.example.buensabor.entities.articulos.Articulo;
 import com.example.buensabor.services.articulos.ArticuloService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class ArticuloController {
     @Autowired
     ArticuloService articuloService;
 
+    @ApiOperation("Muestra un listado de artículos")
     @GetMapping("/todos")
     public List<Articulo> getArticulos() {
         return articuloService.getArticulos();
