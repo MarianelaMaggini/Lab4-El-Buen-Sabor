@@ -1,10 +1,18 @@
 import { NgModule } from '@angular/core';
+
+// Rutas
 import { RouterModule, Routes } from '@angular/router';
+
+// Inicio
+import { HomeComponent } from './components/home/home.component';
+
+// Login y Registro de usuario
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegistroComponent } from './components/auth/registro/registro.component';
-import { CartComponent } from './components/cart/cart.component';
-import { HomeComponent } from './components/home/home.component';
 import { LoginGuard } from './guard/login.guard';
+
+// Carrito
+import { CartComponent } from './components/cart/cart.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},

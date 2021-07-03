@@ -18,7 +18,7 @@
             <a routerLink="/" class="nav-link active" data-toggle="collapse" data-target=".navbar-collapse.show"><i class="fas fa-home"></i> Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="modal" data-target="#cartModal" style="cursor: pointer;"><i class="fas fa-shopping-cart"></i><span class='badge badge-warning' id='lblCartCount'>{{ cantidad }}</span> Carrito</a>
+            <a class="nav-link" *ngIf="isLogged" data-toggle="modal" data-target="#cartModal" style="cursor: pointer;"><i class="fas fa-shopping-cart"></i><span class='badge badge-warning' id='lblCartCount'>{{ cantidad }}</span> Carrito</a>
           </li>
           <li class="nav-item" *ngIf="!isLogged">
             <a class="nav-link" routerLink="/login" data-toggle="collapse" data-target=".navbar-collapse.show"><i class="fas fa-user-check"></i> Iniciar sesión
