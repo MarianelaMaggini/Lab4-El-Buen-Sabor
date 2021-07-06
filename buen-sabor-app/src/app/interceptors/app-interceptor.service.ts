@@ -10,7 +10,7 @@ const AUTHORIZATION = 'Authorization';
 @Injectable({
   providedIn: 'root'
 })
-export class ProdInterceptorService implements HttpInterceptor{
+export class AppInterceptorService implements HttpInterceptor{
 
   constructor(private tokenService: TokenService, private authService: AuthService) {}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -45,4 +45,4 @@ export class ProdInterceptorService implements HttpInterceptor{
     });
   }
 }
-export const interceptorProvider = [{provide: HTTP_INTERCEPTORS, useClass: ProdInterceptorService, multi: true}]
+export const interceptorProvider = [{provide: HTTP_INTERCEPTORS, useClass: AppInterceptorService, multi: true}]

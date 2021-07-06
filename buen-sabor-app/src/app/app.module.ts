@@ -36,11 +36,6 @@ import { ItemArticuloComponent } from './components/item-articulo/item-articulo.
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegistroComponent } from './components/auth/registro/registro.component';
 
-// Imports externos
-// Alertas
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
-
 // Servicios
 // Servicio de Articulo
 import { ArticuloService } from './services/articulo.service';
@@ -50,8 +45,19 @@ import { MercadoPagoService } from './services/mercado-pago.service';
 
 
 // Interceptor
-import { interceptorProvider } from './interceptors/prod-interceptor.service';
+import { interceptorProvider } from './interceptors/app-interceptor.service';
 
+// Imports externos
+// Alertas
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
+// Angularx-social
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  
+} from 'angularx-social-login';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,11 +76,30 @@ import { interceptorProvider } from './interceptors/prod-interceptor.service';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    SocialLoginModule,
     ReactiveFormsModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
   ],
-  providers: [ArticuloService, MercadoPagoService,interceptorProvider],
+  providers: [
+    ArticuloService, 
+    MercadoPagoService,
+    interceptorProvider,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '861209226872-2csq32a3rgkat7d3euic9aoevqumjrte.apps.googleusercontent.com'
+            )
+          },
+        ]
+      } as SocialAuthServiceConfig,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-home',
@@ -6,12 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
+  isLogged = false;
+  isAdmin = false;
   animate: string = "animate__bounceOutRight"; 
   slow: string = "animate__slow"
-  constructor() { }
+  constructor(
+    private tokenService: TokenService,
+    ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isLogged = this.tokenService.isLogged();
   }
   over(){
     const element = document.getElementById("delivery");

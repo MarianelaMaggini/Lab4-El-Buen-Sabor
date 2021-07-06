@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from 'src/app/services/auth.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -12,17 +14,53 @@ import { TokenService } from 'src/app/services/token.service';
 export class HeaderComponent implements OnInit {
   isLogged = false;
   isAdmin = false;
+  userLogged: SocialUser;
   cantidad: number;
   usuario: Usuario;
   cartItems: any = [];
   constructor(
     private storageService: StorageService,
     private tokenService: TokenService,
-    private authService: AuthService
+    private router: Router,
+    private authService: AuthService,
+    private socialAuthService: SocialAuthService,
     ) {}
 
   ngOnInit(): void {
     this.getDatosUsuario();
+    this.countCart();
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isLogged = this.tokenService.isLogged();
+    this.socialAuthService.authState.subscribe((data) => {
+      console.log(data)
+      this.userLogged = data;
+      this.isLogged = (this.userLogged != null && this.tokenService.getToken() != null);
+    })
+    
+  }
+
+  onLogOut(): void {
+    this.tokenService.logOut();
+    window.location.reload();
+  }
+
+  logOutWithGoogle(){
+    this.socialAuthService.signOut().then(data => {
+        this.tokenService.logOut();
+        this.isLogged = false;
+        this.router.navigate(['/login'])
+    });
+  }
+
+  getDatosUsuario(): void {
+    let userName = this.tokenService.getUserName()
+      this.authService.getDataUsuario(userName).subscribe(data => {
+        console.log(data)
+        this.usuario = data;
+    })
+  }
+
+  countCart():void {
     let cant = 0;
     if (this.storageService.existCart()) {
       this.storageService.getCart().forEach((item) => {
@@ -32,21 +70,5 @@ export class HeaderComponent implements OnInit {
     }else {
       this.cantidad = 0;
     }
-    this.isAdmin = this.tokenService.isAdmin();
-    this.isLogged = this.tokenService.isLogged();
-    
-  }
-
-  onLogOut(): void {
-    this.tokenService.logOut();
-    window.location.reload();
-  }
-
-  getDatosUsuario(): void {
-    let userName = this.tokenService.getUserName()
-      this.authService.getDataUsuario(userName).subscribe(data => {
-        console.log(data)
-        this.usuario = data;
-      })
   }
 }

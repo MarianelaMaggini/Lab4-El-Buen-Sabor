@@ -12,9 +12,10 @@ import { Usuario } from '../models/usuario';
 })
 export class AuthService {
   private authUrl = environment.authUrl;
+  private header: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  public nuevo(nuevoUsuario: NuevoUsuario):Observable<any>{
+  nuevo(nuevoUsuario: NuevoUsuario):Observable<any>{
     const requestOptions: Object = {
       /* other options here */
       responseType: 'text'
@@ -22,12 +23,16 @@ export class AuthService {
     return this.http.post<any>(this.authUrl + 'nuevo', nuevoUsuario, requestOptions);
   }
 
-  public login(loginUsuario: LoginUsuario):Observable<JwtDto>{
+  login(loginUsuario: LoginUsuario):Observable<JwtDto>{
     return this.http.post<JwtDto>(this.authUrl + 'login', loginUsuario);
   }
 
-  public refresh(jwtDto: JwtDto):Observable<JwtDto>{
+  refresh(jwtDto: JwtDto):Observable<JwtDto>{
     return this.http.post<JwtDto>(this.authUrl + 'refresh', jwtDto);
+  }
+
+  loginWithGoogle(jwtDto: JwtDto):Observable<JwtDto>{
+    return this.http.post<JwtDto>(this.authUrl +  'google', jwtDto, {headers: this.header});
   }
 
   getDataUsuario(email: string): Observable<Usuario> {

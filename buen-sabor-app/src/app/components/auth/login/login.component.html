@@ -1,8 +1,8 @@
-<main class="d-flex align-items-center" style="height: 800px;">
+<main class="d-flex align-items-center my-3">
     <div class="container col-md-8">
       <div class="card login-card">
-        <div class="row no-gutters">
-          <div class="col-md-6">
+        <div class="row no-gutters ">
+          <div class="col-md-6 d-flex">
             <img src="assets/img/pizzas.jpeg" alt="login" class="login-card-img">
           </div>
           <div class="col-md-6">
@@ -25,6 +25,7 @@
                   </div>
                   <button name="login" id="login" class="btn btn-block login-btn mb-4" [disabled]="!f.valid">Iniciar Sesión</button>
                 </form>
+                <button name="login" id="login" class="btn btn-block login-btn-google mb-4" (click)="signInWithGoogle()"><i class="fab fa-google"></i> Iniciar con Google</button>
                 <p class="login-card-footer-text">¿No tienes cuenta? <a routerLink="/registro" class="text-reset">Registrate aquí</a></p>
             </div>
           </div>
