@@ -41,14 +41,13 @@ export class HeaderComponent implements OnInit {
 
   onLogOut(): void {
     this.tokenService.logOut();
-    window.location.reload();
+    this.isLogged = false;
   }
 
   logOutWithGoogle(){
     this.socialAuthService.signOut().then(data => {
         this.tokenService.logOut();
         this.isLogged = false;
-        this.router.navigate(['/login'])
     });
   }
 

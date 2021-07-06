@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { SocialAuthService, SocialUser } from "angularx-social-login";
 import {  GoogleLoginProvider } from "angularx-social-login";
 import { ToastrService } from 'ngx-toastr';
@@ -26,7 +25,6 @@ export class LoginComponent implements OnInit {
     private tokenService: TokenService,
     private authService: AuthService,
     private socialAuthService: SocialAuthService,
-    private router: Router,
     private toastr: ToastrService
   ) { }
 
@@ -40,7 +38,6 @@ export class LoginComponent implements OnInit {
     this.loginUsuario = new LoginUsuario(this.email, this.clave);
     this.authService.login(this.loginUsuario).subscribe(data => {
       this.tokenService.setToken(data.token);
-      this.router.navigate(['/']);
       window.location.reload();
     },
     err => {
@@ -62,7 +59,6 @@ export class LoginComponent implements OnInit {
           res => {
             this.tokenService.setToken(res.token);
             this.isLogged = true;
-            this.router.navigate(['/']);
             window.location.reload();
           }, 
           err => {
