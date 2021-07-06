@@ -24,7 +24,7 @@ public class UsuarioService {
         return usuarioRepository.existsByEmail(email);
     }
 
-    public void save(Usuario usuario){
-        usuarioRepository.save(usuario);
+    public Usuario save(Usuario usuario){
+        return  usuarioRepository.save(usuario);
     }
 }

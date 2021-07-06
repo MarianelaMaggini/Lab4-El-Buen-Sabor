@@ -23,9 +23,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     UserDetailsServiceImpl userDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
         try {
-            String token = getToken(httpServletRequest);
+            String token = getToken(req);
             if (token != null && jwtProvider.validarToken(token)){
                 String email = jwtProvider.getEmailFromToken(token);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
@@ -35,11 +35,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             logger.error("fallo en el método doFilter: " + e.getMessage());
         }
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
+        chain.doFilter(req, res);
     }
 
-    private String getToken(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
+    private String getToken(HttpServletRequest req) {
+        String header = req.getHeader("Authorization");
         if (header != null && header.startsWith("Bearer")) {
             return header.replace("Bearer", "");
         }
