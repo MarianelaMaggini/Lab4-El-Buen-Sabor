@@ -7,6 +7,7 @@ import com.example.buensabor.security.entities.Rol;
 import com.example.buensabor.security.entities.Usuario;
 import com.example.buensabor.security.enums.RolNombre;
 import com.example.buensabor.security.jwt.JwtProvider;
+import com.example.buensabor.security.services.EnviarMailService;
 import com.example.buensabor.security.services.RolService;
 import com.example.buensabor.security.services.UsuarioService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -22,7 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
@@ -30,7 +31,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -39,25 +39,26 @@ import org.springframework.http.ResponseEntity;
 @CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioController {
 
-    PasswordEncoder passwordEncoder;
-    AuthenticationManager authenticationManager;
-    UsuarioService usuarioService;
-    RolService rolService;
-    JwtProvider jwtProvider;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final UsuarioService usuarioService;
+    private final RolService rolService;
+    private final JwtProvider jwtProvider;
+    private final EnviarMailService emailSenderService;
     @Value("${google.clientId}")
-    String googleClientId;
+    private String googleClientId;
     @Value("${secretPsw}")
-    String secretPsw;
+    private String secretPsw;
 
     @Autowired
-    public UsuarioController(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UsuarioService usuarioService, RolService rolService, JwtProvider jwtProvider) {
+    public UsuarioController(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UsuarioService usuarioService, RolService rolService, JwtProvider jwtProvider, EnviarMailService emailSenderService) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.usuarioService = usuarioService;
         this.rolService = rolService;
         this.jwtProvider = jwtProvider;
+        this.emailSenderService = emailSenderService;
     }
-
     @PostMapping("/google")
     public ResponseEntity<?> loginWithGoogle(@RequestBody JwtDto token) throws IOException {
         final NetHttpTransport transport = new NetHttpTransport();
@@ -70,46 +71,59 @@ public class UsuarioController {
         if (usuarioService.existsByEmail(payload.getEmail())) {
             usuario = usuarioService.getByEmail(payload.getEmail()).get();
         } else {
-            usuario = saveUsuarioGoogle((String) payload.get("given_name"), (String) payload.get("family_name"), "", payload.getEmail());
+            NuevoUsuario nuevoUsuario = new NuevoUsuario();
+            nuevoUsuario.setNombre((String) payload.get("given_name"));
+            nuevoUsuario.setApellido((String) payload.get("family_name"));
+            nuevoUsuario.setTelefono("");
+            nuevoUsuario.setEmail(payload.getEmail());
+            nuevoUsuario.setClave(secretPsw);
+            nuevoUsuario.setEnabled(true);
+            usuario = saveNewUsuario(nuevoUsuario);
         }
-        JwtDto jwtDto = loginUsuarioGoogle(usuario);
+        JwtDto jwtDto = loginUsuario(usuario.getEmail(), secretPsw);
         return new ResponseEntity<>(jwtDto, HttpStatus.OK);
     }
 
     @PostMapping("/nuevo")
-    public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult) {
+    public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult) throws MessagingException {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("campos mal puestos o email inválido", HttpStatus.BAD_REQUEST);
         }
         if (usuarioService.existsByEmail(nuevoUsuario.getEmail())) {
             return new ResponseEntity<>("ese email ya existe", HttpStatus.BAD_REQUEST);
         }
-        Usuario usuario = new Usuario(
-                nuevoUsuario.getNombre(),
-                nuevoUsuario.getApellido(),
-                nuevoUsuario.getTelefono(),
-                nuevoUsuario.getEmail(),
-                passwordEncoder.encode(nuevoUsuario.getClave()));
-        Set<Rol> roles = new HashSet<>();
-        roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
-        if (nuevoUsuario.getRoles().contains("admin")) {
-            roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
-        }
-        usuario.setRoles(roles);
-        usuarioService.save(usuario);
+        nuevoUsuario.setEnabled(false);
+        saveNewUsuario(nuevoUsuario);
+//        emailSenderService.sendEmail(
+//                "buen.sabor@gmail.com",
+//                nuevoUsuario.getEmail(),
+//                "Gracias por registrarte en el Buen Sabor.",
+//                "<div style='margin-bottom: 15px; padding: 4px 12px; background-color: #ddffdd; border-left: 6px solid #04AA6D;'>" +
+//                        "<p><strong>Para confirmar tu cuenta, por favor haga clic</strong> <a href='http://localhost:8080/auth/confirmar-cuenta?email=" + nuevoUsuario.getEmail() + "' " +
+//                        ">aquí</a></p>" +
+//                        "</div>"
+//        );
         return new ResponseEntity<>("Usuario guardado", HttpStatus.CREATED);
     }
 
+    @GetMapping("/confirmar-cuenta")
+    public ResponseEntity<?> confirmarCuenta (@RequestParam("email") String email){
+        Usuario usuario = usuarioService.getByEmail(email).get();
+        usuario.setEnabled(true);
+        usuarioService.save(usuario);
+        return new ResponseEntity<>("Cuenta verificada", HttpStatus.OK);
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult) throws ParseException {
+    public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult) {
+        Usuario usuario = usuarioService.getByEmail(loginUsuario.getEmail()).get();
         if (bindingResult.hasErrors()) {
             return new ResponseEntity("campos mal puestos o email inválido", HttpStatus.BAD_REQUEST);
         }
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getEmail(), loginUsuario.getClave()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generarToken(authentication);
-        JwtDto jwtDto = new JwtDto(jwt);
-        return new ResponseEntity<>(jwtDto, HttpStatus.OK);
+        if (!usuario.isEnabled()){
+            return new ResponseEntity("cuenta no verificada", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(loginUsuario(loginUsuario.getEmail(), loginUsuario.getClave()), HttpStatus.OK);
     }
 
     @PostMapping("/refresh")
@@ -124,20 +138,27 @@ public class UsuarioController {
         return usuarioService.getByEmail(email);
     }
 
-    private JwtDto loginUsuarioGoogle(Usuario usuario) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getEmail(), secretPsw));
+    private JwtDto loginUsuario(String email, String password) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generarToken(authentication);
-        JwtDto jwtDto = new JwtDto(jwt);
-        return jwtDto;
+        return new JwtDto(jwt);
     }
 
-    private Usuario saveUsuarioGoogle(String nombre, String apellido, String telefono, String email) {
-        Usuario usuario = new Usuario(nombre, apellido, telefono, email, passwordEncoder.encode(secretPsw));
+    private Usuario saveNewUsuario(NuevoUsuario nuevoUsuario) {
+        Usuario usuario = new Usuario(
+                nuevoUsuario.getNombre(),
+                nuevoUsuario.getApellido(),
+                nuevoUsuario.getTelefono(),
+                nuevoUsuario.getEmail(),
+                passwordEncoder.encode(nuevoUsuario.getClave()),
+                nuevoUsuario.isEnabled());
         Set<Rol> roles = new HashSet<>();
         roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
+        if (nuevoUsuario.getRoles().contains("admin")) {
+            roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
+        }
         usuario.setRoles(roles);
         return usuarioService.save(usuario);
     }
-
 }

@@ -16,14 +16,16 @@ public class UsuarioPrincipal implements UserDetails {
     private String telefono;
     private String email;
     private String clave;
+    private boolean isEnabled;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UsuarioPrincipal(String nombre, String apellido, String telefono, String email, String clave, Collection<? extends GrantedAuthority> authorities) {
+    public UsuarioPrincipal(String nombre, String apellido, String telefono, String email, String clave, boolean isEnabled,Collection<? extends GrantedAuthority> authorities) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.email = email;
         this.clave = clave;
+        this.isEnabled = isEnabled;
         this.authorities = authorities;
     }
 
@@ -32,7 +34,7 @@ public class UsuarioPrincipal implements UserDetails {
                 .stream()
                 .map(rol -> new SimpleGrantedAuthority(rol.getRolNombre().name()))
                 .collect(Collectors.toList());
-        return new UsuarioPrincipal(usuario.getNombre(), usuario.getApellido(), usuario.getTelefono(), usuario.getEmail(), usuario.getClave(), authorities);
+        return new UsuarioPrincipal(usuario.getNombre(), usuario.getApellido(), usuario.getTelefono(), usuario.getEmail(), usuario.getClave(), usuario.isEnabled(), authorities);
     }
 
     @Override
