@@ -94,15 +94,15 @@ public class UsuarioController {
         }
         nuevoUsuario.setEnabled(false);
         saveNewUsuario(nuevoUsuario);
-//        emailSenderService.sendEmail(
-//                "buen.sabor@gmail.com",
-//                nuevoUsuario.getEmail(),
-//                "Gracias por registrarte en el Buen Sabor.",
-//                "<div style='margin-bottom: 15px; padding: 4px 12px; background-color: #ddffdd; border-left: 6px solid #04AA6D;'>" +
-//                        "<p><strong>Para confirmar tu cuenta, por favor haga clic</strong> <a href='http://localhost:8080/auth/confirmar-cuenta?email=" + nuevoUsuario.getEmail() + "' " +
-//                        ">aquí</a></p>" +
-//                        "</div>"
-//        );
+        emailSenderService.sendEmail(
+                "bsabor2021@gmail.com",
+                nuevoUsuario.getEmail(),
+                "Gracias por registrarte en el Buen Sabor.",
+                "<div style='margin-bottom: 15px; padding: 4px 12px; background-color: #ddffdd; border-left: 6px solid #04AA6D;'>" +
+                        "<p><strong>Para confirmar tu cuenta, por favor haga clic</strong> <a href='http://localhost:8080/auth/confirmar-cuenta?email=" + nuevoUsuario.getEmail() + "' " +
+                        ">aquí</a></p>" +
+                        "</div>"
+        );
         return new ResponseEntity<>("Usuario guardado", HttpStatus.CREATED);
     }
 
