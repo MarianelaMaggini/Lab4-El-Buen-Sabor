@@ -6,9 +6,21 @@ body{
     height: 300vh;
     opacity: 0.95;
 }
-table{
+.tabla{
     width: 80%;
 }
 h3{
     color: white;
+}
+.imagen{
+    width: 200px;
+}
+.btn-close{
+    margin-bottom: 160px;
+}
+.cabecera{
+    background-color: lightgrey;
+}
+.justificado{
+    align-content: flex-end;
 }
