@@ -31,13 +31,4 @@ public class PedidoService {
         return (Pedido) pedidoRepository.save(pedido);
     }
 
-    public boolean deletePedidoById(Long id) {
-        try {
-            pedidoRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

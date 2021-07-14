@@ -39,4 +39,5 @@ public class UnidadMedidaController {
     public UnidadMedida saveOrUpdateUnidad(@RequestBody UnidadMedida unidad) {
         return unidadMedidaService.saveOrUpdateUnidad(unidad);
     }
+
 }

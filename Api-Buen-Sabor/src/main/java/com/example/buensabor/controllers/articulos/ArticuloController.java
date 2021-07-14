@@ -18,6 +18,12 @@ public class ArticuloController {
     @Autowired
     ArticuloService articuloService;
 
+    @ApiOperation("Muestra un listado de artículos que no tengan fecha de baja")
+    @GetMapping("/todosActivos")
+    public List<Articulo> getArticulosSinFechaDeBaja() {
+        return articuloService.getArticulosSinFechaDeBaja();
+    }
+
     @ApiOperation("Muestra un listado de artículos")
     @GetMapping("/todos")
     public List<Articulo> getArticulos() {
@@ -34,11 +40,6 @@ public class ArticuloController {
         return articuloService.getArticuloByIdRubro(id);
     }
 
-    @GetMapping("/idTiposArticulos")
-    public List<Articulo> getArticuloByIdTipo(@RequestParam("tipoUno") Long idUno, @RequestParam("tipoDos") Long idDos) {
-        return articuloService.getArticuloByIdTipoArticuloOrIdTipoArticulo(idUno, idDos);
-    }
-
     @GetMapping("/idTipoArticulo")
     public List<Articulo> getArticuloByIdTipoArticulo(@RequestParam("id") Long id) {
         return articuloService.getArticuloByIdTipoArticulo(id);
@@ -49,14 +50,5 @@ public class ArticuloController {
     public Articulo saveOrUpdateArticulo(@RequestBody Articulo articulo) {
         return articuloService.saveOrUpdateArticulo(articulo);
     }
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
-    public String deleteArticuloById(@PathVariable("id") Long id) {
-        boolean eliminado = articuloService.deleteArticuloById(id);
-        if (eliminado) {
-            return "Artículo eliminado!";
-        } else {
-            return "No se puedo eliminar el artículo!";
-        }
-    }
+
 }

@@ -31,13 +31,4 @@ public class FacturaService {
         return (Factura) facturaRepository.save(factura);
     }
 
-    public boolean deleteFacturaById(Long id) {
-        try {
-            facturaRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

@@ -31,13 +31,4 @@ public class TipoArticuloService {
         return (TipoArticulo) tipoArticuloRepository.save(tipoArticulo);
     }
 
-    public boolean deleteTipoArticuloById(Long id) {
-        try {
-            tipoArticuloRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

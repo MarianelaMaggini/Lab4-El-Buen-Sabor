@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 /**
  * Clase Articulo almacenará todos los artículos y tiene muchos detalles artículos, recetas, históricos, detalles
@@ -38,6 +39,9 @@ public class Articulo extends EntityBean {
 
     @Transient
     private Double precioVenta;
+
+    @Column(name = "fecha_baja")
+    private Date fechaBaja;
 
     @JsonIgnore
     @OneToMany(mappedBy = "articulo")

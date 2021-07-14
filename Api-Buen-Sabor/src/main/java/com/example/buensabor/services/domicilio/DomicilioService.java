@@ -15,6 +15,10 @@ public class DomicilioService {
     @Autowired
     DomicilioRepository domicilioRepository;
 
+    public List<Domicilio> getDomiciliosSinFechaDeBaja() {
+        return (ArrayList<Domicilio>) domicilioRepository.findByFechaBajaIsNull();
+    }
+
     public List<Domicilio> getDomicilios() {
         return (ArrayList<Domicilio>) domicilioRepository.findAll();
     }
@@ -31,13 +35,4 @@ public class DomicilioService {
         return (Domicilio) domicilioRepository.save(domicilio);
     }
 
-    public boolean deleteDomicilioById(Long id) {
-        try {
-            domicilioRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

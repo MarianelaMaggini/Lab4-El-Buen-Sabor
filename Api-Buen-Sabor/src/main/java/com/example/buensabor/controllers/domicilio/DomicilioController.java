@@ -16,6 +16,11 @@ public class DomicilioController {
     @Autowired
     DomicilioService domicilioService;
 
+    @GetMapping("/todosActivo")
+    public List<Domicilio> getDomiciliosSinFechaDeBaja() {
+        return domicilioService.getDomiciliosSinFechaDeBaja();
+    }
+
     @GetMapping("/todos")
     public List<Domicilio> getDomicilios() {
         return domicilioService.getDomicilios();

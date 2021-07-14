@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 @Entity
@@ -18,6 +19,9 @@ public class RecetaElaborado extends EntityBean {
     @Column(name = "cantidad", nullable = false)
     @NotNull
     private double cantidad;
+
+    @Column(name = "fecha_baja")
+    private Date fechaBaja;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_unidad_medida")

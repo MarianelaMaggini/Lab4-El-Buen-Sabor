@@ -36,13 +36,4 @@ public class DetalleFacturaService {
         return (DetalleFactura) detalleFacturaRepository.save(detalleFactura);
     }
 
-    public boolean deleteDetalleFacturaById(Long id) {
-        try {
-            detalleFacturaRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

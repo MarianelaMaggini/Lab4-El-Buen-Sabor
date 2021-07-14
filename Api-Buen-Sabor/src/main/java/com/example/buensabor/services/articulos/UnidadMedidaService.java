@@ -33,13 +33,4 @@ public class UnidadMedidaService {
         return (UnidadMedida) unidadMedidaRepository.save(unidad);
     }
 
-    public boolean deleteUnidadById(Long id) {
-        try {
-            unidadMedidaRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

@@ -35,13 +35,4 @@ public class DetallePedidoService {
         return (DetallePedido) detallePedidoRepository.save(detallePedido);
     }
 
-    public boolean deleteDetallePedidoById(Long id) {
-        try {
-            detallePedidoRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

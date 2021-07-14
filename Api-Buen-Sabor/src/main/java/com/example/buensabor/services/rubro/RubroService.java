@@ -15,6 +15,10 @@ public class RubroService {
     @Autowired
     RubroRepository rubroRepository;
 
+    public List<Rubro> getRubrosSinFechaDeBaja() {
+        return (ArrayList<Rubro>) rubroRepository.findByFechaBajaIsNull();
+    }
+
     public List<Rubro> getRubros() {
         return (ArrayList<Rubro>) rubroRepository.findAll();
     }
@@ -31,13 +35,4 @@ public class RubroService {
         return (Rubro) rubroRepository.save(rubro);
     }
 
-    public boolean deleteRubroById(Long id) {
-        try {
-            rubroRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

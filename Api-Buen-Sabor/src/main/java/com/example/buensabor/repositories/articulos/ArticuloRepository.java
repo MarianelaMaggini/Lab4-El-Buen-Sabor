@@ -12,6 +12,12 @@ import java.util.List;
 public interface ArticuloRepository extends CrudRepository<Articulo, Long> {
 
     /**
+     * TRAE TODOS LOS ARTICULOS SIN FECHA DE BAJA
+     * @return Articulos
+     */
+    List<Articulo> findArticuloByFechaBajaIsNull();
+
+    /**
      * SELECCIONO LOS ARTICULOS POR EL ID DEL RUBRO
      * @param idRubro
      * @return
@@ -24,40 +30,37 @@ public interface ArticuloRepository extends CrudRepository<Articulo, Long> {
      * @param idTipo
      * @return
      */
-    List<Articulo> findByTipoArticuloId(@Param("idTipo") Long idTipo);
+    List<Articulo> findByTipoArticuloIdAndFechaBajaIsNull(@Param("idTipo") Long idTipo);
 
     /**
-     * SELECCIONO LOS ARTICULOS POR EL ID DEL TIPO ARTICULO U OTRO ID DEL TIPO ARTICULO
-     * @param idTipoUno
-     * @param idTipoDos
-     * @return
-     */
-    List<Articulo> findByTipoArticuloIdOrTipoArticuloId(@Param("idTipoUno") Long idTipoUno, @Param("idTipoDos") Long idTipoDos);
-
-    @Query(value = "select (ha.precio_compra * r.cantidad) * 1.5 as precio from articulo a\n" +
-            "inner join articulo_elaborado_detalle aed on aed.id_articulo = a.id \n" +
-            "inner join receta_elaborado r on r.id_articulo_elaborado_detalle = aed.id\n" +
-            "inner join historico_articulo ha on ha.id_articulo = r.id_articulo\n" +
-            "where aed.id_articulo = :idArticulo order by ha.id desc limit 1", nativeQuery = true)
-    Double getPrecioElaborado(@Param("idArticulo") Long idArticulo);
-
-
-    //PRUEBAS
-    // retorna los id del articulo que son usados para el id del articulo del articulo elaborado detalle
+     * retorna los id del articulo que son usados para el id del articulo del articulo elaborado detalle
+     * @param idArticulo
+     * @return id del articulo
+    */
     @Query(value = "select r.id_articulo from articulo a\n" +
             "inner join articulo_elaborado_detalle aed on aed.id_articulo = a.id \n" +
             "inner join receta_elaborado r on r.id_articulo_elaborado_detalle = aed.id \n" +
-            "where aed.id_articulo = :idArticulo", nativeQuery = true)
+            "where aed.id_articulo = :idArticulo and r.fecha_baja is null", nativeQuery = true)
     List<Long> getIdArticuloInsumosByElaborado(@Param("idArticulo") Long idArticulo);
 
-    // retorna precio asociado al id articulo de la receta por orden de id historico descendente y un limit 1 para no repetirse
+    /**
+     * retorna precio asociado al id articulo de la receta por orden de id
+     * historico descendente y un limit 1 para no repetirse
+     * @param idArticulo
+     * @return precio
+     */
     @Query(value = "select ha.precio_compra  as precio from articulo a\n" +
             "inner join historico_articulo ha on ha.id_articulo = a.id \n" +
             "inner join receta_elaborado r on r.id_articulo = ha.id_articulo\n" +
             "where ha.id_articulo = :idArticulo order by ha.id desc limit 1", nativeQuery = true)
     Double getPrecioInsumosByElaborado(@Param("idArticulo") Long idArticulo);
 
-    // selecciona la cantidad relacionada al articulo id
+    /**
+     * selecciona la cantidad relacionada al articulo id
+     * @param idArticuloDetalle
+     * @param idArticulo
+     * @return cantidad
+     */
     @Query(value = "select r.cantidad from articulo a\n" +
             "inner join articulo_elaborado_detalle aed on aed.id_articulo = a.id \n" +
             "inner join receta_elaborado r on r.id_articulo_elaborado_detalle = aed.id \n" +

@@ -34,13 +34,4 @@ public class ArticuloElaboradoDetalleService {
         return (ArticuloElaboradoDetalle) articuloElaboradoDetalleRepository.save(articuloDetalle);
     }
 
-    public boolean deleteArticuloDetalleById(Long id) {
-        try {
-            articuloElaboradoDetalleRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

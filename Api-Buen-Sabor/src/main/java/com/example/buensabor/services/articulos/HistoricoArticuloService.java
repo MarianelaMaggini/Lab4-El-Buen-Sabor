@@ -33,14 +33,4 @@ public class HistoricoArticuloService {
         return (HistoricoArticulo) historicoArticuloRepository.save(historicoArticulo);
     }
 
-    public boolean deleteHistoricoArticuloById(Long id) {
-        try {
-            historicoArticuloRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
 }

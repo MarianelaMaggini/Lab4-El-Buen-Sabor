@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Data
@@ -27,6 +28,9 @@ public class Domicilio extends EntityBean {
     @Column(name = "localidad", length = 65, nullable = false)
     @NotNull
     private String localidad;
+
+    @Column(name = "fecha_baja")
+    private Date fechaBaja;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_usuario")

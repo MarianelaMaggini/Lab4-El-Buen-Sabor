@@ -32,13 +32,4 @@ public class RecetaElaboradoService {
         return (RecetaElaborado) recetaElaboradoRepository.save(receta);
     }
 
-    public boolean deleteRecetaById(Long id) {
-        try {
-            recetaElaboradoRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

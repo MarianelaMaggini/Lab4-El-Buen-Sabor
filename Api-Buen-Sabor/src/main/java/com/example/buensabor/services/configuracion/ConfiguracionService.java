@@ -24,4 +24,5 @@ public class ConfiguracionService {
     public String getToken(){
         return this.configuracionRepository.getTokenMercadoPago();
     }
+
 }

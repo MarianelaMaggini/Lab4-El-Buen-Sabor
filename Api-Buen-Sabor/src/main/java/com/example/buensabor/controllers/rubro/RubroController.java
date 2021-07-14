@@ -16,6 +16,11 @@ public class RubroController {
     @Autowired
     RubroService rubroService;
 
+    @GetMapping("/todosActivo")
+    public List<Rubro> getRubrosSinFechaDeBaja() {
+        return rubroService.getRubrosSinFechaDeBaja() ;
+    }
+
     @GetMapping("/todos")
     public List<Rubro> getRubros() {
         return rubroService.getRubros() ;
@@ -30,11 +35,4 @@ public class RubroController {
     @PostMapping()
     public Rubro saveOrUpdateRubro(@RequestBody Rubro rubro) { return rubroService.saveOrUpdateRubro(rubro); }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
-    public String deleteRubroById(@PathVariable("id") Long id) {
-        boolean eliminado = rubroService.deleteRubroById(id);
-        if(eliminado) { return "Rubro eliminado!"; }
-        else { return "No se puedo eliminar el rubro!"; }
-    }
 }

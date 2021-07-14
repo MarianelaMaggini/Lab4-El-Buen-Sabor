@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,9 @@ public class Rubro extends EntityBean {
     @Column(name = "denominacion", length = 65, nullable = false)
     @NotNull
     private String denominacion;
+
+    @Column(name = "fecha_baja")
+    private Date fechaBaja;
 
     @JsonIgnore
     @OneToMany(mappedBy = "rubro")

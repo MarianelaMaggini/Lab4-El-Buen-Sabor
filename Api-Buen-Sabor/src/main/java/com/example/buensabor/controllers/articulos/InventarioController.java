@@ -33,4 +33,5 @@ public class InventarioController {
     public Inventario saveOrUpdateInventario(@RequestBody Inventario inventario) {
         return inventarioService.saveOrUpdateInventario(inventario);
     }
+
 }

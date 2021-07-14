@@ -14,6 +14,10 @@ public class ArticuloService {
     @Autowired
     ArticuloRepository articuloRepository;
 
+    public List<Articulo> getArticulosSinFechaDeBaja() {
+        return (List<Articulo>) articuloRepository.findArticuloByFechaBajaIsNull();
+    }
+
     public List<Articulo> getArticulos() {
         return (List<Articulo>) articuloRepository.findAll();
     }
@@ -51,13 +55,6 @@ public class ArticuloService {
     }
 
     /**
-     * Metodo para filtrar por tipo articulo no elaborado OR elaborado
-     */
-    public List<Articulo> getArticuloByIdTipoArticuloOrIdTipoArticulo(Long idUno, Long idDos) {
-        return articuloRepository.findByTipoArticuloIdOrTipoArticuloId(idUno, idDos);
-    }
-
-    /**
      * Guardo en un listado de articulos los asociados al tipo articulos
      * luego recorro y seteo el atributo TRANSIENT con el precio elaborado
      * caso contrario con el precio NO elaborado
@@ -66,7 +63,7 @@ public class ArticuloService {
      * @return List<Articulo>
      */
     public List<Articulo> getArticuloByIdTipoArticulo(Long id) {
-        List<Articulo> articulos = articuloRepository.findByTipoArticuloId(id);
+        List<Articulo> articulos = articuloRepository.findByTipoArticuloIdAndFechaBajaIsNull(id);
         List<Long> articulosIdInsumos;
         if (id == 2) {
             for (Articulo articulo : articulos) {
@@ -89,13 +86,4 @@ public class ArticuloService {
         return articulos;
     }
 
-    public boolean deleteArticuloById(Long id) {
-        try {
-            articuloRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }

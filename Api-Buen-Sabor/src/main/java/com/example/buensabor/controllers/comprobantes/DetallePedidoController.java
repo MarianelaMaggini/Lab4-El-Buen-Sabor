@@ -37,4 +37,5 @@ public class DetallePedidoController {
     public DetallePedido saveOrUpdateDetallePedido(@RequestBody DetallePedido detallePedido) {
         return detallePedidoService.saveOrUpdateDetallePedido(detallePedido);
     }
+
 }

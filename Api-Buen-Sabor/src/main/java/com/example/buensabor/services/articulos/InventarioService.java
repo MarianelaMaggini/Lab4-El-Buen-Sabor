@@ -36,13 +36,4 @@ public class InventarioService {
         return (Inventario) inventarioRepository.save(inventario);
     }
 
-    public boolean deleteInventarioById(Long id) {
-        try {
-            inventarioRepository.deleteById(id);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 }
