@@ -7,6 +7,7 @@ export interface Articulo {
     denominacion: string;
     imagen: string;
     precioVenta: number;
+    fechaBaja: Date;
     tipoArticulo: TipoArticulo;
     rubro: Rubro;
     unidadMedida: UnidadMedida;

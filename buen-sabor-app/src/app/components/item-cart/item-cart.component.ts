@@ -4,11 +4,11 @@ import { DetallePedido } from 'src/app/models/detalle-pedido';
 import { ArticuloService } from 'src/app/services/articulo.service';
 
 @Component({
-  selector: 'app-detalle-pedido',
-  templateUrl: './detalle-pedido.component.html',
-  styleUrls: ['./detalle-pedido.component.css'],
+  selector: 'app-item-cart',
+  templateUrl: './item-cart.component.html',
+  styleUrls: ['./item-cart.component.css'],
 })
-export class DetallePedidoComponent implements OnInit {
+export class ItemCartComponent implements OnInit {
   @Input() cartItem: DetallePedido;
   constructor() {}
 

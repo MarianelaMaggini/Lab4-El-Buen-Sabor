@@ -1,4 +1,6 @@
 import { Domicilio } from "./domicilio";
+import { Factura } from "./factura";
+import { PedidoEstado } from "./pedido-estado";
 import { TipoEnvio } from "./tipo-envio";
 import { Usuario } from "./usuario";
 
@@ -8,5 +10,7 @@ export class Pedido {
     total: number;
     usuario: Usuario;
     tipoEnvio: TipoEnvio;
+    pedidoEstado: PedidoEstado;
     domicilio: Domicilio;
+    factura: Factura;
 }

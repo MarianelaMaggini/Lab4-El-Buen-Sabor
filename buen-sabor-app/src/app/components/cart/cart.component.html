@@ -24,7 +24,7 @@
               <li class="list-group-item" *ngFor="let item of cartItems; let i = index">
                 <div class="row">
                     <div class="col-md-10">
-                        <app-detalle-pedido [cartItem]="item"></app-detalle-pedido>
+                        <app-item-cart [cartItem]="item"></app-item-cart>
                     </div>
                     <div class="col-md-2">
                         <i class="text-danger fas fa-trash" style="cursor: pointer; padding-top: 15px;" (click)="deleteItem(i)"></i>
@@ -40,9 +40,10 @@
           <button type="button" (click)="refresh()" class="btn btn-secondary" data-dismiss="modal">
             Seguir comprando
           </button>
-          <button type="button" (click)="pagar()" class="btn btn-primary">Finalizar compra</button>
+          <button type="button" data-dismiss="modal" data-toggle="modal" data-target="#tipoEnvioModal" class="btn btn-primary">Siguiente</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+<app-tipo-envio></app-tipo-envio>

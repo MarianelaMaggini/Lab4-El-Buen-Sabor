@@ -24,7 +24,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CartComponent } from './components/cart/cart.component';
 
 // Detalles del Carrito
-import { DetallePedidoComponent } from './components/detalle-pedido/detalle-pedido.component';
+import { ItemCartComponent } from './components/item-cart/item-cart.component';
 
 // Articulos
 import { ArticulosComponent } from './components/articulos/articulos.component';
@@ -58,6 +58,8 @@ import {
   GoogleLoginProvider,
   
 } from 'angularx-social-login';
+import { TipoEnvioComponent } from './components/tipo-envio/tipo-envio.component';
+import { FormaPagoComponent } from './components/forma-pago/forma-pago.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,11 +67,13 @@ import {
     FooterComponent,
     HomeComponent,
     CartComponent,
-    DetallePedidoComponent,
+    ItemCartComponent,
     ArticulosComponent,
     ItemArticuloComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    TipoEnvioComponent,
+    FormaPagoComponent
   ],
   imports: [
     BrowserModule,
