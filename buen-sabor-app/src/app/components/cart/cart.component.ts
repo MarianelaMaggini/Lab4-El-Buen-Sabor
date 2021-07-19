@@ -16,7 +16,7 @@ export class CartComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private storageService: StorageService,
-    
+    private mercadoPagoService: MercadoPagoService
   ) {}
 
   ngOnInit(): void {
@@ -67,5 +67,15 @@ export class CartComponent implements OnInit {
     this.storageService.setCart(this.cartItems);
   }
 
+  pagar(): void {
+    this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
+      (data) => {
+        window.location.href = data;
+      },
+      (err) => {
+        console.log(err.error.text);
+      }
+    );
+  }
   
 }

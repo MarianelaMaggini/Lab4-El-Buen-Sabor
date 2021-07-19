@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 
+
 // Peticiones HTTP
 import { HttpClientModule } from '@angular/common/http';
 
@@ -59,7 +60,8 @@ import {
   
 } from 'angularx-social-login';
 import { TipoEnvioComponent } from './components/tipo-envio/tipo-envio.component';
-import { FormaPagoComponent } from './components/forma-pago/forma-pago.component';
+import { PedidosComponent } from './components/pedidos/pedidos.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,7 +75,8 @@ import { FormaPagoComponent } from './components/forma-pago/forma-pago.component
     LoginComponent,
     RegistroComponent,
     TipoEnvioComponent,
-    FormaPagoComponent
+    PedidosComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,

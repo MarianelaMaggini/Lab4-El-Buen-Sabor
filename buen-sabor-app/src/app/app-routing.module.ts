@@ -13,14 +13,15 @@ import { LoginGuard } from './guard/login.guard';
 
 // Carrito
 import { CartComponent } from './components/cart/cart.component';
-import { TipoEnvioComponent } from './components/tipo-envio/tipo-envio.component';
+import { PedidosComponent } from './components/pedidos/pedidos.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
   {path: 'registro', component: RegistroComponent, canActivate: [LoginGuard]},
   {path: 'cart', component: CartComponent},
-  {path: 'tipoEnvio', component: TipoEnvioComponent},
+  {path: 'pedidos', component: PedidosComponent},
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];
 
