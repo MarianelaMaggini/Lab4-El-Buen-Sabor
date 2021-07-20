@@ -1,4 +1,4 @@
-export class Factura {
+export interface Factura {
     numeroFactura: number;
     fecha: Date;
     montoDescuento: number;

@@ -1,4 +1,4 @@
-export class UnidadMedida {
+export interface UnidadMedida {
     id: number;
     denominacion: string;
     

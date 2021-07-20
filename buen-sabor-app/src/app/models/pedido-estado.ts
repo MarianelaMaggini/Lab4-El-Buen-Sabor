@@ -1,4 +1,4 @@
-export class PedidoEstado {
+export interface PedidoEstado {
     id: number;
     denominacion: string;
 }

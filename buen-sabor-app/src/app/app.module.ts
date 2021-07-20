@@ -59,9 +59,11 @@ import {
   GoogleLoginProvider,
   
 } from 'angularx-social-login';
-import { TipoEnvioComponent } from './components/tipo-envio/tipo-envio.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { TipoEnvioService } from './services/tipo-envio.service';
+import { DomicilioService } from './services/domicilio.service';
+import { PedidoService } from './services/pedido.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,7 +76,6 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     ItemArticuloComponent,
     LoginComponent,
     RegistroComponent,
-    TipoEnvioComponent,
     PedidosComponent,
     PerfilComponent,
   ],
@@ -91,6 +92,9 @@ import { PerfilComponent } from './components/perfil/perfil.component';
   providers: [
     ArticuloService, 
     MercadoPagoService,
+    TipoEnvioService,
+    DomicilioService,
+    PedidoService,
     interceptorProvider,
     {
       provide: 'SocialAuthServiceConfig',

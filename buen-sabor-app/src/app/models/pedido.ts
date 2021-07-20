@@ -4,7 +4,7 @@ import { PedidoEstado } from "./pedido-estado";
 import { TipoEnvio } from "./tipo-envio";
 import { Usuario } from "./usuario";
 
-export class Pedido {
+export interface Pedido {
     numeroPedido: number;
     horaEstimadaFin: Date;
     total: number;

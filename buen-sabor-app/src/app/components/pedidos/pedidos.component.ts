@@ -1,4 +1,6 @@
 import {  Component, OnInit } from '@angular/core';
+import { Pedido } from 'src/app/models/pedido';
+import { PedidoService } from 'src/app/services/pedido.service';
 
 @Component({
   selector: 'app-pedidos',
@@ -6,11 +8,17 @@ import {  Component, OnInit } from '@angular/core';
   styleUrls: ['./pedidos.component.css']
 })
 export class PedidosComponent implements OnInit {
-  total: number = 750;
-  fecha: Date = new Date();
-  constructor() { }
+  pedidos: Pedido[];
+  constructor(private pedidoService: PedidoService) { }
 
   ngOnInit(): void {
+    this.listarPedidos();
+  }
+
+  listarPedidos():void {
+    this.pedidoService.getTiposEnvios().subscribe((data) => {
+      this.pedidos =data
+    })
   }
 
 }

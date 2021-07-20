@@ -1,6 +1,6 @@
 import { Usuario } from "./usuario";
 
-export class Domicilio {
+export interface Domicilio {
     id: number;
     calle: string;
     numero: number;

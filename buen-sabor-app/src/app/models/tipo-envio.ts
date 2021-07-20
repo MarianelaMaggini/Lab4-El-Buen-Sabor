@@ -1,4 +1,4 @@
-export class TipoEnvio {
+export interface TipoEnvio {
     id: number;
     denominacion: string;
 }

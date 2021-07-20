@@ -15,13 +15,14 @@ import { LoginGuard } from './guard/login.guard';
 import { CartComponent } from './components/cart/cart.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { AppGuardService } from './guard/app-guard.service';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
   {path: 'registro', component: RegistroComponent, canActivate: [LoginGuard]},
-  {path: 'cart', component: CartComponent},
-  {path: 'pedidos', component: PedidosComponent},
+  {path: 'cart', component: CartComponent, canActivate: [AppGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path: 'pedidos', component: PedidosComponent, canActivate: [AppGuardService], data: { expectedRol: ['admin', 'user']}},
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];
 

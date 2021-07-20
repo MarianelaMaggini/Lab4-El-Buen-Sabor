@@ -2,18 +2,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TipoEnvio } from '../models/tipo-envio';
+import { Pedido } from '../models/pedido';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TipoEnvioService {
-  private tipoEnvioUrl = environment.tipoEnvioUrl;
+export class PedidoService {
+  private pedidoUrl = environment.pedidoUrl;
   private header: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  //petición para obtener todos los tipos envios
-  getTiposEnvios(): Observable<TipoEnvio[]> {
-    return this.http.get<TipoEnvio[]>(this.tipoEnvioUrl + '/todos', { headers: this.header });
+  //petición para obtener todos los pedidos
+  getTiposEnvios(): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(this.pedidoUrl + '/todos', { headers: this.header });
   }
 }
