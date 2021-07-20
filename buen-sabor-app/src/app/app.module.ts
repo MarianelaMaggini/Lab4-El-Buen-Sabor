@@ -64,6 +64,9 @@ import { PerfilComponent } from './components/perfil/perfil.component';
 import { TipoEnvioService } from './services/tipo-envio.service';
 import { DomicilioService } from './services/domicilio.service';
 import { PedidoService } from './services/pedido.service';
+
+// Sweet Alert 2
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,6 +91,7 @@ import { PedidoService } from './services/pedido.service';
     ReactiveFormsModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+    SweetAlert2Module.forRoot(),
   ],
   providers: [
     ArticuloService, 

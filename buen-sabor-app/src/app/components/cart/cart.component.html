@@ -4,13 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Mi pedido</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          (click)="refresh()"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="refresh()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -22,48 +16,28 @@
         </div>
         <div class="text-center mb-2" *ngIf="cartItems.length > 0">
           <ul class="list-group">
-            <li
-              class="list-group-item"
-              *ngFor="let item of cartItems; let i = index"
-            >
+            <li class="list-group-item" *ngFor="let item of cartItems; let i = index">
               <div class="row">
                 <div class="col-md-10">
                   <app-item-cart [cartItem]="item"></app-item-cart>
                 </div>
                 <div class="col-md-2">
-                  <i
-                    class="text-danger fas fa-trash"
-                    style="cursor: pointer; padding-top: 15px"
-                    (click)="deleteItem(i)"
-                  ></i>
+                  <i class="text-danger fas fa-trash" style="cursor: pointer; padding-top: 15px"
+                    (click)="deleteItem(i)"></i>
                 </div>
               </div>
             </li>
           </ul>
         </div>
-        <div
-          class="alert alert-success text-center"
-          *ngIf="cartItems.length > 0"
-        >
+        <div class="alert alert-success text-center" *ngIf="cartItems.length > 0">
           <strong>TOTAL: </strong>{{ total | currency: "AR":"$" }}
         </div>
         <div class="modal-footer" *ngIf="cartItems.length > 0">
-          <button
-            type="button"
-            (click)="refresh()"
-            class="btn btn-secondary"
-            data-dismiss="modal"
-          >
+          <button type="button" (click)="refresh()" class="btn btn-secondary" data-dismiss="modal">
             Seguir comprando
           </button>
-          <button
-            type="button"
-            (click)="listarTiposEnvios()"
-            data-dismiss="modal"
-            data-toggle="modal"
-            data-target="#tipoEnvioModal"
-            class="btn btn-primary"
-          >
+          <button type="button" (click)="listarTiposEnvios()" data-dismiss="modal" data-toggle="modal"
+            data-target="#tipoEnvioModal" class="btn btn-primary">
             Siguiente
           </button>
         </div>
@@ -73,46 +47,27 @@
 </div>
 
 <!-- MODAL TIPO ENVIO-->
-<div
-  class="modal fade"
-  id="tipoEnvioModal"
-  tabindex="-1"
-  aria-labelledby="tipoEnvioModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="tipoEnvioModal" tabindex="-1" aria-labelledby="tipoEnvioModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="tipoEnvioModalLabel">
           Elige el tipo de envío
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div
-          class="form-check form-check-inline"
-          *ngFor="let envio of tiposEnvios; let i = index"
-        >
-          <input
-            class="form-check-input"
-            type="radio"
-            name="tipoenvio"
-            value="{{ envio.id }}"
-            (change)="capturarValor($event)"
-          />
+        <div class="form-check form-check-inline" *ngFor="let envio of tiposEnvios; let i = index">
+          <input class="form-check-input" type="radio" name="tipoenvio" value="{{ envio.id }}"
+            (change)="capturarValorEnvio($event)" />
           <label class="form-check-label" for="local">{{
             envio.denominacion
-          }}</label>
+            }}</label>
         </div>
         <hr />
-        <div *ngIf="idTipoEnvio != 1">
+        <div *ngIf="idTipoEnvio == 2">
           <div>
             <table class="table">
               <thead>
@@ -127,13 +82,8 @@
                 <tr *ngFor="let domicilio of domicilios; let i = index">
                   <th scope="row">
                     <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios1"
-                        value="{{ domicilio.id }}"
-                      />
+                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                        value="{{ domicilio.id }}" />
                     </div>
                   </th>
                   <td>{{ domicilio.calle }}</td>
@@ -146,22 +96,12 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-dismiss="modal"
-          data-toggle="modal"
-          data-target="#cartModal"
-        >
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal"
+          data-target="#cartModal">
           Regresar
         </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-dismiss="modal"
-          data-toggle="modal"
-          data-target="#formaPagoModal"
-        >
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+          data-target="#formaPagoModal" [disabled]="idTipoEnvio != 1 && idTipoEnvio != 2">
           Siguiente
         </button>
       </div>
@@ -170,61 +110,31 @@
 </div>
 
 <!-- MODAL FORMA DE PAGO -->
-<div
-  class="modal fade"
-  id="formaPagoModal"
-  tabindex="-1"
-  aria-labelledby="formaPagoModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="formaPagoModal" tabindex="-1" aria-labelledby="formaPagoModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="formaPagoModalLabel">
           Elige cómo vas abonar tu compra
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            name="tipoenvio"
-            id="efectivo"
-            value="1"
-          />
-          <label class="form-check-label" for="efectivo">Efectivo</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            name="tipoenvio"
-            id="mercadopago"
-            value="2"
-          />
-          <label class="form-check-label" for="mercadopago">Mercado Pago</label>
-        </div>
+        <div class="form-check form-check-inline" *ngFor="let forma of formasPago; let i = index">
+          <input class="form-check-input" type="radio" name="formaPago" value="{{ i }}"
+            (change)="capturarValorFormaPago($event)" />
+          <label class="form-check-label" for="local">{{ forma }}</label>
+      </div>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-dismiss="modal"
-          data-toggle="modal"
-          data-target="#tipoEnvioModal"
-        >
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal"
+          data-target="#tipoEnvioModal">
           Regresar
         </button>
-        <button type="button" class="btn btn-primary" (click)="pagar()">
+        <button type="button" class="btn btn-primary" [disabled]="idFormaPago != 0 && idFormaPago != 1"
+          (click)="finalizarCompra()" data-dismiss="modal" data-toggle="modal">
           Finalizar compra
         </button>
       </div>

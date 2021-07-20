@@ -8,7 +8,7 @@ import { MercadoPagoService } from 'src/app/services/mercado-pago.service';
 import { MessageService } from 'src/app/services/message.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { TipoEnvioService } from 'src/app/services/tipo-envio.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -22,7 +22,9 @@ export class CartComponent implements OnInit {
   domicilios: Domicilio[];
   cartItems: any = [];
   total: number = 0;
-
+  formasPago: any = ['Efectivo', 'Mercado Pago'];
+  idFormaPago : number;
+  
   // constructor
   constructor(
     private messageService: MessageService,
@@ -80,6 +82,15 @@ export class CartComponent implements OnInit {
   }
   
   /**
+   * Método void que limpia el carrito completamente
+   */
+  emptyCart(): void {
+    this.cartItems = [];
+    this.total = 0;
+    this.storageService.clear();
+  }
+  
+  /**
    * Elimina el item reduciendo la cantidad
    * @param i Recibe por parametro el indice del item 
    */
@@ -94,34 +105,56 @@ export class CartComponent implements OnInit {
   }
   
   /**
-   * Método void que inyecta el servicio de Mercado Pago
+   * Método void que finaliza la compra dependiente de la forma de pago
    */
-  pagar(): void {
-    this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
-      (data) => {
-        window.location.href = data;
-      },
-      (err) => {
-        console.log(err.error.text);
-      }
-    );
+  finalizarCompra(): void {
+    if (this.idFormaPago == 0) {
+      Swal.fire({
+        title: 'Pedido realizado con éxito',
+        icon: 'success',
+        text: 'Gracias por confiar en el Buen Sabor 🍕',
+      });
+      this.emptyCart();
+      this.refresh();
+    }else {
+      this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
+        (data) => {
+          window.location.href = data;
+        },
+        (err) => {
+          console.log(err.error.text);
+        }
+      );
+    }
   }
-  // Captura el valor del radio button del tipo envio
-  capturarValor(event:any):void {
+  /**
+   * Captura el valor del radio button del tipo envio
+   */
+  capturarValorEnvio(event:any):void {
     this.idTipoEnvio = event.target.value;
-    console.log(event.target.value);
+    console.log(this.idTipoEnvio);
     this.listarDomicilios();
   }
+
+    /** 
+     * Captura el valor del radio button de la forma de pago
+     */ 
+    capturarValorFormaPago(event:any):void {
+      this.idFormaPago = event.target.value;
+      console.log(this.idFormaPago)
+    }
   
-  // Obtiene todos los tipos envios de la base de datos
+  /**
+   * Método void que a través del servicio de Tipo Envio, lista todos los tipos envios de la base de datos 
+   */ 
   listarTiposEnvios(): void {
     this.tipoEnvioService.getTiposEnvios().subscribe((data) => {
-      console.log(data)
-      this.idTipoEnvio = data[0].id;
       this.tiposEnvios = data;
     })
   }
-  
+  /**
+   * Método void que a través del servicio de Domicilio, lista todos los domicilios de la base de datos
+   */
   listarDomicilios():void {
     this.domicilioService.getTiposEnvios().subscribe((data) => {
       this.domicilios = data;
