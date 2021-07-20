@@ -1,7 +1,5 @@
 package com.example.buensabor.entities.comprobantes;
 
-import com.example.buensabor.entities.articulos.TipoArticulo;
-import com.example.buensabor.entities.mercadoPago.MercadoPagoDatos;
 import com.example.buensabor.entities.domicilio.Domicilio;
 import com.example.buensabor.security.entities.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -59,9 +57,5 @@ public class Pedido implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "numero_factura")
     private Factura factura;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_mercado_pago")
-    private MercadoPagoDatos mercadoPagoDatos;
 
 }
