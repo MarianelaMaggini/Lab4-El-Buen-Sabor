@@ -18,13 +18,14 @@ export class CartComponent implements OnInit {
 
   // atributos
   tiposEnvios: TipoEnvio[];
-  idTipoEnvio: number;
+  idTipoEnvio: number = 0;
   domicilios: Domicilio[];
   cartItems: any = [];
   total: number = 0;
   formasPago: any = ['Efectivo', 'Mercado Pago'];
-  idFormaPago : number;
-  
+  idFormaPago: number;
+  idDomicilio: number = 0;
+
   // constructor
   constructor(
     private messageService: MessageService,
@@ -32,8 +33,8 @@ export class CartComponent implements OnInit {
     private mercadoPagoService: MercadoPagoService,
     private tipoEnvioService: TipoEnvioService,
     private domicilioService: DomicilioService
-  ) {}
-  
+  ) { }
+
   ngOnInit(): void {
     if (this.storageService.existCart()) {
       this.cartItems = this.storageService.getCart();
@@ -80,7 +81,7 @@ export class CartComponent implements OnInit {
     });
     return +total.toFixed(2);
   }
-  
+
   /**
    * Método void que limpia el carrito completamente
    */
@@ -89,7 +90,7 @@ export class CartComponent implements OnInit {
     this.total = 0;
     this.storageService.clear();
   }
-  
+
   /**
    * Elimina el item reduciendo la cantidad
    * @param i Recibe por parametro el indice del item 
@@ -103,7 +104,7 @@ export class CartComponent implements OnInit {
     this.total = this.getTotal();
     this.storageService.setCart(this.cartItems);
   }
-  
+
   /**
    * Método void que finaliza la compra dependiente de la forma de pago
    */
@@ -116,7 +117,7 @@ export class CartComponent implements OnInit {
       });
       this.emptyCart();
       this.refresh();
-    }else {
+    } else {
       this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
         (data) => {
           window.location.href = data;
@@ -130,23 +131,32 @@ export class CartComponent implements OnInit {
   /**
    * Captura el valor del radio button del tipo envio
    */
-  capturarValorEnvio(event:any):void {
+  capturarValorEnvio(event: any): void {
     this.idTipoEnvio = event.target.value;
     console.log(this.idTipoEnvio);
+    this.idDomicilio = 0;
     this.listarDomicilios();
   }
 
-    /** 
-     * Captura el valor del radio button de la forma de pago
-     */ 
-    capturarValorFormaPago(event:any):void {
-      this.idFormaPago = event.target.value;
-      console.log(this.idFormaPago)
-    }
-  
+  /** 
+   * Captura el valor del radio button de la forma de pago
+   */
+  capturarValorFormaPago(event: any): void {
+    this.idFormaPago = event.target.value;
+    console.log(this.idFormaPago)
+  }
+
+  /** 
+  * Captura el valor del radio button de la forma de pago
+  */
+  capturarValorDomicilio(event: any): void {
+    this.idDomicilio = event.target.value;
+    console.log(this.idDomicilio)
+  }
+
   /**
    * Método void que a través del servicio de Tipo Envio, lista todos los tipos envios de la base de datos 
-   */ 
+   */
   listarTiposEnvios(): void {
     this.tipoEnvioService.getTiposEnvios().subscribe((data) => {
       this.tiposEnvios = data;
@@ -155,9 +165,25 @@ export class CartComponent implements OnInit {
   /**
    * Método void que a través del servicio de Domicilio, lista todos los domicilios de la base de datos
    */
-  listarDomicilios():void {
+  listarDomicilios(): void {
     this.domicilioService.getTiposEnvios().subscribe((data) => {
       this.domicilios = data;
     })
   }
+
+  restaurarTipoEnvio(): void {
+    this.idDomicilio = 0;
+    this.idTipoEnvio = 0;
+  }
+
+  checkTipoEnvio(): boolean {
+    if (this.idTipoEnvio == 2 && this.idDomicilio > 0) {
+        return false;
+    } else if (this.idTipoEnvio == 1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }

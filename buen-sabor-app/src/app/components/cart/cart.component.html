@@ -1,6 +1,6 @@
 <!-- MODAL CARRITO -->
 <div class="modal" id="cartModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Mi pedido</h5>
@@ -48,7 +48,7 @@
 
 <!-- MODAL TIPO ENVIO-->
 <div class="modal fade" id="tipoEnvioModal" tabindex="-1" aria-labelledby="tipoEnvioModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="tipoEnvioModalLabel">
@@ -61,7 +61,7 @@
       <div class="modal-body">
         <div class="form-check form-check-inline" *ngFor="let envio of tiposEnvios; let i = index">
           <input class="form-check-input" type="radio" name="tipoenvio" value="{{ envio.id }}"
-            (change)="capturarValorEnvio($event)" />
+            (change)="capturarValorEnvio($event)"/>
           <label class="form-check-label" for="local">{{
             envio.denominacion
             }}</label>
@@ -83,7 +83,7 @@
                   <th scope="row">
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                        value="{{ domicilio.id }}" />
+                        value="{{ domicilio.id }}" (change)="capturarValorDomicilio($event)"/>
                     </div>
                   </th>
                   <td>{{ domicilio.calle }}</td>
@@ -97,11 +97,11 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal"
-          data-target="#cartModal">
+          data-target="#cartModal" (click)="restaurarTipoEnvio()">
           Regresar
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-          data-target="#formaPagoModal" [disabled]="idTipoEnvio != 1 && idTipoEnvio != 2">
+          data-target="#formaPagoModal" [disabled]="checkTipoEnvio()">
           Siguiente
         </button>
       </div>
@@ -111,7 +111,7 @@
 
 <!-- MODAL FORMA DE PAGO -->
 <div class="modal fade" id="formaPagoModal" tabindex="-1" aria-labelledby="formaPagoModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="formaPagoModalLabel">

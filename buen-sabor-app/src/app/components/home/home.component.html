@@ -1,22 +1,17 @@
-
 <!-- JUMBOTRON -->
 <div class="jumbotron jumbotron-fluid fondoJumbo rounded-0">
   <div class="container">
     <h1 class="display-3 text-white">¡Antojate tranquilo y pedí lo que quieras!</h1>
     <u class="text-white">
       <p class="lead text-white h4 d-flex justify-content-end align-items-center" *ngIf="isLogged">
-      Nosotros te lo llevamos
+        Nosotros te lo llevamos
       </p>
       <a routerLink="/login" class="lead text-white h4 d-flex justify-content-end align-items-center" *ngIf="!isLogged">
         Inicia sesión o registrate para pedir
       </a>
     </u>
-    <img src="../../../assets/img/deliveryBoy.png"
-    alt="delivery"
-    id="delivery"
-    class="sizeImg"
-    (mouseover)='over()'>
-    
+    <img src="../../../assets/img/deliveryBoy.png" alt="delivery" id="delivery" class="sizeImg" (mouseover)='over()'>
+
   </div>
 </div>
 <!-- SUB-TITULO -->
@@ -25,10 +20,42 @@
   <hr />
 </div>
 <div class="container">
-  <div class="row my-2 mx-4">
-    <div class="col">
+  <div class="row">
+    <div class="col-md-4">
+      <h3>Filtrar por:</h3>
+      <hr class="division"/>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#submenu" data-toggle="collapse" data-target="#submenu">Rubro</a>
+          <div class="collapse" id="submenu" aria-expanded="false">
+            <ul class="flex-column pl-2 nav">
+              <li class="nav-item">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="pizzas">
+                  <label class="form-check-label" for="pizzas">
+                    Pizzas
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="pizzas">
+                  <label class="form-check-label" for="pizzas">
+                    Bebidas
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="pizzas">
+                  <label class="form-check-label" for="pizzas">
+                    Hamburguesas
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-8">
       <app-articulos></app-articulos>
     </div>
   </div>
 </div>
-
