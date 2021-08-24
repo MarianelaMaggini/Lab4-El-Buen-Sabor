@@ -35,4 +35,7 @@ public class DomicilioService {
         return (Domicilio) domicilioRepository.save(domicilio);
     }
 
+    public List<Domicilio> getDomiciliosByUsuarioId(Long idUsuario) {
+        return domicilioRepository.findByIdUsuario(idUsuario);
+    }
 }

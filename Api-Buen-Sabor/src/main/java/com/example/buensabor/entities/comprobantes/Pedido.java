@@ -50,12 +50,10 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "id_estado")
     private PedidoEstado pedidoEstado;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_domicilio")
     private Domicilio domicilio;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "numero_factura")
-    private Factura factura;
+
 
 }
