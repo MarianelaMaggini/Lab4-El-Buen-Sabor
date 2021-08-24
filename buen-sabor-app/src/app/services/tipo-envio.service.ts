@@ -16,4 +16,8 @@ export class TipoEnvioService {
   getTiposEnvios(): Observable<TipoEnvio[]> {
     return this.http.get<TipoEnvio[]>(this.tipoEnvioUrl + '/todos', { headers: this.header });
   }
+
+  getTipoEnvioById(id:number):Observable<TipoEnvio> {
+    return this.http.get<TipoEnvio>(this.tipoEnvioUrl + "/" + id, {headers: this.header})
+  }
 }

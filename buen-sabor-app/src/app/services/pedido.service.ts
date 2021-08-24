@@ -16,4 +16,8 @@ export class PedidoService {
   getTiposEnvios(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(this.pedidoUrl + '/todos', { headers: this.header });
   }
+
+  savePedido(pedido: Pedido): Observable<Pedido>{
+    return this.http.post<Pedido>(this.pedidoUrl, pedido, {headers: this.header});
+  }
 }

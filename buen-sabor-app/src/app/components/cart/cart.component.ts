@@ -1,13 +1,20 @@
+import { getLocaleDayPeriods } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Articulo } from 'src/app/models/articulo';
 import { DetallePedido } from 'src/app/models/detalle-pedido';
 import { Domicilio } from 'src/app/models/domicilio';
+import { PedidoEstado } from 'src/app/models/pedido-estado';
 import { TipoEnvio } from 'src/app/models/tipo-envio';
+import { Usuario } from 'src/app/models/usuario';
+import { AuthService } from 'src/app/services/auth.service';
 import { DomicilioService } from 'src/app/services/domicilio.service';
 import { MercadoPagoService } from 'src/app/services/mercado-pago.service';
 import { MessageService } from 'src/app/services/message.service';
+import { PedidoService } from 'src/app/services/pedido.service';
+import { PedidoEstadoService } from 'src/app/services/pedidoEstado.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { TipoEnvioService } from 'src/app/services/tipo-envio.service';
+import { TokenService } from 'src/app/services/token.service';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-cart',
@@ -17,14 +24,19 @@ import Swal from 'sweetalert2';
 export class CartComponent implements OnInit {
 
   // atributos
-  tiposEnvios: TipoEnvio[];
-  idTipoEnvio: number = 0;
-  domicilios: Domicilio[];
   cartItems: any = [];
-  total: number = 0;
+  tiposEnvios: TipoEnvio[];
+  domicilios: Domicilio[];
   formasPago: any = ['Efectivo', 'Mercado Pago'];
+  idTipoEnvio: number = 0;
   idFormaPago: number;
   idDomicilio: number = 0;
+  total: number = 0;
+  usuario: Usuario;
+  tipoEnvio: TipoEnvio;
+  domicilio: Domicilio;
+  pedidoEstado: PedidoEstado;
+
 
   // constructor
   constructor(
@@ -32,10 +44,15 @@ export class CartComponent implements OnInit {
     private storageService: StorageService,
     private mercadoPagoService: MercadoPagoService,
     private tipoEnvioService: TipoEnvioService,
-    private domicilioService: DomicilioService
+    private domicilioService: DomicilioService,
+    private pedidoEstadoService: PedidoEstadoService,
+    private pedidoService: PedidoService,
+    private tokenService: TokenService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
+    this.getUser();
     if (this.storageService.existCart()) {
       this.cartItems = this.storageService.getCart();
     }
@@ -115,8 +132,37 @@ export class CartComponent implements OnInit {
         icon: 'success',
         text: 'Gracias por confiar en el Buen Sabor 🍕',
       });
-      this.emptyCart();
-      this.refresh();
+      if (this.idTipoEnvio == 1) {
+        this.getUserBuenSabor("bsabor2021@gmail.com");
+        let id = this.usuario.id
+        this.getTipoEnvio();
+        this.getPedidoEstado(1);
+        this.getDomicilio(id)
+      }else{
+        this.getUser();
+        this.getTipoEnvio();
+        this.getPedidoEstado(1);
+        this.getDomicilio(this.idDomicilio)
+      }
+
+      let pedido = {
+        "numeroPedido": 0,
+        "horaEstimadaFin": new Date(),
+        "total": this.total,
+        "usuario": this.usuario,
+        "tipoEnvio": this.tipoEnvio,
+        "pedidoEstado": this.pedidoEstado,
+        "domicilio": this.domicilio
+      }
+
+      console.log(pedido)
+
+      // this.pedidoService.savePedido(pedido).subscribe(data => {
+      //   console.log(data)
+      // });
+
+      //this.emptyCart();
+      //this.refresh();
     } else {
       this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
         (data) => {
@@ -132,10 +178,10 @@ export class CartComponent implements OnInit {
    * Captura el valor del radio button del tipo envio
    */
   capturarValorEnvio(event: any): void {
-    this.idTipoEnvio = event.target.value;
-    console.log(this.idTipoEnvio);
     this.idDomicilio = 0;
-    this.listarDomicilios();
+    this.idTipoEnvio = event.target.value;
+    console.log(this.idTipoEnvio)
+    this.listarDomicilios(this.usuario.id);
   }
 
   /** 
@@ -143,7 +189,6 @@ export class CartComponent implements OnInit {
    */
   capturarValorFormaPago(event: any): void {
     this.idFormaPago = event.target.value;
-    console.log(this.idFormaPago)
   }
 
   /** 
@@ -151,7 +196,6 @@ export class CartComponent implements OnInit {
   */
   capturarValorDomicilio(event: any): void {
     this.idDomicilio = event.target.value;
-    console.log(this.idDomicilio)
   }
 
   /**
@@ -165,8 +209,8 @@ export class CartComponent implements OnInit {
   /**
    * Método void que a través del servicio de Domicilio, lista todos los domicilios de la base de datos
    */
-  listarDomicilios(): void {
-    this.domicilioService.getTiposEnvios().subscribe((data) => {
+  listarDomicilios(id:number): void {
+    this.domicilioService.getDomicilioByUserId(id).subscribe((data) => {
       this.domicilios = data;
     })
   }
@@ -178,12 +222,44 @@ export class CartComponent implements OnInit {
 
   checkTipoEnvio(): boolean {
     if (this.idTipoEnvio == 2 && this.idDomicilio > 0) {
-        return false;
+      return false;
     } else if (this.idTipoEnvio == 1) {
       return false;
     } else {
       return true;
     }
+  }
+
+  getUserBuenSabor(email:string):void {
+    this.authService.getDataUsuario(email).subscribe(dataUsuario => {
+      this.usuario = dataUsuario;
+      console.log(this.usuario)
+    })
+  }
+
+  getUser(): void {
+    let userName = this.tokenService.getUserName();
+    this.authService.getDataUsuario(userName).subscribe(dataUsuario => {
+      this.usuario = dataUsuario;
+    });
+  }
+
+  getTipoEnvio(): void {
+    this.tipoEnvioService.getTipoEnvioById(this.idTipoEnvio).subscribe(dataTipoEnvio => {
+      this.tipoEnvio = dataTipoEnvio;
+    });
+  }
+
+  getDomicilio(id: number): void {
+    this.domicilioService.getDomicilioById(id).subscribe(dataDomicilio => {
+      this.domicilio = dataDomicilio;
+    })
+  }
+
+  getPedidoEstado(id:number): void {
+    this.pedidoEstadoService.getPedidoEstadoById(id).subscribe(dataPedidoEstado => {
+      this.pedidoEstado = dataPedidoEstado;
+    })
   }
 
 }

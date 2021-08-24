@@ -9,7 +9,8 @@ export const environment = {
   authUrl: 'http://localhost:8080/auth/',
   tipoEnvioUrl: 'http://localhost:8080/tiposEnvio',
   domicilioUrl: 'http://localhost:8080/domicilios',
-  pedidoUrl: 'http://localhost:8080/pedidos'
+  pedidoUrl: 'http://localhost:8080/pedidos',
+  pedidoEstadosUrl: 'http://localhost:8080/pedidoEstados'
 };
 
 /*

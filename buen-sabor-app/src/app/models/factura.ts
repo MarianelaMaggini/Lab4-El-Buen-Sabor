@@ -1,3 +1,5 @@
+import { Pedido } from "./pedido";
+
 export interface Factura {
     numeroFactura: number;
     fecha: Date;
@@ -5,4 +7,5 @@ export interface Factura {
     formaPago: string;
     totalVenta: number;
     totalCosto: number;
+    pedido: Pedido;
 }

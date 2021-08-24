@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,7 +20,6 @@ export class HeaderComponent implements OnInit {
   constructor(
     private storageService: StorageService,
     private tokenService: TokenService,
-    private router: Router,
     private authService: AuthService,
     private socialAuthService: SocialAuthService,
     ) {}
