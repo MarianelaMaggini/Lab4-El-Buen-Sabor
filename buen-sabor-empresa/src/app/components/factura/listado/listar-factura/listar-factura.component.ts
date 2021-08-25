@@ -62,7 +62,7 @@ export class ListarFacturaComponent implements OnInit {
       doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
       return doc;
     }).then((docResult) => {
-      docResult.save(`${new Date().toISOString()}_factura.pdf`);
+      docResult.save(`${this.factura.fecha}_factura.pdf`);
     });
   }
 
