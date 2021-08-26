@@ -12,6 +12,6 @@ import java.util.List;
 public interface DomicilioRepository extends CrudRepository <Domicilio,Long>{
     List<Domicilio> findByFechaBajaIsNull();
 
-    @Query(value = "SELECT d FROM Domicilio d WHERE d.usuario.id = :idUsuario")
+    @Query(value = "SELECT d FROM Domicilio d WHERE d.usuario.id = :idUsuario AND d.fechaBaja IS null")
     List<Domicilio> findByIdUsuario(@Param("idUsuario") Long idUsuario);
 }
