@@ -24,4 +24,7 @@ export class DomicilioService {
   getDomicilioByUserId(id:number):Observable<Domicilio[]>{
     return this.http.get<Domicilio[]>(this.domicilioUrl + '/id?usuario=' + id, {headers: this.header});
   }
+  saveDomicilio(domicilio: Domicilio): Observable<Domicilio>{
+    return this.http.post<Domicilio>(this.domicilioUrl, domicilio, {headers: this.header});
+  }
 }

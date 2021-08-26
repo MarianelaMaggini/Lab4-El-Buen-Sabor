@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 
-
 // Peticiones HTTP
 import { HttpClientModule } from '@angular/common/http';
 
@@ -67,6 +66,12 @@ import { PedidoService } from './services/pedido.service';
 
 // Sweet Alert 2
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { AuthService } from './services/auth.service';
+import { MessageService } from './services/message.service';
+import { PedidoEstadoService } from './services/pedidoEstado.service';
+import { RubroService } from './services/rubro.service';
+import { StorageService } from './services/storage.service';
+import { TokenService } from './services/token.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -99,6 +104,12 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     TipoEnvioService,
     DomicilioService,
     PedidoService,
+    AuthService,
+    MessageService,
+    PedidoEstadoService,
+    RubroService,
+    StorageService,
+    TokenService,
     interceptorProvider,
     {
       provide: 'SocialAuthServiceConfig',

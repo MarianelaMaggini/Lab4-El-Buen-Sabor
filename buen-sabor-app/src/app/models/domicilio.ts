@@ -5,6 +5,6 @@ export interface Domicilio {
     calle: string;
     numero: number;
     localidad: string;
-    fechaBaja: Date;
+    fechaBaja: Date | null;
     usuario: Usuario;
 }
