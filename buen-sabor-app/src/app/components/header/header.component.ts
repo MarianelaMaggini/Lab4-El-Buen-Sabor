@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-    this.getDatosUsuario();
+    this.getUser();
     this.countCart();
     this.isAdmin = this.tokenService.isAdmin();
     this.isLogged = this.tokenService.isLogged();
@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  getDatosUsuario(): void {
+  getUser(): void {
     let userName = this.tokenService.getUserName()
       this.authService.getDataUsuario(userName).subscribe(data => {
         console.log(data)

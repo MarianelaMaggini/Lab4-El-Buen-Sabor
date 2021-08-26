@@ -13,8 +13,8 @@ export class PedidoService {
   constructor(private http: HttpClient) { }
 
   //petición para obtener todos los pedidos
-  getTiposEnvios(): Observable<Pedido[]> {
-    return this.http.get<Pedido[]>(this.pedidoUrl + '/todos', { headers: this.header });
+  getPedidosByUser(id:number): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(this.pedidoUrl + '/id?usuario=' + id, { headers: this.header });
   }
 
   savePedido(pedido: Pedido): Observable<Pedido>{
