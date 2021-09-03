@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Articulo } from 'src/app/models/articulo';
 import { ItemCart } from 'src/app/models/item-cart';
 import { Domicilio } from 'src/app/models/domicilio';
@@ -43,9 +43,9 @@ export class CartComponent implements OnInit {
   // Para guardar un nuevo domicilio
   saveAddress = new FormGroup({
     id: new FormControl(''),
-    calle: new FormControl(''),
-    numero: new FormControl(''),
-    localidad: new FormControl(''),
+    calle: new FormControl('', [Validators.required]),
+    numero: new FormControl('', [Validators.required, Validators.maxLength(4)]),
+    localidad: new FormControl('', [Validators.required]),
     fechaBaja: new FormControl(''),
     usuario: new FormControl('')
   })
@@ -144,42 +144,64 @@ export class CartComponent implements OnInit {
   }
 
   /**
-   * Método void que finaliza la compra dependiente de la forma de pago
+   * Método void que finaliza la compra dependiendo de la forma de pago
+   * Si tipo envio es 1 (retiro) Y metodo de pago es 0 (efectivo)
+   * Si no Si tipo envio es 1 (retiro) Y metodo de pago es 1 (Mercado Pago)
+   * Si No tipo envio es 2 (domicilio) Y metodo de pago es 1(Mercado Pago)
    */
   toPay(): void {
-    if (this.idPaymentMethod == 0) {
-      if (this.idShippingType == 1) {
+    if (this.idShippingType == 1 && this.idPaymentMethod == 0) {
         this.authService.getDataUsuario(EMAIL_BUENSABOR).subscribe((dataUsuario) => {
           this.tipoEnvioService.getTipoEnvioById(this.idShippingType).subscribe((dataTipoEnvio) => {
             this.pedidoEstadoService.getPedidoEstadoById(1).subscribe((dataPedidoEstado) => {
               this.domicilioService.getDomicilioByUserId(dataUsuario.id).subscribe((dataDomicilio) => {
                 let pedido = new PedidoCreate(0, new Date(), this.total, dataUsuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio[0])
-                this.savePedidoAndDetallePedido(pedido)
+                this.pedidoService.savePedido(pedido).subscribe(data => {
+                  this.cartItems.forEach((item: any) => {
+                    this.articuloService.getArticuloById(item.id).subscribe((dataArticulo) => {
+                      let detallePedido = { "id": 0, "cantidad": item.cantidad, "subtotal": item.precio, "articulo": dataArticulo, "pedido": data }
+                      this.detallePedidoService.saveDetallePedido(detallePedido).subscribe();
+                    })
+                  });
+                  Swal.fire({
+                    title: 'Pedido realizado con éxito',
+                    icon: 'success',
+                    text: 'Gracias por confiar en el Buen Sabor 🍕',
+                  }).then(res => {
+                    this.emptyCart();
+                    this.refresh();
+                  });
+                });
               });
             });
           });
         });
 
-      } else {
+
+    } else {
+      if (this.idShippingType == 1 && this.idPaymentMethod == 1) {
+        this.authService.getDataUsuario(EMAIL_BUENSABOR).subscribe((dataUsuario) => {
           this.tipoEnvioService.getTipoEnvioById(this.idShippingType).subscribe((dataTipoEnvio) => {
             this.pedidoEstadoService.getPedidoEstadoById(1).subscribe((dataPedidoEstado) => {
-              this.domicilioService.getDomicilioById(this.idAddress).subscribe((dataDomicilio) => {
-                let pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio)
-                this.savePedidoAndDetallePedido(pedido)
+              this.domicilioService.getDomicilioByUserId(dataUsuario.id).subscribe((dataDomicilio) => {
+                let pedido = new PedidoCreate(0, new Date(), this.total, dataUsuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio[0])
+                this.savePedidoAndDetallePedido(pedido);
               });
             });
           });
+        });
+
+      } else if (this.idShippingType == 2 && this.idPaymentMethod == 1) {
+        this.tipoEnvioService.getTipoEnvioById(this.idShippingType).subscribe((dataTipoEnvio) => {
+          this.pedidoEstadoService.getPedidoEstadoById(1).subscribe((dataPedidoEstado) => {
+            this.domicilioService.getDomicilioById(this.idAddress).subscribe((dataDomicilio) => {
+              let pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio)
+              this.savePedidoAndDetallePedido(pedido);
+            });
+          });
+        });
       }
 
-    } else {
-      this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
-        (data) => {
-          window.location.href = data;
-        },
-        (err) => {
-          console.log(err.error.text);
-        }
-      );
     }
   }
   /**
@@ -202,7 +224,7 @@ export class CartComponent implements OnInit {
   }
 
   /** 
-  * Captura el valor del radio button de la forma de pago
+  * Captura el valor del radio button del domicilio
   */
   captureAddressValue(event: any): void {
     this.idAddress = event.target.value;
@@ -224,12 +246,20 @@ export class CartComponent implements OnInit {
       this.domicilios = data;
     })
   }
-
+  
+  /**
+   * Regresa a 0 el id del Domicilio y id de Tipo Envio de los Radio Button
+   */
   restoreShippingType(): void {
     this.idAddress = 0;
     this.idShippingType = 0;
   }
 
+  /**
+   * Evalua si el retiro envio fue seleccionado y habilita el botón siguiente
+   * En caso de envio a domicilio, debe elegir un domicilio sino el botón sigue inhabilido
+   * @returns valor true o false según corresponda
+   */
   checkShippingType(): boolean {
     if (this.idShippingType == 2 && this.idAddress > 0) {
       return false;
@@ -239,20 +269,27 @@ export class CartComponent implements OnInit {
       return true;
     }
   }
-
-  getUser(email:string): void {
+  
+  /**
+   * Recupera la información completa del usuario mediante el correo electrónico
+   * @param email 
+   */
+  getUser(email: string): void {
     this.authService.getDataUsuario(email).subscribe((data) => {
       this.usuario = data;
     });
   }
 
-  savePedidoAndDetallePedido(pedido:PedidoCreate):void{
+  /**
+   * Guarda un pedido y de acuerdo a cada item cargado en el carrito, los persiste luego de persistir el pedido
+   * @param pedido 
+   */
+  savePedidoAndDetallePedido(pedido: PedidoCreate): void {
     this.pedidoService.savePedido(pedido).subscribe(data => {
       this.cartItems.forEach((item: any) => {
         this.articuloService.getArticuloById(item.id).subscribe((dataArticulo) => {
-          let detallePedido = {"id":0, "cantidad": item.cantidad, "subtotal": item.precio, "articulo": dataArticulo, "pedido": data}
+          let detallePedido = { "id": 0, "cantidad": item.cantidad, "subtotal": item.precio, "articulo": dataArticulo, "pedido": data }
           this.detallePedidoService.saveDetallePedido(detallePedido).subscribe();
-
         })
       });
       Swal.fire({
@@ -260,34 +297,53 @@ export class CartComponent implements OnInit {
         icon: 'success',
         text: 'Gracias por confiar en el Buen Sabor 🍕',
       }).then(res => {
-        this.emptyCart();
-        this.refresh();
+        this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
+          (data) => {
+            window.location.href = data;
+          },
+          (err) => {
+            console.log(err.error.text);
+          }
+        );
       });
     });
   }
-
+  
+  /**
+   * Abre el formulario para cargar un domicilio
+   */
   clickOpenForm(): void {
     this.openForm = true;
   }
-
+  /**
+   * Cierra el formulario para cargar un domicilio
+   */
   clickCloseForm(): void {
     this.openForm = false;
   }
-
+  
+  /**
+   * Mediante petición post envía un domicilio al servidor para persistirlo
+   * @param form 
+   */
   postFormAddress(form: Domicilio): void {
-    console.log("click")
-      let domicilio = { "id": 0, "calle": form.calle, "numero": form.numero, "localidad": form.localidad, "fechaBaja": null, "usuario": this.usuario };
-      this.domicilioService.saveDomicilio(domicilio).subscribe();
-      this.listAddress(this.usuario.id)
+    let domicilio = { "id": 0, "calle": form.calle, "numero": form.numero, "localidad": form.localidad, "fechaBaja": null, "usuario": this.usuario };
+    this.domicilioService.saveDomicilio(domicilio).subscribe();
+    this.domicilios.push(domicilio);
+    this.saveAddress.reset();
   }
 
+  /**
+   * Mediante petición post envía un domicilio existente al servidor para persistirlo
+   * Lo elimina de manera lógica por fecha
+   * @param form 
+   */
   deleteAddress(id: number): void {
-    console.log("click")
-      this.domicilioService.getDomicilioById(id).subscribe((dataDomicilio) => {
-        let domicilio = { "id": dataDomicilio.id, "calle": dataDomicilio.calle, "numero": dataDomicilio.numero, "localidad": dataDomicilio.localidad, "fechaBaja": new Date(), "usuario": this.usuario };
-        this.domicilioService.saveDomicilio(domicilio).subscribe();
-        this.listAddress(this.usuario.id)
-      })
+    this.domicilios = this.domicilios.filter((item) => item.id !== id);
+    this.domicilioService.getDomicilioById(id).subscribe((dataDomicilio) => {
+      let domicilio = { "id": dataDomicilio.id, "calle": dataDomicilio.calle, "numero": dataDomicilio.numero, "localidad": dataDomicilio.localidad, "fechaBaja": new Date(), "usuario": this.usuario };
+      this.domicilioService.saveDomicilio(domicilio).subscribe();
+    })
   }
 
 }

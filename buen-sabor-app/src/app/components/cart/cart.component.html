@@ -90,7 +90,8 @@
                   <td>{{ domicilio.calle }}</td>
                   <td>{{ domicilio.numero }}</td>
                   <td>{{ domicilio.localidad }}</td>
-                  <td><button class="btn btn-danger" (click)="deleteAddress(domicilio.id)"><i class="fas fa-trash"></i></button></td>
+                  <td><button class="btn btn-danger" (click)="deleteAddress(domicilio.id)"><i
+                        class="fas fa-trash"></i></button></td>
                 </tr>
               </tbody>
             </table>
@@ -100,7 +101,7 @@
               <button class="btn btn-success" (click)="clickOpenForm()" *ngIf="!openForm">Nueva</button>
               <button class="btn btn-danger" (click)="clickCloseForm()" *ngIf="openForm">Cerrar</button>
             </div>
-            <div *ngIf="openForm">
+            <div *ngIf="openForm" class="mt-2">
               <form [formGroup]="saveAddress" (ngSubmit)="postFormAddress(saveAddress.value)">
                 <div class="form-group">
                   <label for="calle">Calle</label>
@@ -108,7 +109,12 @@
                 </div>
                 <div class="form-group">
                   <label for="localidad">Localidad</label>
-                  <input type="text" class="form-control" id="localidad" formControlName="localidad">
+                  <select class="form-control" id="localidad" formControlName="localidad">
+                    <option value="">Seleccione la localidad</option>
+                    <option value="1">Capital</option>
+                    <option value="2">Godoy Cruz</option>
+                    <option value="3">Guaymallén</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="numero">Número</label>
@@ -148,10 +154,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="form-check form-check-inline" *ngFor="let forma of paymentMethod; let i = index">
-          <input class="form-check-input" type="radio" name="formaPago" value="{{ i }}"
-            (change)="capturePaymentMethod($event)" />
-          <label class="form-check-label" for="local">{{ forma }}</label>
+        <div class="form-check form-check-inline" *ngFor="let method of paymentMethod; let i = index">
+          <div *ngIf="idShippingType == 1">
+            <input class="form-check-input" type="radio" name="formaPago" value="{{ i }}"
+              (change)="capturePaymentMethod($event)" />
+            <label class="form-check-label" for="local">{{ method }}</label>
+          </div>
+          <div *ngIf="idShippingType == 2">
+            <input class="form-check-input" type="radio" *ngIf="i===1" name="formaPago" value="{{ i }}"
+              (change)="capturePaymentMethod($event)" />
+            <label class="form-check-label" for="local" *ngIf="i===1">{{ method }}</label>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
