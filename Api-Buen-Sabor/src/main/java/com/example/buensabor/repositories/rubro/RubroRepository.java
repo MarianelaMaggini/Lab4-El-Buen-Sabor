@@ -10,4 +10,5 @@ import java.util.List;
 public interface RubroRepository extends CrudRepository <Rubro,Long>{
 
     List<Rubro> findByFechaBajaIsNull();
+
 }

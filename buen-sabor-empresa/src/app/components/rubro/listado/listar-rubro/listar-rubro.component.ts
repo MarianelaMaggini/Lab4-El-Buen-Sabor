@@ -23,13 +23,23 @@ export class ListarRubroComponent implements OnInit {
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
     this.isLogged = this.tokenService.isLogged();
-    this.getAllRubros();
+    this.getAllRubrosActivos();
   }
 
-  getAllRubros() {
-    this.rubroService.getAllRubros().subscribe(data =>{
+  getAllRubrosActivos() {
+    this.rubroService.getAllRubrosActivos().subscribe(data =>{
       this.rubros = data;
-    })
+    });
+  }
+
+  filterRubros(event: any) {
+    if(event.target.checked) {
+      this.rubroService.getAllRubros().subscribe(data =>{
+        this.rubros = data;
+      });
+    } else {
+      this.getAllRubrosActivos();
+    }
   }
 
   editarRubro(id: number): void {

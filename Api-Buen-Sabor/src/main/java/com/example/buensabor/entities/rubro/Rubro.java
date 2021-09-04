@@ -1,6 +1,5 @@
 package com.example.buensabor.entities.rubro;
 
-
 import com.example.buensabor.entities.EntityBean;
 import com.example.buensabor.entities.articulos.Articulo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,4 +30,5 @@ public class Rubro extends EntityBean {
     @JsonIgnore
     @OneToMany(mappedBy = "rubro")
     private List<Articulo> articulo = new ArrayList<>();
+
 }

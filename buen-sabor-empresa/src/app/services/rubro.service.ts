@@ -19,6 +19,11 @@ export class RubroService {
     return this.http.get<Rubro[]>(this.rubroUrl + "/todos", { headers: this.header });
   }
 
+  // Obtener todos los rubros activos
+  getAllRubrosActivos(): Observable<Rubro[]> {
+    return this.http.get<Rubro[]>(this.rubroUrl + "/todosActivo", { headers: this.header });
+  }
+
   // Obtener un rubro por id
   getRubroById(id: any): Observable<Rubro> {
     return this.http.get<Rubro>(this.rubroUrl + '/' + id, { headers: this.header });
