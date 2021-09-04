@@ -43,6 +43,10 @@ public class Factura implements Serializable {
     @Transient
     private double totalCosto;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "numero_pedido")
+    private Pedido pedido;
+
     @JsonIgnore
     @OneToMany(mappedBy = "factura")
     private List<DetalleFactura> detalleFacturas = new ArrayList<>();

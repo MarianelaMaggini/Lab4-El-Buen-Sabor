@@ -1,26 +1,16 @@
 <!-- TARJETAS -->
-      <div class="card mb-3 mx-3 shadow-sm text-center" style="max-width: 25em;">
-        <div class="row no-gutters">
-          <div class="col-md-6 d-flex justify-content-center align-items-center">
-            <img
-              src="http://localhost:8080/upload/files/{{ articulo.imagen }}"
-              alt="imagen artículo"
-              class="sizeImg"/>
-          </div>
-          <div
-            class="col-md-6"
-          >
-            <div class="card-body">
-              <h5 class="card-title">{{ articulo.denominacion }}</h5>
-              <p class="card-text">
-                {{ articulo.precioVenta | currency: "AR":"$" }}
-              </p>
-              <p class="card-text">
-                <small class="text-muted">Rubro: {{ articulo.rubro.denominacion }}</small>
-              </p>
-              <button *ngIf="isLogged" class="btn btn-danger" (click)="addCart()" data-toggle="modal" data-target="#cartModal">Añadir</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <app-cart></app-cart>
+<div class="card text-center mb-3" style="width: 18rem;">
+  <img src="http://localhost:8080/upload/files/{{ articulo.imagen }}" alt="imagen artículo" class="card-img-top"/>
+  <div class="card-body">
+    <h5 class="card-title">{{ articulo.denominacion }}</h5>
+    <p class="card-text">
+      {{ articulo.precioVenta | currency: "AR":"$" }}
+    </p>
+    <p class="card-text">
+      <small class="text-muted">Rubro: {{ articulo.rubro.denominacion }}</small>
+    </p>
+    <button *ngIf="isLogged" class="btn btn-danger" (click)="addCart()" data-toggle="modal"
+      data-target="#cartModal">Añadir</button>
+  </div>
+</div>
+<app-cart></app-cart>

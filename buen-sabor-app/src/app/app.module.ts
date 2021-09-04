@@ -24,7 +24,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CartComponent } from './components/cart/cart.component';
 
 // Detalles del Carrito
-import { DetallePedidoComponent } from './components/detalle-pedido/detalle-pedido.component';
+import { ItemCartComponent } from './components/item-cart/item-cart.component';
 
 // Articulos
 import { ArticulosComponent } from './components/articulos/articulos.component';
@@ -58,6 +58,21 @@ import {
   GoogleLoginProvider,
   
 } from 'angularx-social-login';
+import { PedidosComponent } from './components/pedidos/pedidos.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { TipoEnvioService } from './services/tipo-envio.service';
+import { DomicilioService } from './services/domicilio.service';
+import { PedidoService } from './services/pedido.service';
+
+// Sweet Alert 2
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { AuthService } from './services/auth.service';
+import { MessageService } from './services/message.service';
+import { PedidoEstadoService } from './services/pedidoEstado.service';
+import { RubroService } from './services/rubro.service';
+import { StorageService } from './services/storage.service';
+import { TokenService } from './services/token.service';
+import { LocalidadService } from './services/localidad.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,11 +80,13 @@ import {
     FooterComponent,
     HomeComponent,
     CartComponent,
-    DetallePedidoComponent,
+    ItemCartComponent,
     ArticulosComponent,
     ItemArticuloComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    PedidosComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,10 +97,21 @@ import {
     ReactiveFormsModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+    SweetAlert2Module.forRoot(),
   ],
   providers: [
     ArticuloService, 
     MercadoPagoService,
+    TipoEnvioService,
+    DomicilioService,
+    PedidoService,
+    AuthService,
+    MessageService,
+    PedidoEstadoService,
+    RubroService,
+    StorageService,
+    TokenService,
+    LocalidadService,
     interceptorProvider,
     {
       provide: 'SocialAuthServiceConfig',

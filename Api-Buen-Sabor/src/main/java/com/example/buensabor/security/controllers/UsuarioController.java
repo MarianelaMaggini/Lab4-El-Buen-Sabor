@@ -1,5 +1,6 @@
 package com.example.buensabor.security.controllers;
 
+import com.example.buensabor.security.dto.EmailValuesDto;
 import com.example.buensabor.security.dto.JwtDto;
 import com.example.buensabor.security.dto.LoginUsuario;
 import com.example.buensabor.security.dto.NuevoUsuario;
@@ -94,15 +95,7 @@ public class UsuarioController {
         }
         nuevoUsuario.setEnabled(false);
         saveNewUsuario(nuevoUsuario);
-        emailSenderService.sendEmail(
-                "bsabor2021@gmail.com",
-                nuevoUsuario.getEmail(),
-                "Gracias por registrarte en el Buen Sabor.",
-                "<div style='margin-bottom: 15px; padding: 4px 12px; background-color: #ddffdd; border-left: 6px solid #04AA6D;'>" +
-                        "<p><strong>Para confirmar tu cuenta, por favor haga clic</strong> <a href='http://localhost:8080/auth/confirmar-cuenta?email=" + nuevoUsuario.getEmail() + "' " +
-                        ">aquí</a></p>" +
-                        "</div>"
-        );
+        emailSenderService.sendEmail(nuevoUsuario.getEmail(), "Bienvenido, solo queda verificar tu correo.", nuevoUsuario.getNombre(), nuevoUsuario.getEmail());
         return new ResponseEntity<>("Usuario guardado", HttpStatus.CREATED);
     }
 

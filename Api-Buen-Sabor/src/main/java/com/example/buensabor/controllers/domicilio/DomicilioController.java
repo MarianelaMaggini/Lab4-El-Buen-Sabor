@@ -35,4 +35,14 @@ public class DomicilioController {
     public Domicilio saveOrUpdateDomicilio(@RequestBody Domicilio domicilio) {
         return domicilioService.saveOrUpdateDomicilio(domicilio);
     }
+
+    @GetMapping("/usuario")
+    public List<Domicilio> getDomiciliosByUserId(@RequestParam("id") Long id) {
+        return domicilioService.getDomiciliosByUsuarioId(id);
+    }
+
+    @GetMapping("/localidad")
+    public List<Domicilio> getDomiciliosByLocalityId(@RequestParam("id") Long id) {
+        return domicilioService.getDomiciliosByLocalidadId(id);
+    }
 }

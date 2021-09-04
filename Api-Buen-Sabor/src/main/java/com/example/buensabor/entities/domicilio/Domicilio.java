@@ -5,7 +5,6 @@ import com.example.buensabor.security.entities.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -25,14 +24,14 @@ public class Domicilio extends EntityBean {
     @NotNull
     private int numero;
 
-    @Column(name = "localidad", length = 65, nullable = false)
-    @NotNull
-    private String localidad;
-
     @Column(name = "fecha_baja")
     private Date fechaBaja;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_localidad")
+    private Localidad localidad;
 }

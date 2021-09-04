@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SocialAuthService, SocialUser } from "angularx-social-login";
 import {  GoogleLoginProvider } from "angularx-social-login";
 import { ToastrService } from 'ngx-toastr';
@@ -15,34 +16,44 @@ import { TokenService } from 'src/app/services/token.service';
 export class LoginComponent implements OnInit {
   
   loginUsuario: LoginUsuario;
-  email: string;
-  clave: string;
   mensajeError: string;
   socialUser: SocialUser;
   userLogged: SocialUser;
   isLogged: boolean;
+
+  // Formulario para login
+  login = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    clave: new FormControl('', [Validators.required]),
+  })
   constructor(
     private tokenService: TokenService,
     private authService: AuthService,
     private socialAuthService: SocialAuthService,
     private toastr: ToastrService
   ) { }
-
+  
   ngOnInit(): void {
+    console.log(this.f)
     this.socialAuthService.authState.subscribe((data) => {
       this.userLogged = data;
       this.isLogged = (this.userLogged != null && this.tokenService.getToken() != null)
     })
   }
-  onLogin(): void {
-    this.loginUsuario = new LoginUsuario(this.email, this.clave);
+  
+  get f(){
+    return this.login.controls;
+  }
+
+  onLogin(form: LoginUsuario): void {
+    this.loginUsuario = new LoginUsuario(form.email, form.clave);
     this.authService.login(this.loginUsuario).subscribe(data => {
       this.tokenService.setToken(data.token);
       window.location.reload();
     },
     err => {
       console.log(err.error)
-      this.mensajeError = err.error;
+      this.mensajeError = err.error.message;
       this.toastr.error(this.mensajeError, 'Opps', {
         timeOut: 3000,
       });
@@ -73,4 +84,5 @@ export class LoginComponent implements OnInit {
       }
     )
   }
+
 }

@@ -1,0 +1,6 @@
+<p style="font-size: 12px; padding-top: 15px;">
+    <b><span>{{cartItem.articuloDenominacion | uppercase}} </span></b>
+    <span>- {{ cartItem.cantidad}} x </span>
+    <span>{{ cartItem.precio | currency: "AR":"$"}} </span>
+    <b><span>: {{ cartItem.cantidad * cartItem.precio | currency: "AR":"$"}}</span></b>
+</p>

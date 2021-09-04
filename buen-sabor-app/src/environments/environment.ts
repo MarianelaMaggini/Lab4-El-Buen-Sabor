@@ -6,7 +6,13 @@ export const environment = {
   production: false,
   articuloUrl: 'http://localhost:8080/articulos',
   mpUrl: 'http://localhost:8080/createAndRedirect',
-  authUrl: 'http://localhost:8080/auth/'
+  authUrl: 'http://localhost:8080/auth/',
+  tipoEnvioUrl: 'http://localhost:8080/tiposEnvio',
+  domicilioUrl: 'http://localhost:8080/domicilios',
+  pedidoUrl: 'http://localhost:8080/pedidos',
+  pedidoEstadosUrl: 'http://localhost:8080/pedidoEstados',
+  detallesPedidoUrl: 'http://localhost:8080/detallesPedido',
+  localidadUrl: 'http://localhost:8080/localidades',
 };
 
 /*

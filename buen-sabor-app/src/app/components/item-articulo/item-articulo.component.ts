@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SocialAuthService, SocialUser } from 'angularx-social-login';
+import { Router } from '@angular/router';
+import { SocialUser } from 'angularx-social-login';
 import { Articulo } from 'src/app/models/articulo';
 import { MessageService } from 'src/app/services/message.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -18,7 +19,7 @@ export class ItemArticuloComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private tokenService: TokenService,
-    private socialAuthService: SocialAuthService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
