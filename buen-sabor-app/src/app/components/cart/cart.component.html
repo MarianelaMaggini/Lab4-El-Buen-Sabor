@@ -89,7 +89,7 @@
                   </th>
                   <td>{{ domicilio.calle }}</td>
                   <td>{{ domicilio.numero }}</td>
-                  <td>{{ domicilio.localidad }}</td>
+                  <td>{{ domicilio.localidad.nombre }}</td>
                   <td><button class="btn btn-danger" (click)="deleteAddress(domicilio.id)"><i
                         class="fas fa-trash"></i></button></td>
                 </tr>
@@ -109,11 +109,9 @@
                 </div>
                 <div class="form-group">
                   <label for="localidad">Localidad</label>
-                  <select class="form-control" id="localidad" formControlName="localidad">
+                  <select class="form-control" id="localidad" formControlName="idLocalidad">
                     <option value="">Seleccione la localidad</option>
-                    <option value="1">Capital</option>
-                    <option value="2">Godoy Cruz</option>
-                    <option value="3">Guaymallén</option>
+                    <option *ngFor="let localidad of localidades" [value]="localidad.id">{{ localidad.nombre }}</option>
                   </select>
                 </div>
                 <div class="form-group">

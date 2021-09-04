@@ -13,7 +13,15 @@ export class LocalidadService {
   constructor(private http: HttpClient) { }
 
   //petición para obtener todos los domicilios
-  getDomicilios(): Observable<Localidad[]> {
+  getLocalidades(): Observable<Localidad[]> {
     return this.http.get<Localidad[]>(this.localidadUrl + '/todos', { headers: this.header });
+  }
+
+  getLocalidadById(id:number):Observable<Localidad> {
+    return this.http.get<Localidad>(this.localidadUrl + "/" + id, {headers: this.header})
+  }
+
+  saveLocalidad(localidad: Localidad): Observable<Localidad>{
+    return this.http.post<Localidad>(this.localidadUrl, localidad, {headers: this.header});
   }
 }

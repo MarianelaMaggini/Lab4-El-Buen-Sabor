@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SocialAuthService, SocialUser } from "angularx-social-login";
 import {  GoogleLoginProvider } from "angularx-social-login";
 import { ToastrService } from 'ngx-toastr';
@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
 
   // Formulario para login
   login = new FormGroup({
-    email: new FormControl(''),
-    clave: new FormControl(''),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    clave: new FormControl('', [Validators.required]),
   })
   constructor(
     private tokenService: TokenService,
@@ -32,13 +32,19 @@ export class LoginComponent implements OnInit {
     private socialAuthService: SocialAuthService,
     private toastr: ToastrService
   ) { }
-
+  
   ngOnInit(): void {
+    console.log(this.f)
     this.socialAuthService.authState.subscribe((data) => {
       this.userLogged = data;
       this.isLogged = (this.userLogged != null && this.tokenService.getToken() != null)
     })
   }
+  
+  get f(){
+    return this.login.controls;
+  }
+
   onLogin(form: LoginUsuario): void {
     this.loginUsuario = new LoginUsuario(form.email, form.clave);
     this.authService.login(this.loginUsuario).subscribe(data => {

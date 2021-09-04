@@ -72,6 +72,7 @@ import { PedidoEstadoService } from './services/pedidoEstado.service';
 import { RubroService } from './services/rubro.service';
 import { StorageService } from './services/storage.service';
 import { TokenService } from './services/token.service';
+import { LocalidadService } from './services/localidad.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -110,6 +111,7 @@ import { TokenService } from './services/token.service';
     RubroService,
     StorageService,
     TokenService,
+    LocalidadService,
     interceptorProvider,
     {
       provide: 'SocialAuthServiceConfig',

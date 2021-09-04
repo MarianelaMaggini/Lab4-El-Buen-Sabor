@@ -1,11 +1,10 @@
-import { Localidad } from "./localidad";
 import { Usuario } from "./usuario";
 
-export interface Domicilio {
+export interface DomicilioForm {
     id: number;
     calle: string;
     numero: number;
     fechaBaja: Date | null;
     usuario: Usuario;
-    localidad: Localidad;
+    idLocalidad: number;
 }

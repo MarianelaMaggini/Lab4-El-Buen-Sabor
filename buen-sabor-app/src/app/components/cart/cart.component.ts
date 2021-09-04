@@ -18,6 +18,9 @@ import { StorageService } from 'src/app/services/storage.service';
 import { TipoEnvioService } from 'src/app/services/tipo-envio.service';
 import { TokenService } from 'src/app/services/token.service';
 import Swal from 'sweetalert2';
+import { Localidad } from 'src/app/models/localidad';
+import { LocalidadService } from 'src/app/services/localidad.service';
+import { DomicilioForm } from 'src/app/models/domicilio-form';
 
 const EMAIL_BUENSABOR = 'bsabor2021@gmail.com';
 @Component({
@@ -31,7 +34,9 @@ export class CartComponent implements OnInit {
   cartItems: any = [];
   tiposEnvios: TipoEnvio[];
   domicilios: Domicilio[];
+  localidades: Localidad[];
   usuario: Usuario;
+  localidad: Localidad;
   paymentMethod: any;
   idShippingType: number;
   idPaymentMethod: number;
@@ -45,7 +50,7 @@ export class CartComponent implements OnInit {
     id: new FormControl(''),
     calle: new FormControl('', [Validators.required]),
     numero: new FormControl('', [Validators.required, Validators.maxLength(4)]),
-    localidad: new FormControl('', [Validators.required]),
+    idLocalidad: new FormControl('', [Validators.required]),
     fechaBaja: new FormControl(''),
     usuario: new FormControl('')
   })
@@ -63,6 +68,7 @@ export class CartComponent implements OnInit {
     private authService: AuthService,
     private articuloService: ArticuloService,
     private detallePedidoService: DetallePedidoService,
+    private localidadService: LocalidadService
   ) {
     this.paymentMethod = ['Efectivo', 'Mercado Pago'];
     this.idShippingType = 0;
@@ -151,31 +157,31 @@ export class CartComponent implements OnInit {
    */
   toPay(): void {
     if (this.idShippingType == 1 && this.idPaymentMethod == 0) {
-        this.authService.getDataUsuario(EMAIL_BUENSABOR).subscribe((dataUsuario) => {
-          this.tipoEnvioService.getTipoEnvioById(this.idShippingType).subscribe((dataTipoEnvio) => {
-            this.pedidoEstadoService.getPedidoEstadoById(1).subscribe((dataPedidoEstado) => {
-              this.domicilioService.getDomicilioByUserId(dataUsuario.id).subscribe((dataDomicilio) => {
-                let pedido = new PedidoCreate(0, new Date(), this.total, dataUsuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio[0])
-                this.pedidoService.savePedido(pedido).subscribe(data => {
-                  this.cartItems.forEach((item: any) => {
-                    this.articuloService.getArticuloById(item.id).subscribe((dataArticulo) => {
-                      let detallePedido = { "id": 0, "cantidad": item.cantidad, "subtotal": item.precio, "articulo": dataArticulo, "pedido": data }
-                      this.detallePedidoService.saveDetallePedido(detallePedido).subscribe();
-                    })
-                  });
-                  Swal.fire({
-                    title: 'Pedido realizado con éxito',
-                    icon: 'success',
-                    text: 'Gracias por confiar en el Buen Sabor 🍕',
-                  }).then(res => {
-                    this.emptyCart();
-                    this.refresh();
-                  });
+      this.authService.getDataUsuario(EMAIL_BUENSABOR).subscribe((dataUsuario) => {
+        this.tipoEnvioService.getTipoEnvioById(this.idShippingType).subscribe((dataTipoEnvio) => {
+          this.pedidoEstadoService.getPedidoEstadoById(1).subscribe((dataPedidoEstado) => {
+            this.domicilioService.getDomicilioByUserId(dataUsuario.id).subscribe((dataDomicilio) => {
+              let pedido = new PedidoCreate(0, new Date(), this.total, dataUsuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio[0])
+              this.pedidoService.savePedido(pedido).subscribe(data => {
+                this.cartItems.forEach((item: any) => {
+                  this.articuloService.getArticuloById(item.id).subscribe((dataArticulo) => {
+                    let detallePedido = { "id": 0, "cantidad": item.cantidad, "subtotal": item.precio, "articulo": dataArticulo, "pedido": data }
+                    this.detallePedidoService.saveDetallePedido(detallePedido).subscribe();
+                  })
+                });
+                Swal.fire({
+                  title: 'Pedido realizado con éxito',
+                  icon: 'success',
+                  text: 'Gracias por confiar en el Buen Sabor 🍕',
+                }).then(res => {
+                  this.emptyCart();
+                  this.refresh();
                 });
               });
             });
           });
         });
+      });
 
 
     } else {
@@ -246,7 +252,7 @@ export class CartComponent implements OnInit {
       this.domicilios = data;
     })
   }
-  
+
   /**
    * Regresa a 0 el id del Domicilio y id de Tipo Envio de los Radio Button
    */
@@ -269,7 +275,7 @@ export class CartComponent implements OnInit {
       return true;
     }
   }
-  
+
   /**
    * Recupera la información completa del usuario mediante el correo electrónico
    * @param email 
@@ -308,12 +314,13 @@ export class CartComponent implements OnInit {
       });
     });
   }
-  
+
   /**
    * Abre el formulario para cargar un domicilio
    */
   clickOpenForm(): void {
     this.openForm = true;
+    this.listLocalities();
   }
   /**
    * Cierra el formulario para cargar un domicilio
@@ -321,16 +328,18 @@ export class CartComponent implements OnInit {
   clickCloseForm(): void {
     this.openForm = false;
   }
-  
+
   /**
    * Mediante petición post envía un domicilio al servidor para persistirlo
    * @param form 
    */
-  postFormAddress(form: Domicilio): void {
-    let domicilio = { "id": 0, "calle": form.calle, "numero": form.numero, "localidad": form.localidad, "fechaBaja": null, "usuario": this.usuario };
-    this.domicilioService.saveDomicilio(domicilio).subscribe();
-    this.domicilios.push(domicilio);
-    this.saveAddress.reset();
+  postFormAddress(form: DomicilioForm): void {
+    this.localidadService.getLocalidadById(form.idLocalidad).subscribe((localidad) => {
+      let domicilio = { "id": 0, "calle": form.calle, "numero": form.numero, "localidad": localidad, "fechaBaja": null, "usuario": this.usuario };
+      this.domicilios.push(domicilio);
+      this.domicilioService.saveDomicilio(domicilio).subscribe();
+      this.saveAddress.reset();
+    })
   }
 
   /**
@@ -343,6 +352,12 @@ export class CartComponent implements OnInit {
     this.domicilioService.getDomicilioById(id).subscribe((dataDomicilio) => {
       let domicilio = { "id": dataDomicilio.id, "calle": dataDomicilio.calle, "numero": dataDomicilio.numero, "localidad": dataDomicilio.localidad, "fechaBaja": new Date(), "usuario": this.usuario };
       this.domicilioService.saveDomicilio(domicilio).subscribe();
+    })
+  }
+
+  listLocalities(): void {
+    this.localidadService.getLocalidades().subscribe((localidad) => {
+      this.localidades = localidad;
     })
   }
 
