@@ -38,4 +38,8 @@ public class DomicilioService {
     public List<Domicilio> getDomiciliosByUsuarioId(Long idUsuario) {
         return domicilioRepository.findByIdUsuario(idUsuario);
     }
+    public List<Domicilio> getDomiciliosByLocalidadId(Long idLocalidad) {
+        return domicilioRepository.findByIdLocalidad(idLocalidad);
+    }
+
 }

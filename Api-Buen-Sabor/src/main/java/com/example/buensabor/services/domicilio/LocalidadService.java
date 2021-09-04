@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LocalidadService {
@@ -15,5 +16,13 @@ public class LocalidadService {
 
     public List<Localidad> getLocalidades(){
         return (List<Localidad>) localidadRepository.findAll();
+    }
+
+    public Optional<Localidad> getLocalidadById(Long id) {
+        return localidadRepository.findById(id);
+    }
+
+    public Localidad saveOrUpdateLocalidad(Localidad localidad) {
+        return (Localidad) localidadRepository.save(localidad);
     }
 }

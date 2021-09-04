@@ -14,4 +14,7 @@ public interface DomicilioRepository extends CrudRepository <Domicilio,Long>{
 
     @Query(value = "SELECT d FROM Domicilio d WHERE d.usuario.id = :idUsuario AND d.fechaBaja IS null")
     List<Domicilio> findByIdUsuario(@Param("idUsuario") Long idUsuario);
+
+    @Query(value = "SELECT d FROM Domicilio d WHERE d.localidad.id = :idLocalidad")
+    List<Domicilio> findByIdLocalidad(@Param("idLocalidad") Long idLocalidad);
 }
