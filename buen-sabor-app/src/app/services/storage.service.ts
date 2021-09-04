@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DetallePedido } from '../models/detalle-pedido';
+import { ItemCart } from '../models/item-cart';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +10,11 @@ export class StorageService {
     return localStorage.getItem('cart') != null;
   };
 
-  setCart(cart: DetallePedido[]):void{
+  setCart(cart: ItemCart[]):void{
     localStorage.setItem('cart', JSON.stringify(cart));
   }
 
-  getCart(): DetallePedido[]{
+  getCart(): ItemCart[]{
     return JSON.parse(localStorage.getItem('cart')!);
   }
 

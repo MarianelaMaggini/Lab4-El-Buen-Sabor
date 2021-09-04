@@ -1,15 +1,10 @@
+<!-- MODAL CARRITO -->
 <div class="modal" id="cartModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Mi pedido</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          (click)="refresh()" 
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="refresh()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -19,29 +14,166 @@
             <h4>🛒 Tu carrito está vacío 😭</h4>
           </div>
         </div>
-        <div class="text-center" *ngIf="cartItems.length > 0">
-            <ul class="list-group">
-              <li class="list-group-item" *ngFor="let item of cartItems; let i = index">
-                <div class="row">
-                    <div class="col-md-10">
-                        <app-detalle-pedido [cartItem]="item"></app-detalle-pedido>
-                    </div>
-                    <div class="col-md-2">
-                        <i class="text-danger fas fa-trash" style="cursor: pointer; padding-top: 15px;" (click)="deleteItem(i)"></i>
-                    </div>
+        <div class="text-center mb-2" *ngIf="cartItems.length > 0">
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of cartItems; let i = index">
+              <div class="row">
+                <div class="col-md-10">
+                  <app-item-cart [cartItem]="item"></app-item-cart>
                 </div>
-              </li>
-            </ul>
+                <div class="col-md-2">
+                  <i class="text-danger fas fa-trash" style="cursor: pointer; padding-top: 15px"
+                    (click)="deleteItem(i)"></i>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
         <div class="alert alert-success text-center" *ngIf="cartItems.length > 0">
-            <strong>Total: </strong>{{ total | currency}}
+          <strong>TOTAL: </strong>{{ total | currency: "AR":"$" }}
         </div>
         <div class="modal-footer" *ngIf="cartItems.length > 0">
           <button type="button" (click)="refresh()" class="btn btn-secondary" data-dismiss="modal">
             Seguir comprando
           </button>
-          <button type="button" (click)="pagar()" class="btn btn-primary">Finalizar compra</button>
+          <button type="button" (click)="listShippingType()" data-dismiss="modal" data-toggle="modal"
+            data-target="#tipoEnvioModal" class="btn btn-primary">
+            Siguiente
+          </button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL TIPO ENVIO -->
+<div class="modal fade" id="tipoEnvioModal" tabindex="-1" aria-labelledby="tipoEnvioModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tipoEnvioModalLabel">
+          Elige el tipo de envío
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-check form-check-inline" *ngFor="let envio of tiposEnvios; let i = index">
+          <input class="form-check-input" type="radio" name="tipoenvio" value="{{ envio.id }}"
+            (change)="captureShippingValue($event)" />
+          <label class="form-check-label" for="local">{{
+            envio.denominacion
+            }}</label>
+        </div>
+        <hr />
+        <div *ngIf="idShippingType == 2">
+
+          <div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Calle</th>
+                  <th scope="col">Número</th>
+                  <th scope="col">Localidad</th>
+                  <th scope="col">Eliminar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let domicilio of domicilios; let i = index">
+                  <th scope="row">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                        value="{{ domicilio.id }}" (change)="captureAddressValue($event)" />
+                    </div>
+                  </th>
+                  <td>{{ domicilio.calle }}</td>
+                  <td>{{ domicilio.numero }}</td>
+                  <td>{{ domicilio.localidad.nombre }}</td>
+                  <td><button class="btn btn-danger" (click)="deleteAddress(domicilio.id)"><i
+                        class="fas fa-trash"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div>
+              <button class="btn btn-success" (click)="clickOpenForm()" *ngIf="!openForm">Nueva</button>
+              <button class="btn btn-danger" (click)="clickCloseForm()" *ngIf="openForm">Cerrar</button>
+            </div>
+            <div *ngIf="openForm" class="mt-2">
+              <form [formGroup]="saveAddress" (ngSubmit)="postFormAddress(saveAddress.value)">
+                <div class="form-group">
+                  <label for="calle">Calle</label>
+                  <input type="text" class="form-control" id="calle" formControlName="calle">
+                </div>
+                <div class="form-group">
+                  <label for="localidad">Localidad</label>
+                  <select class="form-control" id="localidad" formControlName="idLocalidad">
+                    <option value="">Seleccione la localidad</option>
+                    <option *ngFor="let localidad of localidades" [value]="localidad.id">{{ localidad.nombre }}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="numero">Número</label>
+                  <input type="number" class="form-control" id="numero" formControlName="numero">
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal"
+          data-target="#cartModal" (click)="restoreShippingType()">
+          Regresar
+        </button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+          data-target="#formaPagoModal" [disabled]="checkShippingType()">
+          Siguiente
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FORMA DE PAGO -->
+<div class="modal fade" id="formaPagoModal" tabindex="-1" aria-labelledby="formaPagoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="formaPagoModalLabel">
+          Elige cómo vas abonar tu compra
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-check form-check-inline" *ngFor="let method of paymentMethod; let i = index">
+          <div *ngIf="idShippingType == 1">
+            <input class="form-check-input" type="radio" name="formaPago" value="{{ i }}"
+              (change)="capturePaymentMethod($event)" />
+            <label class="form-check-label" for="local">{{ method }}</label>
+          </div>
+          <div *ngIf="idShippingType == 2">
+            <input class="form-check-input" type="radio" *ngIf="i===1" name="formaPago" value="{{ i }}"
+              (change)="capturePaymentMethod($event)" />
+            <label class="form-check-label" for="local" *ngIf="i===1">{{ method }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal"
+          data-target="#tipoEnvioModal">
+          Regresar
+        </button>
+        <button type="button" class="btn btn-primary" [disabled]="idPaymentMethod != 0 && idPaymentMethod != 1"
+          (click)="toPay()" data-dismiss="modal" data-toggle="modal">
+          Finalizar compra
+        </button>
       </div>
     </div>
   </div>

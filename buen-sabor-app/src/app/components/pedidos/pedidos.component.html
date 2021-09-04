@@ -1,0 +1,47 @@
+<div class="container mt-2">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Hora de entrega</th>
+        <th scope="col">Total</th>
+        <th scope="col">Detalles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pedido of pedidos; let i = index">
+        <th scope="row">{{ i + 1}}</th>
+        <td>{{ pedido.pedidoEstado.denominacion }}</td>
+        <td>{{ pedido.horaEstimadaFin | date :'shortTime' }}</td>
+        <td>{{ pedido.total | currency}}</td>
+        <td><button (click)="showDetails(pedido.numeroPedido)" class="btn btn-warning" data-toggle="collapse"
+            data-target="#collapseDetail"><i class="fas fa-arrow-down"></i></button></td>
+      </tr>
+      <tr>
+        <td colspan="12">
+          <div class="accordian-body collapse" id="collapseDetail">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Número de pedido</th>
+                  <th>Artículo</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let detallePedido of detallesPedidos; let i = index">
+                    <td>{{detallePedido.pedido.numeroPedido}}</td>
+                    <td>{{detallePedido.articulo.denominacion}}</td>
+                    <td>{{detallePedido.cantidad}}</td>
+                    <td>{{detallePedido.subtotal | currency}}</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -31,4 +31,7 @@ public class PedidoService {
         return (Pedido) pedidoRepository.save(pedido);
     }
 
+    public List<Pedido> getPedidosByUsuarioId(Long idUsuario) {
+        return pedidoRepository.findByIdUsuario(idUsuario);
+    }
 }

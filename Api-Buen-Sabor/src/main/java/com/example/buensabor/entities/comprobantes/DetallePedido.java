@@ -20,7 +20,8 @@ public class DetallePedido extends EntityBean {
     @NotNull
     private int cantidad;
 
-    @Transient
+    @Column(name = "subtotal", nullable = false)
+    @NotNull
     private double subtotal;
 
     @ManyToOne(cascade = CascadeType.MERGE)

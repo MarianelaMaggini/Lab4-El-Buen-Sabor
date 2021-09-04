@@ -1,5 +1,6 @@
 package com.example.buensabor.entities.mercadoPago;
 
+import com.example.buensabor.entities.comprobantes.Pedido;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -40,4 +41,8 @@ public class MercadoPagoDatos implements Serializable {
     @Column(name = "estado", length = 65, nullable = false)
     @NotNull
     private String estado;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_pedido")
+    private Pedido pedido;
 }

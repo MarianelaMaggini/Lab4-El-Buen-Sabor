@@ -1,6 +1,7 @@
 package com.example.buensabor.controllers.comprobantes;
 
 import com.example.buensabor.entities.comprobantes.Pedido;
+import com.example.buensabor.entities.domicilio.Domicilio;
 import com.example.buensabor.services.comprobantes.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,4 +34,8 @@ public class PedidoController {
         return pedidoService.saveOrUpdatePedido(pedido);
     }
 
+    @GetMapping("/id")
+    public List<Pedido> getPedidosByUserId(@RequestParam("usuario") Long id) {
+        return pedidoService.getPedidosByUsuarioId(id);
+    }
 }

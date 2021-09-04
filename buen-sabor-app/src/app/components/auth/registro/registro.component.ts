@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NuevoUsuario } from 'src/app/models/nuevo-usuario';
@@ -18,6 +19,15 @@ export class RegistroComponent implements OnInit {
   email: string;
   clave: string;
   mensajeError: string;
+
+  // Formulario para nuevo usuario
+  nuevo = new FormGroup({
+    nombre: new FormControl(''),
+    apellido: new FormControl(''),
+    telefono: new FormControl(''),   
+    email: new FormControl(''),
+    clave: new FormControl(''),
+  })
   constructor( 
     private authService: AuthService,
     private router: Router,
@@ -25,13 +35,13 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  onRegister(): void {
+  onRegister(form: NuevoUsuario): void {
     this.nuevoUsuario = new NuevoUsuario(
-      this.nombre,
-      this.apellido,
-      this.telefono,
-      this.email,
-      this.clave
+      form.nombre,
+      form.apellido,
+      form.telefono,
+      form.email,
+      form.clave
     );
     console.log(this.nuevoUsuario)
     this.authService.nuevo(this.nuevoUsuario).subscribe(
