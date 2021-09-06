@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/upload")
 @Slf4j
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:59787"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201"})
 public class ArchivoController {
 
     private final ArchivoService archivoService;

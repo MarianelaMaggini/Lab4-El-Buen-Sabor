@@ -31,4 +31,12 @@ export class ArticuloService {
     return this.http.get<Articulo[]>(this.articuloUrl + '/idTipoArticulo?id=' + id, {headers: this.header});
   }
 
+  getArticulosByRubroId(id:number): Observable<Articulo[]>{
+    return this.http.get<Articulo[]>(this.articuloUrl + '/idRubro?rubro=' + id, {headers: this.header});
+  }
+
+  getArticuloByElaboradoOrNoElaboradoGroupByRubro(idUno:number, idDos:number): Observable<Articulo[]>{
+    return this.http.get<Articulo[]>(this.articuloUrl + '/tipoArticulo?idUno=' + idUno + '&idDos=' + idDos, {headers: this.header});
+  }
+
 }

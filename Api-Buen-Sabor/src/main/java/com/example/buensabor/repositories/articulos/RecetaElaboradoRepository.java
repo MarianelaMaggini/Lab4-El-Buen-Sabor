@@ -13,4 +13,5 @@ public interface RecetaElaboradoRepository extends CrudRepository <RecetaElabora
 
     @Query(value = "SELECT * FROM receta_elaborado r WHERE r.id_articulo_elaborado_detalle = :idArticulo and r.fecha_baja is null", nativeQuery = true)
     List<RecetaElaborado> getRecetaByIdArticulo(@Param("idArticulo") Long idArticulo);
+
 }

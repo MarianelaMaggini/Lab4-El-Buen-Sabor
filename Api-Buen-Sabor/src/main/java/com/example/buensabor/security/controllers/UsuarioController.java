@@ -1,6 +1,5 @@
 package com.example.buensabor.security.controllers;
 
-import com.example.buensabor.security.dto.EmailValuesDto;
 import com.example.buensabor.security.dto.JwtDto;
 import com.example.buensabor.security.dto.LoginUsuario;
 import com.example.buensabor.security.dto.NuevoUsuario;
@@ -37,7 +36,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201"})
 public class UsuarioController {
 
     private final PasswordEncoder passwordEncoder;
@@ -150,6 +149,12 @@ public class UsuarioController {
         roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
         if (nuevoUsuario.getRoles().contains("admin")) {
             roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
+        }
+        if (nuevoUsuario.getRoles().contains("cocinero")) {
+            roles.add(rolService.getByRolNombre(RolNombre.ROLE_COCINERO).get());
+        }
+        if (nuevoUsuario.getRoles().contains("cajero")) {
+            roles.add(rolService.getByRolNombre(RolNombre.ROLE_CAJERO).get());
         }
         usuario.setRoles(roles);
         return usuarioService.save(usuario);

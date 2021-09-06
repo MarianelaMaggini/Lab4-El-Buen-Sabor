@@ -16,6 +16,7 @@ export const environment = {
   localidadUrl: 'http://localhost:8080/localidades',
   articuloElaboradoDetallesUrl:'http://localhost:8080/articuloElaboradoDetalles',
   recetaElaboradoUrl:'http://localhost:8080/recetasElaborado',
+  tiempoUrl: 'http://localhost:8080/tiempos',
 };
 
 /*

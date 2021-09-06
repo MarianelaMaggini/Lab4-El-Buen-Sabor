@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:59787"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201"})
 @RestController
 @RequestMapping("/articulos")//ruta principal
 public class ArticuloController {
@@ -50,5 +50,8 @@ public class ArticuloController {
     public Articulo saveOrUpdateArticulo(@RequestBody Articulo articulo) {
         return articuloService.saveOrUpdateArticulo(articulo);
     }
-
+    @GetMapping("/tipoArticulo")
+    public List<Articulo> getArticuloByElaboradoOrNoElaboradoGroupByRubro(@RequestParam("idUno") Long idUno, @RequestParam("idDos") Long idDos) {
+        return articuloService.getArticuloByElaboradoOrNoElaboradoGroupByRubro(idUno, idDos);
+    }
 }

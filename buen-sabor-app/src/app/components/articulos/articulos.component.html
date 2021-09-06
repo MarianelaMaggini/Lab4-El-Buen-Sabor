@@ -5,5 +5,34 @@
       [articulo]="articulo"
       [index]="articulo.id">
     </app-item-articulo>
+  <div class="col-md-4">
+    <h3>Filtrar por:</h3>
+    <hr class="division" />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#submenu" data-toggle="collapse" data-target="#submenu">Rubro</a>
+        <div class="collapse" id="submenu" aria-expanded="false">
+          <ul class="flex-column pl-2 nav">
+            <li class="nav-item" *ngFor="let articulo of articulosRubros">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" (change)="valueRubro($event)"
+                  value="{{articulo.rubro.id}}" id="rubros">
+                <label class="form-check-label" for="rubros">
+                  {{articulo.rubro.denominacion}}
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-8">
+    <div class="row">
+      <div class="col-md-6" *ngFor="let articulo of articulos; let i = index">
+        <app-item-articulo [articulo]="articulo" [index]="articulo.id">
+        </app-item-articulo>
+      </div>
+    </div>
   </div>
 </div>
