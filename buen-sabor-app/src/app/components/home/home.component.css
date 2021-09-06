@@ -14,12 +14,6 @@
     height: 80px;
 }
 
-.nav-link[data-toggle].collapsed:after {
-    content: "▾";
-}
-.nav-link[data-toggle]:not(.collapsed):after {
-    content: "▴";
-}
 hr.division{
     border: 1px solid #000;
 }

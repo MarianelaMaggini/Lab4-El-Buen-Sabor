@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Articulo } from 'src/app/models/articulo';
+import { Tiempo } from 'src/app/models/tiempo';
+import { ArticuloService } from 'src/app/services/articulo.service';
+import { TiempoService } from 'src/app/services/tiempo.service';
 import { TokenService } from 'src/app/services/token.service';
+import { Dia } from 'src/app/utils/dia';
+import { Horario } from 'src/app/utils/horario';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +13,8 @@ import { TokenService } from 'src/app/services/token.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  articulos: Articulo[];
+  tiempo: Tiempo;
   isLogged = false;
   isAdmin = false;
   animate: string = "animate__bounceOutRight"; 
@@ -16,17 +24,22 @@ export class HomeComponent implements OnInit {
   minute: string;
   second: string;
   ampm: string;
+  state = 'Cerrado';
   constructor(
     private tokenService: TokenService,
+    private tiempoService: TiempoService,
     ) { }
 
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
     this.isLogged = this.tokenService.isLogged();
+    
     setInterval(() => {
       const date = new Date();
       this.updateDate(date);
     }, 1000)
+
+    this.activeSystem();
   }
   over(){
     const element = document.getElementById("delivery");
@@ -46,8 +59,19 @@ export class HomeComponent implements OnInit {
     const minutes = date.getMinutes();
     this.minute = minutes < 10 ? '0' + minutes : minutes.toString();
 
-    const seconds = date.getSeconds();
-    this.second = seconds < 10 ? '0' + seconds : seconds.toString();
+  }
+  
 
+  activeSystem(): void {
+    this.tiempoService.getTiempo().subscribe((data) => {
+      this.tiempo = data;
+      if (Dia.SABADO === this.tiempo.diaNumero && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= this.tiempo.hora && parseInt(Horario.HORA_FINAL_SAB_DOM) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
+        this.state = 'Abierto';
+      } else if (Dia.DOMINGO === this.tiempo.diaNumero && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= this.tiempo.hora && parseInt(Horario.HORA_FINAL_SAB_DOM) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
+        this.state = 'Abierto';
+      } else if (parseInt(Horario.HORA_INICIAL) <= this.tiempo.hora && parseInt(Horario.HORA_FINAL) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
+        this.state = 'Abierto';
+      }
+    })
   }
 }

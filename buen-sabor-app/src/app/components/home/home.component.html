@@ -4,13 +4,10 @@
     <h1 class="display-3 text-white">¡Antojate tranquilo y pedí lo que quieras!</h1>
     <u class="text-white">
       <p class="lead text-white h4 d-flex justify-content-end align-items-center" *ngIf="isLogged">
-        Nosotros te lo llevamos
-      </p>
-      <p class="lead text-white h4 d-flex justify-content-end align-items-center" *ngIf="isLogged">
-        HORA: {{hour}}:{{minute}}:{{second}} {{ampm}}
+        NOSOTROS TE LO LLEVAMOS
       </p>
       <a routerLink="/login" class="lead text-white h4 d-flex justify-content-end align-items-center" *ngIf="!isLogged">
-        Inicia sesión o registrate para pedir
+        INICIA SESIÓN O REGISTRATE PARA PEDIR.
       </a>
     </u>
     <img src="../../../assets/img/deliveryBoy.png" alt="delivery" id="delivery" class="sizeImg" (mouseover)='over()'>
@@ -19,46 +16,18 @@
 </div>
 <!-- SUB-TITULO -->
 <div class="container">
-  <h2>🍔 Nuestros productos</h2>
+  <div class="row">
+    <div class="col">
+      <h3>🍔 Nuestros productos</h3>
+    </div>
+    <div class="col">
+      <span class="lead d-flex justify-content-end align-items-end text-danger" *ngIf="isLogged && state=='Cerrado'">Local {{ state }}</span>
+      <span class="lead d-flex justify-content-end align-items-end text-success" *ngIf="isLogged && state=='Abierto'">Local {{ state }}</span>
+      <span class="lead d-flex justify-content-end align-items-end">Hora actual: {{hour}}:{{minute}} {{ampm}}</span>
+    </div>
+  </div>
   <hr />
 </div>
 <div class="container">
-  <div class="row">
-    <div class="col-md-4">
-      <h3>Filtrar por:</h3>
-      <hr class="division"/>
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="#submenu" data-toggle="collapse" data-target="#submenu">Rubro</a>
-          <div class="collapse" id="submenu" aria-expanded="false">
-            <ul class="flex-column pl-2 nav">
-              <li class="nav-item">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="pizzas">
-                  <label class="form-check-label" for="pizzas">
-                    Pizzas
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="pizzas">
-                  <label class="form-check-label" for="pizzas">
-                    Bebidas
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="pizzas">
-                  <label class="form-check-label" for="pizzas">
-                    Hamburguesas
-                  </label>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-8">
-      <app-articulos></app-articulos>
-    </div>
-  </div>
+  <app-articulos></app-articulos>
 </div>
