@@ -23,7 +23,7 @@ export class ArticuloElaboradoDetalleService {
       return this.http.get<ArticuloElaboradoDetalle>(this.articuloElaboradoDetallesUrl + "/" + id, {headers: this.header})
   }
   
-  getArtElaboradoDetalleByArticuloId(id:number):Observable<ArticuloElaboradoDetalle[]>{
-      return this.http.get<ArticuloElaboradoDetalle[]>(this.articuloElaboradoDetallesUrl + '/articulo?id=' + id, {headers: this.header});
+  getArtElaboradoDetalleByArticuloId(id:number):Observable<ArticuloElaboradoDetalle>{
+      return this.http.get<ArticuloElaboradoDetalle>(this.articuloElaboradoDetallesUrl + '/articulo?id=' + id, {headers: this.header});
   } 
 }

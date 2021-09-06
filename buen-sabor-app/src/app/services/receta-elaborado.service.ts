@@ -23,8 +23,8 @@ export class RecetaElaboradoService {
     return this.http.get<RecetaElaborado>(this.recetaElaboradoUrl + "/" + id, {headers: this.header})
   }
 
-  getRecetaByArticuloId(id:number):Observable<RecetaElaborado[]>{
-    return this.http.get<RecetaElaborado[]>(this.recetaElaboradoUrl + '/articulo?id=' + id, {headers: this.header});
+  getRecetaByArticuloDetalleId(id:number):Observable<RecetaElaborado[]>{
+    return this.http.get<RecetaElaborado[]>(this.recetaElaboradoUrl + '/detalle?id=' + id, {headers: this.header});
   }  
 }
  
