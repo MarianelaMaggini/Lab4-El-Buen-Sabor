@@ -73,6 +73,9 @@ import { RubroService } from './services/rubro.service';
 import { StorageService } from './services/storage.service';
 import { TokenService } from './services/token.service';
 import { LocalidadService } from './services/localidad.service';
+import { ArticuloDetalleComponent } from './components/articulo-detalle/articulo-detalle.component';
+import { RecetaElaboradoService } from './services/receta-elaborado.service';
+import { ArticuloElaboradoDetalleService } from './services/articulo-elaborado-detalle.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -87,6 +90,7 @@ import { LocalidadService } from './services/localidad.service';
     RegistroComponent,
     PedidosComponent,
     PerfilComponent,
+    ArticuloDetalleComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,6 +116,8 @@ import { LocalidadService } from './services/localidad.service';
     StorageService,
     TokenService,
     LocalidadService,
+    RecetaElaboradoService,
+    ArticuloElaboradoDetalleService,
     interceptorProvider,
     {
       provide: 'SocialAuthServiceConfig',
