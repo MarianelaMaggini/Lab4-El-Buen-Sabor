@@ -15,7 +15,7 @@ public class ArticuloService {
     ArticuloRepository articuloRepository;
 
     public List<Articulo> getArticulosSinFechaDeBaja() {
-        return (List<Articulo>) articuloRepository.findArticuloByFechaBajaIsNull();
+        return articuloRepository.findArticuloByFechaBajaIsNull();
     }
 
     public List<Articulo> getArticulos() {
@@ -51,7 +51,8 @@ public class ArticuloService {
     }
 
     public List<Articulo> getArticuloByIdRubro(Long id) {
-        return articuloRepository.findByIdRubro(id);
+        List<Articulo> articulos = articuloRepository.findByIdRubro(id);
+        return getArticulos(id, articulos);
     }
 
     /**
@@ -64,6 +65,13 @@ public class ArticuloService {
      */
     public List<Articulo> getArticuloByIdTipoArticulo(Long id) {
         List<Articulo> articulos = articuloRepository.findByTipoArticuloIdAndFechaBajaIsNull(id);
+        return getArticulos(id, articulos);
+    }
+
+    public List<Articulo> getArticuloByElaboradoOrNoElaboradoGroupByRubro(Long idUno, Long idDos){
+        return articuloRepository.findByElaboradoOrNoElaboradoGroupByRubro(idUno, idDos);
+    }
+    private List<Articulo> getArticulos(Long id, List<Articulo> articulos) {
         List<Long> articulosIdInsumos;
         if (id == 2) {
             for (Articulo articulo : articulos) {
@@ -85,5 +93,4 @@ public class ArticuloService {
         }
         return articulos;
     }
-
 }
