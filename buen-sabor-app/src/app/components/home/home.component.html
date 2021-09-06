@@ -6,6 +6,9 @@
       <p class="lead text-white h4 d-flex justify-content-end align-items-center" *ngIf="isLogged">
         Nosotros te lo llevamos
       </p>
+      <p class="lead text-white h4 d-flex justify-content-end align-items-center" *ngIf="isLogged">
+        HORA: {{hour}}:{{minute}}:{{second}} {{ampm}}
+      </p>
       <a routerLink="/login" class="lead text-white h4 d-flex justify-content-end align-items-center" *ngIf="!isLogged">
         Inicia sesión o registrate para pedir
       </a>

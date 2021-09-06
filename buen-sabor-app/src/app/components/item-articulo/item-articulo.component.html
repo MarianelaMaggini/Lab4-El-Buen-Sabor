@@ -9,7 +9,7 @@
     <p class="card-text">
       <small class="text-muted">Rubro: {{ articulo.rubro.denominacion }}</small>
     </p>
-    <button *ngIf="isLogged" class="btn btn-danger" (click)="addCart()" data-toggle="modal"
+    <button *ngIf="isLogged && isHour" class="btn btn-danger" (click)="addCart()" data-toggle="modal"
       data-target="#cartModal">Añadir</button>
   </div>
 </div>
