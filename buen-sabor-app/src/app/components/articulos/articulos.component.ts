@@ -36,7 +36,7 @@ export class ArticulosComponent implements OnInit {
   }
 
   detail(id: number):void{
-    this.router.navigate(['/articuloElaboradoDetalles', id])
+    this.router.navigate(['/detalle', id])
   }
   
   valueRubro(event: any): void {

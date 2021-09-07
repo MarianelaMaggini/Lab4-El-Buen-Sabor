@@ -10,9 +10,9 @@
     </div>
     <div class="col-lg-4">
       <div class="row">
-        <div class="col">
-          <span>{{ articulo.rubro }}</span>
-        </div>
+        <!-- <div class="col">
+          <span>{{ articulo.rubro.denominacion }}</span>
+        </div> -->
       </div>
       <div class="row">
         <div class="col">
@@ -23,19 +23,20 @@
         <div class="col">
           <span>Ingredientes: </span>
           <br />
-          <ul *ngFor="let receta of recetasElaborados; let i = index">
+          <!-- <ul *ngFor="let receta of recetasElaborados; let i = index">
             <li>
               {{ receta.articulo.denominacion }}
             </li>
-          </ul>
+          </ul> -->
         </div>
       </div>
       <div class="row my-4 py-4">
         <div class="col">
-          <button class="btn btn-outline-primary m-2" routerLink="/articulos">
+          <button class="btn btn-outline-primary m-2" routerLink="/">
             Volver
           </button>
-          <button class="btn btn-outline-info m-2">Agregar</button>
+               <button *ngIf="isLogged && isHour" class="btn btn-danger" (click)="addCart()" data-toggle="modal"
+          data-target="#cartModal">Añadir</button>
         </div>
       </div>
     </div>

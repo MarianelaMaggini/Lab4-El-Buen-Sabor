@@ -11,10 +11,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RegistroComponent } from './components/auth/registro/registro.component';
 import { LoginGuard } from './guard/login.guard';
 
-// Carrito
-import { CartComponent } from './components/cart/cart.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
 import { AppGuardService } from './guard/app-guard.service';
 import { ArticuloDetalleComponent } from './components/articulo-detalle/articulo-detalle.component';
 
@@ -23,7 +20,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
   {path: 'registro', component: RegistroComponent, canActivate: [LoginGuard]},
   {path: 'pedidos', component: PedidosComponent, canActivate: [AppGuardService], data: { expectedRol: ['admin', 'user']}},
-  {path: 'detalle:id', component: ArticuloDetalleComponent, canActivate:[AppGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path: 'detalle/:id', component: ArticuloDetalleComponent},
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];
 
