@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface RecetaElaboradoRepository extends CrudRepository <RecetaElaborado,Long>{
 
-    @Query(value = "SELECT * FROM receta_elaborado r WHERE r.id_articulo_elaborado_detalle = :idArticulo and r.fecha_baja is null", nativeQuery = true)
-    List<RecetaElaborado> getRecetaByIdArticulo(@Param("idArticulo") Long idArticulo);
+    @Query(value = "SELECT * FROM receta_elaborado r WHERE r.id_articulo_elaborado_detalle = :idArticuloDetalle and r.fecha_baja is null", nativeQuery = true)
+    List<RecetaElaborado> getRecetaByIdArticulo(@Param("idArticuloDetalle") Long idArticuloDetalle);
 
 }

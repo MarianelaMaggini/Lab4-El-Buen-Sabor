@@ -30,7 +30,7 @@ public class RecetaElaboradoController {
         return recetaElaboradoService.getRecetaById(id);
     }
 
-    @GetMapping("/articulo")
+    @GetMapping("/detalle")
     public List<RecetaElaborado> getRecetaByIdArticulo(@RequestParam("id") Long id) {
         return recetaElaboradoService.getRecetaByIdArticulo(id);
     }
