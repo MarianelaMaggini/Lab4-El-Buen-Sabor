@@ -1,33 +1,35 @@
-<div class="container fluid mt-4">
-  <div class="row">
-    <div class="col">
-      <img [src]="imagen" class="sizeImg d-block mx-auto" />
-      <p class="title">Descripcion</p>
-      <p class="descripcion">{{ articulo.denominacion }}</p>
+<div class="container my-4"  *ngIf="articulo && articuloDetalle">
+  <div class="row justify-content-md-center">
+    <div class="col-md-6">
+      <img [src]="imagen" class="sizeImg d-block mx-auto"/>
     </div>
-    <div class="col-lg-0">
+    <div class="col-md-auto">
       <div class="verticalLine d-none d-lg-block"></div>
     </div>
-    <div class="col-lg-4">
-      <div class="row">
-        <!-- <div class="col">
-          <span>{{ articulo.rubro.denominacion }}</span>
-        </div> -->
-      </div>
+    <div class="col-md-4">
       <div class="row">
         <div class="col">
-          <span>{{ articulo.precioVenta | currency }}</span>
+          <p class="title">{{ articulo.denominacion | uppercase}}</p>
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <span>Ingredientes: </span>
-          <br />
-          <!-- <ul *ngFor="let receta of recetasElaborados; let i = index">
+          <em><p class="lead">{{ articuloDetalle.descripcion }}</p></em>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="precio">{{ articulo.precioVenta | currency }}</p>
+        </div>
+      </div>
+      <div class="row" *ngIf="articulo.tipoArticulo.id == 2">
+        <div class="col">
+          <u><p>Ingredientes: </p></u>
+          <ul *ngFor="let receta of recetasElaborados; let i = index">
             <li>
               {{ receta.articulo.denominacion }}
             </li>
-          </ul> -->
+          </ul>
         </div>
       </div>
       <div class="row my-4 py-4">
@@ -35,8 +37,8 @@
           <button class="btn btn-outline-primary m-2" routerLink="/">
             Volver
           </button>
-               <button *ngIf="isLogged && isHour" class="btn btn-danger" (click)="addCart()" data-toggle="modal"
-          data-target="#cartModal">Añadir</button>
+          <button *ngIf="isLogged && isHour" class="btn btn-danger" (click)="addCart()" data-toggle="modal"
+            data-target="#cartModal">Añadir</button>
         </div>
       </div>
     </div>

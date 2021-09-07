@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SocialUser } from 'angularx-social-login';
+import { ArticuloElaboradoDetalle } from 'src/app/models/articulo-elaborado-detalle';
 import { Tiempo } from 'src/app/models/tiempo';
 import { ArticuloElaboradoDetalleService } from 'src/app/services/articulo-elaborado-detalle.service';
 import { MessageService } from 'src/app/services/message.service';
@@ -19,7 +20,8 @@ import { ArticuloService } from '../../services/articulo.service';
   styleUrls: ['./articulo-detalle.component.css'],
 })
 export class ArticuloDetalleComponent implements OnInit {
-  articulo : Articulo;
+  articulo: Articulo;
+  articuloDetalle: ArticuloElaboradoDetalle;
   recetasElaborados: RecetaElaborado[];
   userLogged: SocialUser;
   tiempo: Tiempo;
@@ -40,14 +42,12 @@ export class ArticuloDetalleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getArticuloById();
     if (this.tokenService.getToken()) {
       this.isLogged = true;
     } else {
       this.isLogged = false;
     }
-    this.getArticuloById();
-    // this.getArticuloDetalleByArticuloId();
-    // this.getRecetaByArticuloDetalleId();
     this.activeSystem();
   }
   addCart(): void {
@@ -55,26 +55,21 @@ export class ArticuloDetalleComponent implements OnInit {
   } 
   getArticuloById(): void {
     this.id = this.route.snapshot.params['id'];
-    this.articuloService.getArticuloById(this.id).subscribe((data) => {
-      console.log(data)
-      this.articulo = data;
+    this.articuloService.getArticuloById(this.id).subscribe((articulo) => {
+      console.log(articulo)
+      this.articulo = articulo;
       this.imagen =
         'http://localhost:8080/upload/files/' + this.articulo.imagen;
+        if (articulo.tipoArticulo.id == 2) {
+          this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(articulo.id).subscribe((detalle) =>{
+            this.articuloDetalle = detalle;
+            this.recetaService.getRecetaByArticuloDetalleId(detalle.id).subscribe((data)=>{
+              this.recetasElaborados = data;
+              })
+          })
+        }
     });
   }
-
-  // getArticuloDetalleByArticuloId(){
-  //   this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(this.id).subscribe((data) =>{
-  //     this.idDetalle= data.id;
-  //     console.log(data);
-  //   })
-  // }
-
-  // getRecetaByArticuloDetalleId(){
-  //   this.recetaService.getRecetaByArticuloDetalleId(this.idDetalle).subscribe((data)=>{
-  //   this.recetasElaborados = data;
-  //   })
-  // }
 
   activeSystem(): void {
     this.tiempoService.getTiempo().subscribe((data) => {
