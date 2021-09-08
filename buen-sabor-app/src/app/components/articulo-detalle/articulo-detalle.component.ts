@@ -61,14 +61,18 @@ export class ArticuloDetalleComponent implements OnInit {
       this.imagen =
         'http://localhost:8080/upload/files/' + this.articulo.imagen;
         if (articulo.tipoArticulo.id == 2) {
-          this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(articulo.id).subscribe((detalle) =>{
-            this.articuloDetalle = detalle;
-            this.recetaService.getRecetaByArticuloDetalleId(detalle.id).subscribe((data)=>{
-              this.recetasElaborados = data;
-              })
-          })
+          this.listDetalleAndReceta(articulo.id);
         }
     });
+  }
+
+  listDetalleAndReceta(id:number):void{
+    this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(id).subscribe((detalle) =>{
+      this.articuloDetalle = detalle;
+      this.recetaService.getRecetaByArticuloDetalleId(detalle.id).subscribe((receta)=>{
+        this.recetasElaborados = receta;
+        })
+    })
   }
 
   activeSystem(): void {

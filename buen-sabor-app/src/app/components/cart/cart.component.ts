@@ -21,6 +21,7 @@ import Swal from 'sweetalert2';
 import { Localidad } from 'src/app/models/localidad';
 import { LocalidadService } from 'src/app/services/localidad.service';
 import { DomicilioForm } from 'src/app/models/domicilio-form';
+import { Router } from '@angular/router';
 
 const EMAIL_BUENSABOR = 'bsabor2021@gmail.com';
 @Component({
@@ -58,6 +59,7 @@ export class CartComponent implements OnInit {
   // constructor
   constructor(
     private messageService: MessageService,
+    private router: Router,
     private storageService: StorageService,
     private mercadoPagoService: MercadoPagoService,
     private tipoEnvioService: TipoEnvioService,
@@ -95,7 +97,8 @@ export class CartComponent implements OnInit {
    * Método void para recargar la página
    */
   refresh(): void {
-    location.reload();
+    this.router.navigate(['/'])
+    location.reload()
   }
 
   /**

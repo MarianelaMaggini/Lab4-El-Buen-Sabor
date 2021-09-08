@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Articulo } from 'src/app/models/articulo';
 import { Tiempo } from 'src/app/models/tiempo';
 import { ArticuloService } from 'src/app/services/articulo.service';
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private tokenService: TokenService,
     private tiempoService: TiempoService,
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit(): void {
@@ -38,7 +40,7 @@ export class HomeComponent implements OnInit {
       const date = new Date();
       this.updateDate(date);
     }, 1000)
-
+    this.mercadoPagoDatos();
     this.activeSystem();
   }
   over(){
@@ -72,6 +74,12 @@ export class HomeComponent implements OnInit {
       } else if (parseInt(Horario.HORA_INICIAL) <= this.tiempo.hora && parseInt(Horario.HORA_FINAL) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
         this.state = 'Abierto';
       }
+    })
+  }
+
+  mercadoPagoDatos():void{
+    this.route.queryParams.subscribe((params) => {
+      console.log(params)
     })
   }
 }

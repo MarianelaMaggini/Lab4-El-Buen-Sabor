@@ -1,4 +1,4 @@
-<div class="container my-4"  *ngIf="articulo && articuloDetalle">
+<div class="container my-4" *ngIf="articulo">
   <div class="row justify-content-md-center">
     <div class="col-md-6">
       <img [src]="imagen" class="sizeImg d-block mx-auto"/>
@@ -14,7 +14,7 @@
       </div>
       <div class="row">
         <div class="col">
-          <em><p class="lead">{{ articuloDetalle.descripcion }}</p></em>
+          <em><p class="lead" *ngIf="articuloDetalle && articulo.tipoArticulo.id == 2">{{ articuloDetalle.descripcion }}</p></em>
         </div>
       </div>
       <div class="row">
