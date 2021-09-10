@@ -15,12 +15,10 @@ public class RubroController {
 
     @Autowired
     RubroService rubroService;
-
     @GetMapping("/todosActivo")
     public List<Rubro> getRubrosSinFechaDeBaja() {
         return rubroService.getRubrosSinFechaDeBaja() ;
     }
-
     @GetMapping("/todos")
     public List<Rubro> getRubros() {
         return rubroService.getRubros() ;
@@ -31,7 +29,6 @@ public class RubroController {
         return rubroService.getRubroById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Rubro saveOrUpdateRubro(@RequestBody Rubro rubro) { return rubroService.saveOrUpdateRubro(rubro); }
 
