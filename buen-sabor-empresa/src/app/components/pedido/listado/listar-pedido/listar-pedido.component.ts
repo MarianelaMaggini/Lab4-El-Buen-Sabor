@@ -7,6 +7,7 @@ import { DetallePedidoService } from 'src/app/services/detalle-pedido.service';
 
 import { Pedido } from 'src/app/models/pedido';
 import { DetallePedido } from 'src/app/models/detalle-pedido';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-listar-pedido',
@@ -19,11 +20,17 @@ export class ListarPedidoComponent implements OnInit {
   pedidos: Pedido[];
   detallesPedido: DetallePedido[];
   numeroPedido: number;
+  isChef: boolean = false;
+  isCashier: boolean = false;
+  isAdmin: boolean = false;
 
-  constructor(private pedidoService: PedidoService, private pedidoEstadoService: PedidoEstadoService, private detallePedidoService: DetallePedidoService, private activatedRoute: ActivatedRoute) { }
+  constructor(private pedidoService: PedidoService, private pedidoEstadoService: PedidoEstadoService, private detallePedidoService: DetallePedidoService, private activatedRoute: ActivatedRoute, private tokenService: TokenService) { }
 
   ngOnInit(): void {
     this.getAllPedidos();
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isChef = this.tokenService.isChef();
+    this.isCashier = this.tokenService.isCashier();
   } 
 
   getAllPedidos() {

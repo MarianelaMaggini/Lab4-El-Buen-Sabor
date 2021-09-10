@@ -41,17 +41,47 @@ export class TokenService {
     if (!this.isLogged()) {
       return false;
     }
-    const token = this.getToken();
-    const payload = token.split('.')[1];
-    const payloadDecoded = atob(payload);
-    const values = JSON.parse(payloadDecoded);
-    const roles = values.roles;
+    const roles = this.getRoles();
     if (roles.indexOf('ROLE_ADMIN') < 0) {
       return false;
     }else{
       return true;
     }
   }
+
+  public isChef(): boolean{
+    if (!this.isLogged()) {
+      return false;
+    }
+    const roles = this.getRoles();
+    if (roles.indexOf('ROLE_COCINERO') < 0) {
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  public isCashier(): boolean{
+    if (!this.isLogged()) {
+      return false;
+    }
+    const roles = this.getRoles();
+    if (roles.indexOf('ROLE_CAJERO') < 0) {
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  public getRoles():any{
+    const token = this.getToken();
+    const payload = token.split('.')[1];
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    const roles = values.roles;
+    return roles;
+  }
+
   public logOut(): void {
     window.localStorage.clear();
     

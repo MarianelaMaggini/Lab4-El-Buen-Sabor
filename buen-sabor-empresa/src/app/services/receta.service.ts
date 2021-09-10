@@ -26,7 +26,7 @@ export class RecetaService {
 
   // Obtener una receta por id de artículo
   getRecetaByIdArticulo(id: any): Observable<Receta[]> {
-    return this.http.get<Receta[]>(this.recetaUrl + '/articulo?id=' + id, { headers: this.header });
+    return this.http.get<Receta[]>(this.recetaUrl + '/detalle?id=' + id, { headers: this.header });
   }
 
   // Guardar-actualizar una receta

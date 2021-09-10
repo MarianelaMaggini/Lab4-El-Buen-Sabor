@@ -23,13 +23,16 @@
             <a class="dropdown-item" routerLink='/inventario'>Inventario</a>
             <a class="dropdown-item" routerLink='/pedidos'>Pedidos</a>
             <a class="dropdown-item" routerLink='/facturas'>Facturas</a>
+            <a class="dropdown-item" *ngIf="isLogged && isAdmin" routerLink="/registro">Usuarios</a>
           </div>
         </li>
       </ul>
       <form class="form-inline">
-        <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!isLogged" routerLink="/login"><i class="fas fa-user-check" ></i> Iniciar sesión
+        <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!isLogged" routerLink="/login"><i
+            class="fas fa-user-check"></i> Iniciar sesión
         </button>
-        <button class="btn btn-outline-danger my-2 my-sm-0" style="cursor: pointer;" *ngIf="isLogged" (click)="onLogOut()"><i class="fas fa-user-lock"></i> Cerrar sesión
+        <button class="btn btn-outline-danger my-2 my-sm-0" style="cursor: pointer;" *ngIf="isLogged"
+          (click)="onLogOut()"><i class="fas fa-user-lock"></i> Cerrar sesión
         </button>
       </form>
     </div>

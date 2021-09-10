@@ -12,7 +12,7 @@ export interface Pedido {
     horaEstimadaFin: Date;
     tipoEnvio: TipoEnvio;
     domicilio: Domicilio;
-    factura: Factura;
+    // factura: Factura;
     mercadoPagoDatos: MercadoPagoDatos;
     usuario: Usuario;
 }

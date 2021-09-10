@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NuevoUsuario } from 'src/app/models/nuevo-usuario';
@@ -10,12 +11,17 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
+
+  nuevoUsuarioForm = new FormGroup({
+    nombre: new FormControl('', [Validators.required]),
+    apellido: new FormControl('', [Validators.required]),
+    telefono:new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required]),
+    clave: new FormControl('', [Validators.required]),
+  });
   nuevoUsuario: NuevoUsuario;
-  nombre: string;
-  apellido: string;
-  telefono: string;
-  email: string;
-  clave: string;
+  roles: string[] = [];
+  rol: string;
   mensajeError: string;
   constructor(  
     private authService: AuthService,
@@ -24,13 +30,19 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  onRegister(): void {
+
+  get f(){
+    return this.nuevoUsuarioForm.controls;
+  }
+  onRegister(form: NuevoUsuario): void {
+    this.roles.push(this.rol);
     this.nuevoUsuario = new NuevoUsuario(
-      this.nombre,
-      this.apellido,
-      this.telefono,
-      this.email,
-      this.clave
+      form.nombre,
+      form.apellido,
+      form.telefono,
+      form.email,
+      form.clave,
+      this.roles
     );
     console.log(this.nuevoUsuario)
     this.authService.nuevo(this.nuevoUsuario).subscribe(
@@ -50,5 +62,10 @@ export class RegistroComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  rolesChange(event:any):void{
+    this.rol = event.target.value;
+    console.log(event.target.value)
   }
 }
