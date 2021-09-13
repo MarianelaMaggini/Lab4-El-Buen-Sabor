@@ -12,11 +12,12 @@ export class TipoEnvioService {
   private header: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  //petición para obtener todos los tipos envios
+  // Obtener todos los tipos envios
   getTiposEnvios(): Observable<TipoEnvio[]> {
     return this.http.get<TipoEnvio[]>(this.tipoEnvioUrl + '/todos', { headers: this.header });
   }
 
+  // Obtener el tipo envio por el id
   getTipoEnvioById(id:number):Observable<TipoEnvio> {
     return this.http.get<TipoEnvio>(this.tipoEnvioUrl + "/" + id, {headers: this.header})
   }

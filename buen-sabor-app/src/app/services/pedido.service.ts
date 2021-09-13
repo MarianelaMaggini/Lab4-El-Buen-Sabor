@@ -12,11 +12,12 @@ export class PedidoService {
   private header: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  //petición para obtener todos los pedidos
+  //Obtener todos los pedidos por el id del usuario
   getPedidosByUser(id:number): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(this.pedidoUrl + '/id?usuario=' + id, { headers: this.header });
   }
 
+  //Guardar un pedido
   savePedido(pedido: Pedido): Observable<Pedido>{
     return this.http.post<Pedido>(this.pedidoUrl, pedido, {headers: this.header});
   }

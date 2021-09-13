@@ -24,9 +24,7 @@ export class ArticulosComponent implements OnInit {
   }
   listArticulos(): void {
     this.articuloService.getArticulosByTipoArticuloId(2).subscribe((elaborado) => {
-      console.log(elaborado)
       this.articuloService.getArticulosByTipoArticuloId(3).subscribe((noElaborado) => {
-        console.log(noElaborado)
         this.articulos = elaborado.concat(noElaborado);
       })
     })

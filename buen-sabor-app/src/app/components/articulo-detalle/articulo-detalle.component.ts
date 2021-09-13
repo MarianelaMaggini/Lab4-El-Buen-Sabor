@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SocialUser } from 'angularx-social-login';
 import { ArticuloElaboradoDetalle } from 'src/app/models/articulo-elaborado-detalle';
-import { Tiempo } from 'src/app/models/tiempo';
 import { ArticuloElaboradoDetalleService } from 'src/app/services/articulo-elaborado-detalle.service';
 import { MessageService } from 'src/app/services/message.service';
 import { RecetaElaboradoService } from 'src/app/services/receta-elaborado.service';
-import { TiempoService } from 'src/app/services/tiempo.service';
 import { TokenService } from 'src/app/services/token.service';
 import { Dia } from 'src/app/utils/dia';
 import { Horario } from 'src/app/utils/horario';
@@ -24,7 +22,6 @@ export class ArticuloDetalleComponent implements OnInit {
   articuloDetalle: ArticuloElaboradoDetalle;
   recetasElaborados: RecetaElaborado[];
   userLogged: SocialUser;
-  tiempo: Tiempo;
   id: number;
   imagen: string;
   idDetalle: number;
@@ -38,7 +35,6 @@ export class ArticuloDetalleComponent implements OnInit {
     private recetaService: RecetaElaboradoService,
     private messageService: MessageService,
     private tokenService: TokenService,
-    private tiempoService: TiempoService,
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +52,6 @@ export class ArticuloDetalleComponent implements OnInit {
   getArticuloById(): void {
     this.id = this.route.snapshot.params['id'];
     this.articuloService.getArticuloById(this.id).subscribe((articulo) => {
-      console.log(articulo)
       this.articulo = articulo;
       this.imagen =
         'http://localhost:8080/upload/files/' + this.articulo.imagen;
@@ -76,15 +71,13 @@ export class ArticuloDetalleComponent implements OnInit {
   }
 
   activeSystem(): void {
-    this.tiempoService.getTiempo().subscribe((data) => {
-      this.tiempo = data;
-      if (Dia.SABADO === this.tiempo.diaNumero && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= this.tiempo.hora && parseInt(Horario.HORA_FINAL_SAB_DOM) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
-        this.isHour = true;
-      } else if (Dia.DOMINGO === this.tiempo.diaNumero && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= this.tiempo.hora && parseInt(Horario.HORA_FINAL_SAB_DOM) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
-        this.isHour = true;
-      } else if (parseInt(Horario.HORA_INICIAL) <= this.tiempo.hora && parseInt(Horario.HORA_FINAL) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
-        this.isHour = true;
-      }
-    })
+    const time = new Date();
+    if (Dia.SABADO === time.getDay() && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= time.getHours() && parseInt(Horario.HORA_FINAL_SAB_DOM) < time.getHours() && parseInt(Horario.MINUTO) < time.getMinutes()) {
+      this.isHour = true;
+    } else if (Dia.DOMINGO === time.getDay() && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= time.getHours() && parseInt(Horario.HORA_FINAL_SAB_DOM) < time.getHours() && parseInt(Horario.MINUTO) < time.getMinutes()) {
+      this.isHour = true;
+    } else if (parseInt(Horario.HORA_INICIAL) <= time.getHours() && parseInt(Horario.HORA_FINAL) < time.getHours() && parseInt(Horario.MINUTO) < time.getMinutes()) {
+      this.isHour = true;
+    }
   }
 }

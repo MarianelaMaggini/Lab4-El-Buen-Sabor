@@ -12,6 +12,7 @@ export class PedidoEstadoService {
   private header: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
+  //Obtener un pedido estado por el id
   getPedidoEstadoById(id:number):Observable<PedidoEstado> {
     return this.http.get<PedidoEstado>(this.pedidoEstadoUrl + "/" + id, {headers: this.header})
   }

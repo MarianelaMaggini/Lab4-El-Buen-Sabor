@@ -5,5 +5,5 @@ export enum Dia {
     JUEVES = 4,
     VIERNES = 5,
     SABADO = 6,
-    DOMINGO = 7
+    DOMINGO = 0
 }

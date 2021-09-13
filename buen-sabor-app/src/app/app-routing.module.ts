@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
   {path: 'registro', component: RegistroComponent, canActivate: [LoginGuard]},
   {path: 'pedidos', component: PedidosComponent, canActivate: [AppGuardService], data: { expectedRol: ['admin', 'user']}},
-  {path: 'detalle/:id', component: ArticuloDetalleComponent},
+  {path: 'detalle/:id', component: ArticuloDetalleComponent, canActivate: [AppGuardService], data: { expectedRol: ['admin', 'user']}},
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];
 

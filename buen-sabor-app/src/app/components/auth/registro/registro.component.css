@@ -96,5 +96,17 @@
     font-size: 14px;
     color: #919aa3; 
 }
+
+.icon-span{
+    position: absolute;
+    margin-left: 290px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+  }
+.form-input{
+    padding-left: 20;
+    height: 20px;
+}
   
   

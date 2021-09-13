@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NuevoUsuario } from 'src/app/models/nuevo-usuario';
@@ -19,14 +19,26 @@ export class RegistroComponent implements OnInit {
   email: string;
   clave: string;
   mensajeError: string;
+  isActive: boolean = false;
 
   // Formulario para nuevo usuario
   nuevo = new FormGroup({
-    nombre: new FormControl(''),
-    apellido: new FormControl(''),
-    telefono: new FormControl(''),   
-    email: new FormControl(''),
-    clave: new FormControl(''),
+    nombre: new FormControl('', [
+      Validators.required, 
+      Validators.minLength(4), 
+      Validators.maxLength(20)]),
+    apellido: new FormControl('', [
+      Validators.required, 
+      Validators.minLength(4),
+      Validators.maxLength(20)]),
+    telefono: new FormControl('', [
+      Validators.required,]),   
+    email: new FormControl('', [
+      Validators.required, 
+      Validators.email]),
+    clave: new FormControl('', [
+      Validators.required,
+      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
   })
   constructor( 
     private authService: AuthService,
@@ -62,4 +74,9 @@ export class RegistroComponent implements OnInit {
       }
     );
   }
+
+  get f(){
+    return this.nuevo.controls;
+  }
+
 }

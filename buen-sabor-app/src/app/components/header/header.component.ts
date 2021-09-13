@@ -52,7 +52,6 @@ export class HeaderComponent implements OnInit {
   getUser(): void {
     let userName = this.tokenService.getUserName()
       this.authService.getDataUsuario(userName).subscribe(data => {
-        console.log(data)
         this.usuario = data;
     })
   }

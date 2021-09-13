@@ -33,9 +33,9 @@
           <strong>TOTAL: </strong>{{ total | currency: "AR":"$" }}
         </div>
         <div class="modal-footer" *ngIf="cartItems.length > 0">
-          <button type="button" (click)="refresh()" class="btn btn-secondary" data-dismiss="modal">
+          <a routerLink="/" class="btn btn-secondary" data-dismiss="modal">
             Seguir comprando
-          </button>
+          </a>
           <button type="button" (click)="listShippingType()" data-dismiss="modal" data-toggle="modal"
             data-target="#tipoEnvioModal" class="btn btn-primary">
             Siguiente

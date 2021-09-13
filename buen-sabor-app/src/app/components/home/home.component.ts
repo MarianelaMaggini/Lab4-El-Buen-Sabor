@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Articulo } from 'src/app/models/articulo';
-import { Tiempo } from 'src/app/models/tiempo';
-import { ArticuloService } from 'src/app/services/articulo.service';
-import { TiempoService } from 'src/app/services/tiempo.service';
 import { TokenService } from 'src/app/services/token.service';
 import { Dia } from 'src/app/utils/dia';
 import { Horario } from 'src/app/utils/horario';
@@ -15,10 +12,9 @@ import { Horario } from 'src/app/utils/horario';
 })
 export class HomeComponent implements OnInit {
   articulos: Articulo[];
-  tiempo: Tiempo;
   isLogged = false;
   isAdmin = false;
-  animate: string = "animate__bounceOutRight"; 
+  animate: string = "animate__bounceOutRight";
   slow: string = "animate__slow"
   day: string;
   hour: any;
@@ -28,14 +24,13 @@ export class HomeComponent implements OnInit {
   state = 'Cerrado';
   constructor(
     private tokenService: TokenService,
-    private tiempoService: TiempoService,
     private route: ActivatedRoute
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
     this.isLogged = this.tokenService.isLogged();
-    
+
     setInterval(() => {
       const date = new Date();
       this.updateDate(date);
@@ -43,7 +38,7 @@ export class HomeComponent implements OnInit {
     this.mercadoPagoDatos();
     this.activeSystem();
   }
-  over(){
+  over() {
     const element = document.getElementById("delivery");
     element!.classList.add("animate__animated", this.animate);
     element!.classList.add("animate__animated", this.slow);
@@ -52,7 +47,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  updateDate(date: Date):void{
+  updateDate(date: Date): void {
     const hours = date.getHours();
     this.ampm = hours >= 12 ? 'PM' : 'AM';
     this.hour = hours;
@@ -62,22 +57,19 @@ export class HomeComponent implements OnInit {
     this.minute = minutes < 10 ? '0' + minutes : minutes.toString();
 
   }
-  
 
   activeSystem(): void {
-    this.tiempoService.getTiempo().subscribe((data) => {
-      this.tiempo = data;
-      if (Dia.SABADO === this.tiempo.diaNumero && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= this.tiempo.hora && parseInt(Horario.HORA_FINAL_SAB_DOM) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
-        this.state = 'Abierto';
-      } else if (Dia.DOMINGO === this.tiempo.diaNumero && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= this.tiempo.hora && parseInt(Horario.HORA_FINAL_SAB_DOM) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
-        this.state = 'Abierto';
-      } else if (parseInt(Horario.HORA_INICIAL) <= this.tiempo.hora && parseInt(Horario.HORA_FINAL) < this.tiempo.hora && parseInt(Horario.MINUTO) < this.tiempo.minuto) {
-        this.state = 'Abierto';
-      }
-    })
+    const time = new Date();
+    if (Dia.SABADO === time.getDay() && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= time.getHours() && parseInt(Horario.HORA_FINAL_SAB_DOM) < time.getHours() && parseInt(Horario.MINUTO) < time.getMinutes()) {
+      this.state = 'Abierto';
+    } else if (Dia.DOMINGO === time.getDay() && parseInt(Horario.HORA_INICIAL_SAB_DOM) >= time.getHours() && parseInt(Horario.HORA_FINAL_SAB_DOM) < time.getHours() && parseInt(Horario.MINUTO) < time.getMinutes()) {
+      this.state = 'Abierto';
+    } else if (parseInt(Horario.HORA_INICIAL) <= time.getHours() && parseInt(Horario.HORA_FINAL) < time.getHours() && parseInt(Horario.MINUTO) < time.getMinutes()) {
+      this.state = 'Abierto';
+    }
   }
 
-  mercadoPagoDatos():void{
+  mercadoPagoDatos(): void {
     this.route.queryParams.subscribe((params) => {
       console.log(params)
     })
