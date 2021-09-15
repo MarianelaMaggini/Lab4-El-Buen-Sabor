@@ -1,5 +1,6 @@
 package com.example.buensabor.security.controllers;
 
+import com.example.buensabor.security.dto.EmailValuesDto;
 import com.example.buensabor.security.dto.JwtDto;
 import com.example.buensabor.security.dto.LoginUsuario;
 import com.example.buensabor.security.dto.NuevoUsuario;
@@ -27,10 +28,8 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -49,6 +48,9 @@ public class UsuarioController {
     private String googleClientId;
     @Value("${secretPsw}")
     private String secretPsw;
+    @Value("${spring.mail.username}")
+    private String mailFrom;
+    private static final String SUBJECT = "Bienvenido, solo queda verificar tu correo.";
 
     @Autowired
     public UsuarioController(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UsuarioService usuarioService, RolService rolService, JwtProvider jwtProvider, EnviarMailService emailSenderService) {
@@ -92,18 +94,20 @@ public class UsuarioController {
         if (usuarioService.existsByEmail(nuevoUsuario.getEmail())) {
             return new ResponseEntity<>("ese email ya existe", HttpStatus.BAD_REQUEST);
         }
+        UUID uuid = UUID.randomUUID();
+        String tokenPassword = uuid.toString();
         nuevoUsuario.setEnabled(false);
+        nuevoUsuario.setTokenPassword(tokenPassword);
         saveNewUsuario(nuevoUsuario);
-        emailSenderService.sendEmail(nuevoUsuario.getEmail(), "Bienvenido, solo queda verificar tu correo.", nuevoUsuario.getNombre(), nuevoUsuario.getEmail());
-        return new ResponseEntity<>("Usuario guardado", HttpStatus.CREATED);
-    }
+        EmailValuesDto emailValuesDto = new EmailValuesDto();
+        emailValuesDto.setNombre(nuevoUsuario.getNombre());
+        emailValuesDto.setMailFrom(mailFrom);
+        emailValuesDto.setMailTo(nuevoUsuario.getEmail());
+        emailValuesDto.setSubject(SUBJECT);
 
-    @GetMapping("/confirmar-cuenta")
-    public ResponseEntity<?> confirmarCuenta (@RequestParam("email") String email){
-        Usuario usuario = usuarioService.getByEmail(email).get();
-        usuario.setEnabled(true);
-        usuarioService.save(usuario);
-        return new ResponseEntity<>("Cuenta verificada", HttpStatus.OK);
+        emailValuesDto.setTokenPassword(tokenPassword);
+        emailSenderService.sendEmail(emailValuesDto);
+        return new ResponseEntity<>("Usuario guardado", HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -144,7 +148,8 @@ public class UsuarioController {
                 nuevoUsuario.getTelefono(),
                 nuevoUsuario.getEmail(),
                 passwordEncoder.encode(nuevoUsuario.getClave()),
-                nuevoUsuario.isEnabled());
+                nuevoUsuario.isEnabled(),
+                nuevoUsuario.getTokenPassword());
         Set<Rol> roles = new HashSet<>();
         roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
         if (nuevoUsuario.getRoles().contains("admin")) {

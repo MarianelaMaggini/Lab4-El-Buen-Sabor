@@ -4,34 +4,48 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <style>
+        .btn{
+            background-color: #F35959;
+            border: none;
+            color: #f1f1f1;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 16px;
+        }
+        .container {
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-<div class="container col-md-6">
+<div class="container">
     <div>
         <div>
+            <!--/*@thymesVar id="logo" type="String"*/-->
+            <img src="http://localhost:8080/upload/files/logo.png" alt="logo" style="width:100px; height: 85px">
             <!--/*@thymesVar id="nombre" type="String"*/-->
             <h2>Hola <span th:text="${nombre}"></span></h2>
         </div>
-        <div style="margin-bottom: 15px; padding: 4px 12px; background-color: #ddffdd; border-left: 6px solid #04AA6D;">
+        <div>
             <h5>Gracias por registrarte en el Buen Sabor.</h5>
-            <p>Para confirmar tu cuenta, por favor haga clic en:
+            <div>
+                <p>Para confirmar tu cuenta, por favor haga clic en:</p>
                 <!--/*@thymesVar id="url" type="String"*/-->
-                <a th:href="@{${url}}"><button> Verificar</button></a>
-            </p>
+                <a th:href="@{${url}}">
+                    <button class="btn"> Verificar</button>
+                </a>
+            </div>
         </div>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
-        integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
-        crossorigin="anonymous"></script>
 </body>
 </html>
+
+<!--style="margin-bottom: 15px; padding: 4px 12px; background-color: #ddffdd; border-left: 6px solid #04AA6D;"-->

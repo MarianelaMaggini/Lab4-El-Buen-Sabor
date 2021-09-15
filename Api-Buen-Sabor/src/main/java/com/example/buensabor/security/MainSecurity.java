@@ -59,7 +59,8 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/auth/**",
                         "/articulos/**",
-                        "/tiempos/**",
+                        "/cuenta/**",
+                        "/webjars/**",
                         "/upload/**",
                         "/v2/api-docs",
                         "/swagger-ui/**",

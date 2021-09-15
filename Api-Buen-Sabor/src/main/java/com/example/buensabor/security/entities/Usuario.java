@@ -42,6 +42,8 @@ public class Usuario extends EntityBean {
 
     private boolean isEnabled;
 
+    private String tokenPassword;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
     @NotNull
@@ -57,12 +59,13 @@ public class Usuario extends EntityBean {
 
     public Usuario() { }
 
-    public Usuario(@NotNull String nombre, @NotNull String apellido, String telefono, String email, @NotNull String clave, boolean isEnabled) {
+    public Usuario(@NotNull String nombre, @NotNull String apellido, String telefono, String email, @NotNull String clave, boolean isEnabled, String tokenPassword) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.email = email;
         this.clave = clave;
         this.isEnabled = isEnabled;
+        this.tokenPassword = tokenPassword;
     }
 }

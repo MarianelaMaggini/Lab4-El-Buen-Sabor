@@ -3,8 +3,6 @@ package com.example.buensabor.controllers.rubro;
 import com.example.buensabor.entities.rubro.Rubro;
 import com.example.buensabor.services.rubro.RubroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;

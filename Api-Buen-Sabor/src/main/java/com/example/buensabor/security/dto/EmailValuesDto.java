@@ -5,15 +5,18 @@ import lombok.Data;
 @Data
 public class EmailValuesDto {
     private String nombre;
-    private String emailFrom;
-    private String emailTo;
+    private String mailFrom;
+    private String mailTo;
     private String subject;
-    private String token;
+    private String tokenPassword;
 
-    public EmailValuesDto(String emailFrom, String emailTo, String subject, String token) {
-        this.emailFrom = emailFrom;
-        this.emailTo = emailTo;
+    public EmailValuesDto() {
+    }
+
+    public EmailValuesDto(String mailFrom, String mailTo, String subject, String tokenPassword) {
+        this.mailFrom = mailFrom;
+        this.mailTo = mailTo;
         this.subject = subject;
-        this.token = token;
+        this.tokenPassword = tokenPassword;
     }
 }

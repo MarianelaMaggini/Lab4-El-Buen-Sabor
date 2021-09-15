@@ -20,6 +20,7 @@ public class NuevoUsuario {
     @NotBlank
     private String clave;
     private boolean isEnabled;
+    private String tokenPassword;
     private Set<String> roles = new HashSet<>();
 
 }
