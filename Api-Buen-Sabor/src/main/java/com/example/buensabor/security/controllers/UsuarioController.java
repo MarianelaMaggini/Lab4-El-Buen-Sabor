@@ -1,9 +1,7 @@
 package com.example.buensabor.security.controllers;
 
-import com.example.buensabor.security.dto.EmailValuesDto;
-import com.example.buensabor.security.dto.JwtDto;
-import com.example.buensabor.security.dto.LoginUsuario;
-import com.example.buensabor.security.dto.NuevoUsuario;
+import com.example.buensabor.dtos.Message;
+import com.example.buensabor.security.dto.*;
 import com.example.buensabor.security.entities.Rol;
 import com.example.buensabor.security.entities.Usuario;
 import com.example.buensabor.security.enums.RolNombre;
@@ -51,6 +49,8 @@ public class UsuarioController {
     @Value("${spring.mail.username}")
     private String mailFrom;
     private static final String SUBJECT = "Bienvenido, solo queda verificar tu correo.";
+    @Value("${mail.urlVerification}")
+    private String urlVerification;
 
     @Autowired
     public UsuarioController(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UsuarioService usuarioService, RolService rolService, JwtProvider jwtProvider, EnviarMailService emailSenderService) {
@@ -89,10 +89,10 @@ public class UsuarioController {
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult) throws MessagingException {
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>("campos mal puestos o email inválido", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         }
         if (usuarioService.existsByEmail(nuevoUsuario.getEmail())) {
-            return new ResponseEntity<>("ese email ya existe", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("ese email ya existe"), HttpStatus.BAD_REQUEST);
         }
         UUID uuid = UUID.randomUUID();
         String tokenPassword = uuid.toString();
@@ -106,18 +106,18 @@ public class UsuarioController {
         emailValuesDto.setSubject(SUBJECT);
 
         emailValuesDto.setTokenPassword(tokenPassword);
-        emailSenderService.sendEmail(emailValuesDto);
-        return new ResponseEntity<>("Usuario guardado", HttpStatus.CREATED);
+        emailSenderService.sendEmail(emailValuesDto, "email-verification", urlVerification);
+        return new ResponseEntity<>(new Message("Usuario guardado"), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult) {
         Usuario usuario = usuarioService.getByEmail(loginUsuario.getEmail()).get();
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity("campos mal puestos o email inválido", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         }
         if (!usuario.isEnabled()){
-            return new ResponseEntity("cuenta no verificada", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Cuenta no verificada"), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(loginUsuario(loginUsuario.getEmail(), loginUsuario.getClave()), HttpStatus.OK);
     }
@@ -133,6 +133,8 @@ public class UsuarioController {
     public Optional<Usuario> getUsuario(@PathVariable("email") String email) {
         return usuarioService.getByEmail(email);
     }
+
+
 
     private JwtDto loginUsuario(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));

@@ -23,9 +23,6 @@ public class EnviarMailService {
     private final JavaMailSender javaMailSender;
     private  final TemplateEngine templateEngine;
 
-    @Value("${mail.urlFront}")
-    private String urlFront;
-
     @Autowired
     public EnviarMailService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         this.javaMailSender = javaMailSender;
@@ -33,16 +30,16 @@ public class EnviarMailService {
     }
 
     @Async
-    public void sendEmail(EmailValuesDto dto) throws MessagingException {
+    public void sendEmail(EmailValuesDto dto, String template, String url) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message);
             Context context = new Context();
             Map<String, Object> model = new HashMap<>();
             model.put("nombre", dto.getNombre());
-            model.put("url", urlFront + dto.getTokenPassword());
+            model.put("url", url + dto.getTokenPassword());
             context.setVariables(model);
-            String htmlText = templateEngine.process("email-verification", context);
+            String htmlText = templateEngine.process(template, context);
             helper.setFrom(dto.getMailFrom());
             helper.setSubject(dto.getSubject());
             helper.setTo(dto.getMailTo());
@@ -52,4 +49,5 @@ public class EnviarMailService {
             ex.printStackTrace();
         }
     }
+
 }
