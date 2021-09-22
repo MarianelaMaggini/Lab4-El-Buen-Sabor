@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NuevoUsuario } from 'src/app/models/nuevo-usuario';
 import { AuthService } from 'src/app/services/auth.service';
-import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-registro',
@@ -66,7 +65,7 @@ export class RegistroComponent implements OnInit {
       },
 
       (err) => {
-        this.mensajeError = err.error;
+        this.mensajeError = err.error.message;
         this.toastr.error(this.mensajeError, 'Opps', {
           timeOut: 3000,
         });

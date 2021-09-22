@@ -18,6 +18,8 @@ import { StorageService } from 'src/app/services/storage.service';
 import { TipoEnvioService } from 'src/app/services/tipo-envio.service';
 import { TokenService } from 'src/app/services/token.service';
 import Swal from 'sweetalert2';
+import * as SockJS from 'sockjs-client';
+import * as Stomp from '@stomp/stompjs';
 import { Localidad } from 'src/app/models/localidad';
 import { LocalidadService } from 'src/app/services/localidad.service';
 import { DomicilioForm } from 'src/app/models/domicilio-form';
@@ -45,6 +47,10 @@ export class CartComponent implements OnInit {
   total: number;
   openForm: boolean;
   emailUser: string;
+  webSocketEndPoint: string = 'http://localhost:8080/ws';
+  disabled = true;
+  stompClient: any;
+
 
   // Para guardar un nuevo domicilio
   saveAddress = new FormGroup({
@@ -87,6 +93,8 @@ export class CartComponent implements OnInit {
     }
     this.getItem();
     this.total = this.getTotal();
+
+
   }
 
   get f(){
@@ -168,7 +176,9 @@ export class CartComponent implements OnInit {
         this.tipoEnvioService.getTipoEnvioById(this.idShippingType).subscribe((dataTipoEnvio) => {
           this.pedidoEstadoService.getPedidoEstadoById(1).subscribe((dataPedidoEstado) => {
             this.domicilioService.getDomicilioByUserId(dataUsuario.id).subscribe((dataDomicilio) => {
-              let pedido = new PedidoCreate(0, new Date(), this.total, dataUsuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio[0])
+              let pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio[0])
+              this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
+              console.log(pedido)
               this.pedidoService.savePedido(pedido).subscribe(data => {
                 this.cartItems.forEach((item: any) => {
                   this.articuloService.getArticuloById(item.id).subscribe((dataArticulo) => {
@@ -221,6 +231,7 @@ export class CartComponent implements OnInit {
    * Captura el valor del radio button del tipo envio
    */
   captureShippingValue(event: any): void {
+    
     this.cartItems.forEach((item: any) => {
       console.log(item)
     });
@@ -247,6 +258,7 @@ export class CartComponent implements OnInit {
    * Método void que a través del servicio de Tipo Envio, lista todos los tipos envios de la base de datos 
    */
   listShippingType(): void {
+    this.connect();
     this.tipoEnvioService.getTiposEnvios().subscribe((data) => {
       this.tiposEnvios = data;
     })
@@ -298,6 +310,7 @@ export class CartComponent implements OnInit {
    * @param pedido 
    */
   savePedidoAndDetallePedido(pedido: PedidoCreate): void {
+    this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
     this.pedidoService.savePedido(pedido).subscribe(data => {
       this.cartItems.forEach((item: any) => {
         this.articuloService.getArticuloById(item.id).subscribe((dataArticulo) => {
@@ -366,6 +379,23 @@ export class CartComponent implements OnInit {
     this.localidadService.getLocalidades().subscribe((localidad) => {
       this.localidades = localidad;
     })
+  }
+
+  connect() {
+    const socket = new SockJS(this.webSocketEndPoint);
+    this.stompClient = Stomp.over(socket);
+    const _this = this;
+    _this.stompClient.connect({},  (frame: any) => {
+      console.log('Connected: ' + frame)
+    })
+  }
+
+  disconnect() {
+    if (this.stompClient != null) {
+      this.stompClient.disconnect();
+    }
+
+    console.log('Disconnected!');
   }
 
 }

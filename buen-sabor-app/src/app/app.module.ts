@@ -97,6 +97,9 @@ import { TipoEnvioService } from './services/tipo-envio.service';
 
 // Sweet Alert 2
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SendEmailComponent } from './components/changepassword/send-email/send-email.component';
+import { ChangePasswordComponent } from './components/changepassword/change-password/change-password.component';
+import { EmailPasswordService } from './services/email-password.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -112,6 +115,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     PedidosComponent,
     PerfilComponent,
     ArticuloDetalleComponent,
+    SendEmailComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -138,6 +143,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     LocalidadService,
     RecetaElaboradoService,
     ArticuloElaboradoDetalleService,
+    EmailPasswordService,
     interceptorProvider,
     {
       provide: 'SocialAuthServiceConfig',

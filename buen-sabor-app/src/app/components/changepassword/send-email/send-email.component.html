@@ -1,0 +1,31 @@
+<main class="d-flex align-items-center my-3">
+    <div class="container col-md-8">
+        <div class="card login-card">
+            <div class="row no-gutters ">
+                <div class="col-md-6 d-flex">
+                    <img src="assets/img/cerveza.jpg" alt="login" class="login-card-img">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <div class="brand-wrapper">
+                            <img src="assets/img/logo.png" alt="logo" class="logo">
+                        </div>
+                        <p class="login-card-description">Cambiar contraseña</p>
+                        <form #f="ngForm" (ngSubmit)="sendEmail()" novalidate>
+                            <div class="form-group">
+                                <label for="mailTo" class="sr-only">Email</label>
+                                <input type="email" id="mailTo" name="mailTo" class="form-control" [(ngModel)]="mailTo" placeholder="Correo electrónico">
+                            </div>
+                            <button name="login" id="login" class="btn btn-block login-btn mb-4" [disabled]="!f.valid">
+                                Enviar correo
+                            </button>
+                        </form>
+                        <p class="login-card-footer-text">
+                            Recibirás un correo para cambiar tu contraseña
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
