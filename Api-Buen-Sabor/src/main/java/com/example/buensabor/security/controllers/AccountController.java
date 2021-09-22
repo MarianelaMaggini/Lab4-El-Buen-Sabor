@@ -61,6 +61,7 @@ public class AccountController {
         UUID uuid = UUID.randomUUID();
         String tokenPassword = uuid.toString();
         emailValuesDto.setTokenPassword(tokenPassword);
+        usuario.setTokenPassword(tokenPassword);
         usuarioService.save(usuario);
         enviarMailService.sendEmail(emailValuesDto, "email-password", urlPassword);
         return new ResponseEntity<>(new Message("Te enviamos un correo para cambiar contraseña"), HttpStatus.OK);

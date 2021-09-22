@@ -54,6 +54,13 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "id_domicilio")
     private Domicilio domicilio;
 
-
-
+    public Pedido(long numeroPedido, @NotNull Date horaEstimadaFin, double total, Domicilio domicilio, TipoEnvio tipoEnvio, Usuario usuario, PedidoEstado pedidoEstado) {
+        this.numeroPedido = numeroPedido;
+        this.horaEstimadaFin = horaEstimadaFin;
+        this.total = total;
+        this.domicilio = domicilio;
+        this.tipoEnvio = tipoEnvio;
+        this.usuario = usuario;
+        this.pedidoEstado = pedidoEstado;
+    }
 }
