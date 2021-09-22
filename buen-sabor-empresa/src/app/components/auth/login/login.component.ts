@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginUsuario } from 'src/app/models/login-usuario';
@@ -12,8 +13,11 @@ import { TokenService } from 'src/app/services/token.service';
 })
 export class LoginComponent implements OnInit {
   loginUsuario: LoginUsuario;
-  email: string;
-  clave: string;
+  // Formulario para login
+  login = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    clave: new FormControl('', [Validators.required]),
+  })
   mensajeError: string;
   constructor(
     private tokenService: TokenService,
@@ -24,8 +28,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  onLogin(): void {
-    this.loginUsuario = new LoginUsuario(this.email, this.clave);
+  onLogin(form: LoginUsuario): void {
+    this.loginUsuario = new LoginUsuario(form.email, form.clave);
     this.authService.login(this.loginUsuario).subscribe(data => {
       this.tokenService.setToken(data.token);
       window.location.href = '/'
@@ -37,5 +41,8 @@ export class LoginComponent implements OnInit {
         timeOut: 3000,
       });
     })
+  }
+  get f(){
+    return this.login.controls;
   }
 }
