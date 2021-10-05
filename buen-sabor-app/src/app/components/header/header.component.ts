@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit {
     this.isAdmin = this.tokenService.isAdmin();
     this.isLogged = this.tokenService.isLogged();
     this.socialAuthService.authState.subscribe((data) => {
-      console.log(data)
       this.userLogged = data;
       this.isLogged = (this.userLogged != null && this.tokenService.getToken() != null);
     })

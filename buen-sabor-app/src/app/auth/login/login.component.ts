@@ -34,15 +34,10 @@ export class LoginComponent implements OnInit {
   ) { }
   
   ngOnInit(): void {
-    console.log(this.f)
     this.socialAuthService.authState.subscribe((data) => {
       this.userLogged = data;
       this.isLogged = (this.userLogged != null && this.tokenService.getToken() != null)
     })
-  }
-  
-  get f(){
-    return this.login.controls;
   }
 
   onLogin(form: LoginUsuario): void {

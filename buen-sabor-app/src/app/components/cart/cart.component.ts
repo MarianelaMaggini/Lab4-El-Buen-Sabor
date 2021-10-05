@@ -24,6 +24,11 @@ import { Localidad } from 'src/app/models/localidad';
 import { LocalidadService } from 'src/app/services/localidad.service';
 import { DomicilioForm } from 'src/app/models/domicilio-form';
 import { Router } from '@angular/router';
+import { ArticuloElaboradoDetalle } from 'src/app/models/articulo-elaborado-detalle';
+import { RecetaElaborado } from 'src/app/models/receta-elaborado';
+import { InventarioService } from 'src/app/services/inventario.service';
+import { RecetaElaboradoService } from 'src/app/services/receta-elaborado.service';
+import { ArticuloElaboradoDetalleService } from 'src/app/services/articulo-elaborado-detalle.service';
 
 const EMAIL_BUENSABOR = 'bsabor2021@gmail.com';
 @Component({
@@ -38,6 +43,8 @@ export class CartComponent implements OnInit {
   tiposEnvios: TipoEnvio[];
   domicilios: Domicilio[];
   localidades: Localidad[];
+  articuloDetalle: ArticuloElaboradoDetalle;
+  recetasElaborados: RecetaElaborado[] = [];
   usuario: Usuario;
   localidad: Localidad;
   paymentMethod: any;
@@ -47,20 +54,13 @@ export class CartComponent implements OnInit {
   total: number;
   openForm: boolean;
   emailUser: string;
-  webSocketEndPoint: string = 'http://localhost:8080/ws';
-  disabled = true;
+  webSocketEndPoint: string;
+  disabled: boolean;
   stompClient: any;
+  message:string;
+  formAddress: FormGroup;
 
-
-  // Para guardar un nuevo domicilio
-  saveAddress = new FormGroup({
-    id: new FormControl(''),
-    calle: new FormControl('', [Validators.required]),
-    numero: new FormControl('', [Validators.required, Validators.maxLength(4)]),
-    idLocalidad: new FormControl('', [Validators.required]),
-    fechaBaja: new FormControl(''),
-    usuario: new FormControl('')
-  })
+  
 
   // constructor
   constructor(
@@ -76,13 +76,29 @@ export class CartComponent implements OnInit {
     private authService: AuthService,
     private articuloService: ArticuloService,
     private detallePedidoService: DetallePedidoService,
-    private localidadService: LocalidadService
+    private localidadService: LocalidadService,
+    private articuloDetalleService: ArticuloElaboradoDetalleService,
+    private recetaService: RecetaElaboradoService,
+    private inventarioService: InventarioService,
   ) {
     this.paymentMethod = ['Efectivo', 'Mercado Pago'];
     this.idShippingType = 0;
     this.idAddress = 0;
     this.total = 0;
     this.openForm = false;
+    this.webSocketEndPoint = 'http://localhost:8080/ws';
+    this.message = 'Ingresó un nuevo pedido.';
+    this.disabled = true;
+    
+    // Formulario para domicilio
+    this.formAddress = new FormGroup({
+      id: new FormControl(''),
+      calle: new FormControl('', [Validators.required]),
+      numero: new FormControl('', [Validators.required, Validators.maxLength(4)]),
+      idLocalidad: new FormControl('', [Validators.required]),
+      fechaBaja: new FormControl(''),
+      usuario: new FormControl('')
+    })
   }
 
   ngOnInit(): void {
@@ -93,12 +109,6 @@ export class CartComponent implements OnInit {
     }
     this.getItem();
     this.total = this.getTotal();
-
-
-  }
-
-  get f(){
-    return this.saveAddress.controls;
   }
 
   /**
@@ -114,6 +124,14 @@ export class CartComponent implements OnInit {
    */
   getItem(): void {
     this.messageService.getMessage().subscribe((articulo: Articulo) => {
+      this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(articulo.id).subscribe(detalles => {
+        this.recetaService.getRecetaByArticuloDetalleId(detalles.id).subscribe(recetas => {
+          this.inventarioService.getInventarios().subscribe(inventarios => {
+            console.log(recetas)
+            console.log(inventarios)
+          })
+        })
+      })
       let exist = false;
       this.cartItems.forEach((item: { id: number; cantidad: number }) => {
         if (item.id === articulo.id) {
@@ -178,7 +196,6 @@ export class CartComponent implements OnInit {
             this.domicilioService.getDomicilioByUserId(dataUsuario.id).subscribe((dataDomicilio) => {
               let pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio[0])
               this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
-              console.log(pedido)
               this.pedidoService.savePedido(pedido).subscribe(data => {
                 this.cartItems.forEach((item: any) => {
                   this.articuloService.getArticuloById(item.id).subscribe((dataArticulo) => {
@@ -191,6 +208,7 @@ export class CartComponent implements OnInit {
                   icon: 'success',
                   text: 'Gracias por confiar en el Buen Sabor 🍕',
                 }).then(res => {
+                  this.stompClient.send('/app/mensajes', {}, JSON.stringify({'message':this.message}));
                   this.emptyCart();
                   this.refresh();
                 });
@@ -323,6 +341,7 @@ export class CartComponent implements OnInit {
         icon: 'success',
         text: 'Gracias por confiar en el Buen Sabor 🍕',
       }).then(res => {
+        this.stompClient.send('/app/mensajes', {}, JSON.stringify({'message':this.message}));
         this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
           (data) => {
             window.location.href = data;
@@ -353,19 +372,31 @@ export class CartComponent implements OnInit {
    * Mediante petición post envía un domicilio al servidor para persistirlo
    * @param form 
    */
-  postFormAddress(form: DomicilioForm): void {
+   saveNewAddress(form: DomicilioForm): void {
     this.localidadService.getLocalidadById(form.idLocalidad).subscribe((localidad) => {
       let domicilio = { "id": 0, "calle": form.calle, "numero": form.numero, "localidad": localidad, "fechaBaja": null, "usuario": this.usuario };
       this.domicilios.push(domicilio);
       this.domicilioService.saveDomicilio(domicilio).subscribe();
-      this.saveAddress.reset();
+      this.formAddress.reset();
     })
   }
 
+  // prueba(form: DomicilioForm): void {
+  //   this.localidadService.getLocalidadById(form.idLocalidad).pipe(
+  //     concatMap(val => {
+  //         return this.localidadService.getLocalidadById(form.idLocalidad).pipe();
+  //       }
+  //     )
+  //   ).subscribe(data => {
+  //     console.log(data)
+  //   })
+  // }
+
+
   /**
-   * Mediante petición post envía un domicilio existente al servidor para persistirlo
-   * Lo elimina de manera lógica por fecha
-   * @param form 
+   * @param form
+   * @description Mediante petición post envía un domicilio existente al servidor para persistirlo
+   * lo elimina de manera lógica por fecha
    */
   deleteAddress(id: number): void {
     this.domicilios = this.domicilios.filter((item) => item.id !== id);

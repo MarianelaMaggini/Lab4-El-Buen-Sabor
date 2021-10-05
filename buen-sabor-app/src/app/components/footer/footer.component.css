@@ -1,0 +1,36 @@
+footer {
+    padding: 5em 0; }
+  
+.footer-class {
+    background: #121212; 
+}
+.footer-class a {
+    color: #a3de83; 
+}
+.footer-class p {
+    color: rgba(255, 255, 255, 0.3); }
+
+.footer-class .footer-heading {
+    font-size: 30px;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 30px; 
+}
+.footer-class .footer-heading .logo {
+    color: #fff; 
+}
+.footer-class .menu {
+    margin-bottom: 30px; 
+}
+    
+.footer-class .menu a {
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px; 
+}
+
+.footer-class .ftco-footer-social li a {
+    background: transparent;
+    border: 1px solid #a3de83;
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { Articulo } from 'src/app/models/articulo';
 import { ArticuloService } from 'src/app/services/articulo.service';
 
@@ -22,13 +23,20 @@ export class ArticulosComponent implements OnInit {
     this.listArticulos();
     this.listRubrosByTipoArticulo();
   }
+
+  /**
+   * @description forkJoin me permite hacer peticiones en paralelo, luego que obtenga toda la info, 
+   * concateno los array para asignarlo al array de articulos
+   */
   listArticulos(): void {
-    this.articuloService.getArticulosByTipoArticuloId(2).subscribe((elaborado) => {
-      this.articuloService.getArticulosByTipoArticuloId(3).subscribe((noElaborado) => {
-        this.articulos = elaborado.concat(noElaborado);
-      })
+    forkJoin(
+      [this.articuloService.getArticulosByTipoArticuloId(2), 
+      this.articuloService.getArticulosByTipoArticuloId(3)])
+      .subscribe(data => {
+        this.articulos = data[0].concat(data[1])
     })
   }
+
   listRubrosByTipoArticulo(): void {
     this.articuloService.getArticuloByElaboradoOrNoElaboradoGroupByRubro(2, 3).subscribe((data) => {
       this.articulosRubros = data;
@@ -36,7 +44,7 @@ export class ArticulosComponent implements OnInit {
   }
 
   detail(id: number): void {
-    this.router.navigate(['/detalle', id])
+    this.router.navigate(['/home/detalle', id])
   }
 
   valueRubro(event: any): void {

@@ -13,8 +13,8 @@
       <tr *ngFor="let pedido of pedidos; let i = index">
         <th scope="row">{{ i + 1}}</th>
         <td>{{ pedido.pedidoEstado.denominacion }}</td>
-        <td>{{ pedido.horaEstimadaFin | date :'shortTime' }}</td>
-        <td>{{ pedido.total | currency}}</td>
+        <td>{{ pedido.horaEstimadaFin | date :'HH:mm' }}</td>
+        <td>{{ pedido.total | currency:'AR':'$':'1.2-2'}}</td>
         <td><button (click)="showDetails(pedido.numeroPedido)" class="btn btn-warning" data-toggle="collapse"
             data-target="#collapseDetail"><i class="fas fa-arrow-down"></i></button></td>
       </tr>

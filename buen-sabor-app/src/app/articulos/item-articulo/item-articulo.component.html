@@ -4,7 +4,7 @@
   <div class="card-body">
     <h5 class="card-title">{{ articulo.denominacion }}</h5>
     <p class="card-text">
-      {{ articulo.precioVenta | currency: "AR":"$" }}
+      {{ articulo.precioVenta | currency:'AR':'$':'1.2-2' }}
     </p>
     <p class="card-text">
       <small class="text-muted">Rubro: {{ articulo.rubro.denominacion }}</small>
@@ -15,4 +15,4 @@
     </button>
   </div>
 </div>
-<app-cart></app-cart>
+<!-- <app-cart></app-cart> -->

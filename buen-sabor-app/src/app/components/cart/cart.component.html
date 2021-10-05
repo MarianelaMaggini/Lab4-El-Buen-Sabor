@@ -67,7 +67,6 @@
         </div>
         <hr />
         <div *ngIf="idShippingType == 2">
-
           <div>
             <table class="table">
               <thead>
@@ -102,12 +101,12 @@
               <button class="btn btn-danger" (click)="clickCloseForm()" *ngIf="openForm">Cerrar</button>
             </div>
             <div *ngIf="openForm" class="mt-2">
-              <form [formGroup]="saveAddress" (ngSubmit)="postFormAddress(saveAddress.value)">
+              <form [formGroup]="formAddress" (ngSubmit)="saveNewAddress(formAddress.value)">
                 <div class="form-group">
                   <label for="calle">Calle</label>
                   <input type="text" class="form-control" id="calle" formControlName="calle">
-                  <div *ngIf="f.calle?.touched && !f.calle?.valid">
-                    <span class="text-danger" *ngIf="f.calle?.errors?.required">
+                  <div *ngIf="formAddress.controls.calle.touched">
+                    <span class="text-danger" *ngIf="formAddress.controls.calle.errors?.required">
                       La calle es requerida
                     </span>
                   </div>
@@ -118,8 +117,8 @@
                     <option value="">Seleccione la localidad</option>
                     <option *ngFor="let localidad of localidades" [value]="localidad.id">{{ localidad.nombre }}</option>
                   </select>
-                  <div *ngIf="f.idLocalidad?.touched && !f.idLocalidad?.valid">
-                    <span class="text-danger" *ngIf="f.idLocalidad?.errors?.required">
+                  <div *ngIf="formAddress.controls.idLocalidad.touched">
+                    <span class="text-danger" *ngIf="formAddress.controls.idLocalidad.errors?.required">
                       La localidad es requerida
                     </span>
                   </div>
@@ -127,16 +126,16 @@
                 <div class="form-group">
                   <label for="numero">Número</label>
                   <input type="number" class="form-control" id="numero" formControlName="numero">
-                  <div *ngIf="f.numero?.touched && !f.numero?.valid">
-                    <span class="text-danger" *ngIf="f.numero?.errors?.required">
+                  <div *ngIf="formAddress.controls.numero.touched">
+                    <span class="text-danger" *ngIf="formAddress.controls.numero.errors?.required">
                       El número es requerido
                     </span>
-                    <span class="text-danger" *ngIf="f.numero?.errors?.maxlength">
-                      El máximo de números es 4
+                    <span class="text-danger" *ngIf="formAddress.controls.numero.errors?.maxlength.requiredLength">
+                      El máximo de números es {{ formAddress.controls.numero.errors?.maxlength.requiredLength }}
                     </span>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!formAddress.valid">Guardar</button>
               </form>
             </div>
 

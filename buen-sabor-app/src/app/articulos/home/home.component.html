@@ -23,7 +23,7 @@
     <div class="col">
       <span class="lead d-flex justify-content-end align-items-end text-danger" *ngIf="isLogged && state=='Cerrado'">Local {{ state }}</span>
       <span class="lead d-flex justify-content-end align-items-end text-success" *ngIf="isLogged && state=='Abierto'">Local {{ state }}</span>
-      <span class="lead d-flex justify-content-end align-items-end">Hora actual: {{hour}}:{{minute}} {{ampm}}</span>
+      <span class="lead d-flex justify-content-end align-items-end">Hora actual: {{ fechaActual | date:'HH:mm'}}</span>
     </div>
   </div>
   <hr />
