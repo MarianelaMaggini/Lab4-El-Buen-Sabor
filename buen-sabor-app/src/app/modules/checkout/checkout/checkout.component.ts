@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Articulo } from 'src/app/models/articulo';
-import { ItemCart } from 'src/app/models/item-cart';
+import { concatMap } from 'rxjs/operators';
 import { Domicilio } from 'src/app/models/domicilio';
-import { PedidoCreate } from 'src/app/models/pedidoCreate';
+import { DomicilioForm } from 'src/app/models/domicilio-form';
+import { Localidad } from 'src/app/models/localidad';
 import { TipoEnvio } from 'src/app/models/tipo-envio';
 import { Usuario } from 'src/app/models/usuario';
 import { ArticuloService } from 'src/app/services/articulo.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { DetallePedidoService } from 'src/app/services/detalle-pedido.service';
 import { DomicilioService } from 'src/app/services/domicilio.service';
+import { LocalidadService } from 'src/app/services/localidad.service';
 import { MercadoPagoService } from 'src/app/services/mercado-pago.service';
 import { MessageService } from 'src/app/services/message.service';
 import { PedidoService } from 'src/app/services/pedido.service';
@@ -20,31 +21,22 @@ import { TokenService } from 'src/app/services/token.service';
 import Swal from 'sweetalert2';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from '@stomp/stompjs';
-import { Localidad } from 'src/app/models/localidad';
-import { LocalidadService } from 'src/app/services/localidad.service';
-import { DomicilioForm } from 'src/app/models/domicilio-form';
-import { Router } from '@angular/router';
-import { ArticuloElaboradoDetalle } from 'src/app/models/articulo-elaborado-detalle';
-import { RecetaElaborado } from 'src/app/models/receta-elaborado';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { RecetaElaboradoService } from 'src/app/services/receta-elaborado.service';
-import { ArticuloElaboradoDetalleService } from 'src/app/services/articulo-elaborado-detalle.service';
+import { Articulo } from 'src/app/models/articulo';
+import { ItemCart } from 'src/app/models/item-cart';
+import { PedidoCreate } from 'src/app/models/pedidoCreate';
 
 const EMAIL_BUENSABOR = 'bsabor2021@gmail.com';
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css'],
+  selector: 'app-checkout',
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.css']
 })
-export class CartComponent implements OnInit {
-
+export class CheckoutComponent implements OnInit {
   // atributos
   cartItems: any = [];
   tiposEnvios: TipoEnvio[];
   domicilios: Domicilio[];
   localidades: Localidad[];
-  articuloDetalle: ArticuloElaboradoDetalle;
-  recetasElaborados: RecetaElaborado[] = [];
   usuario: Usuario;
   localidad: Localidad;
   paymentMethod: any;
@@ -57,15 +49,12 @@ export class CartComponent implements OnInit {
   webSocketEndPoint: string;
   disabled: boolean;
   stompClient: any;
-  message:string;
+  message: string;
   formAddress: FormGroup;
-
-  
 
   // constructor
   constructor(
     private messageService: MessageService,
-    private router: Router,
     private storageService: StorageService,
     private mercadoPagoService: MercadoPagoService,
     private tipoEnvioService: TipoEnvioService,
@@ -77,9 +66,7 @@ export class CartComponent implements OnInit {
     private articuloService: ArticuloService,
     private detallePedidoService: DetallePedidoService,
     private localidadService: LocalidadService,
-    private articuloDetalleService: ArticuloElaboradoDetalleService,
-    private recetaService: RecetaElaboradoService,
-    private inventarioService: InventarioService,
+
   ) {
     this.paymentMethod = ['Efectivo', 'Mercado Pago'];
     this.idShippingType = 0;
@@ -89,7 +76,7 @@ export class CartComponent implements OnInit {
     this.webSocketEndPoint = 'http://localhost:8080/ws';
     this.message = 'Ingresó un nuevo pedido.';
     this.disabled = true;
-    
+
     // Formulario para domicilio
     this.formAddress = new FormGroup({
       id: new FormControl(''),
@@ -109,14 +96,7 @@ export class CartComponent implements OnInit {
     }
     this.getItem();
     this.total = this.getTotal();
-  }
-
-  /**
-   * Método void para recargar la página
-   */
-  refresh(): void {
-    this.router.navigate(['/'])
-    location.reload()
+    this.listShippingType();
   }
 
   /**
@@ -124,14 +104,6 @@ export class CartComponent implements OnInit {
    */
   getItem(): void {
     this.messageService.getMessage().subscribe((articulo: Articulo) => {
-      this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(articulo.id).subscribe(detalles => {
-        this.recetaService.getRecetaByArticuloDetalleId(detalles.id).subscribe(recetas => {
-          this.inventarioService.getInventarios().subscribe(inventarios => {
-            console.log(recetas)
-            console.log(inventarios)
-          })
-        })
-      })
       let exist = false;
       this.cartItems.forEach((item: { id: number; cantidad: number }) => {
         if (item.id === articulo.id) {
@@ -157,29 +129,6 @@ export class CartComponent implements OnInit {
       total += item.cantidad * item.precio;
     });
     return +total.toFixed(2);
-  }
-
-  /**
-   * Método void que limpia el carrito completamente
-   */
-  emptyCart(): void {
-    this.cartItems = [];
-    this.total = 0;
-    this.storageService.clear();
-  }
-
-  /**
-   * Elimina el item reduciendo la cantidad
-   * @param i Recibe por parametro el indice del item 
-   */
-  deleteItem(i: number): void {
-    if (this.cartItems[i].cantidad > 1) {
-      this.cartItems[i].cantidad--;
-    } else {
-      this.cartItems.splice(i, 1);
-    }
-    this.total = this.getTotal();
-    this.storageService.setCart(this.cartItems);
   }
 
   /**
@@ -209,8 +158,6 @@ export class CartComponent implements OnInit {
                   text: 'Gracias por confiar en el Buen Sabor 🍕',
                 }).then(res => {
                   this.stompClient.send('/app/mensajes', {}, JSON.stringify({'message':this.message}));
-                  this.emptyCart();
-                  this.refresh();
                 });
               });
             });
@@ -249,11 +196,8 @@ export class CartComponent implements OnInit {
    * Captura el valor del radio button del tipo envio
    */
   captureShippingValue(event: any): void {
-    
-    this.cartItems.forEach((item: any) => {
-      console.log(item)
-    });
     this.idShippingType = event.target.value;
+    console.log(this.idShippingType)
     this.idAddress = 0;
     this.listAddress(this.usuario.id);
   }
@@ -263,6 +207,7 @@ export class CartComponent implements OnInit {
    */
   capturePaymentMethod(event: any): void {
     this.idPaymentMethod = event.target.value;
+    console.log(this.idPaymentMethod)
   }
 
   /** 
@@ -270,13 +215,14 @@ export class CartComponent implements OnInit {
   */
   captureAddressValue(event: any): void {
     this.idAddress = event.target.value;
+    console.log(this.idAddress)
   }
 
   /**
    * Método void que a través del servicio de Tipo Envio, lista todos los tipos envios de la base de datos 
    */
   listShippingType(): void {
-    this.connect();
+    // this.connect();
     this.tipoEnvioService.getTiposEnvios().subscribe((data) => {
       this.tiposEnvios = data;
     })
@@ -291,25 +237,17 @@ export class CartComponent implements OnInit {
   }
 
   /**
-   * Regresa a 0 el id del Domicilio y id de Tipo Envio de los Radio Button
-   */
-  restoreShippingType(): void {
-    this.idAddress = 0;
-    this.idShippingType = 0;
-  }
-
-  /**
    * Evalua si el retiro envio fue seleccionado y habilita el botón siguiente
    * En caso de envio a domicilio, debe elegir un domicilio sino el botón sigue inhabilido
    * @returns valor true o false según corresponda
    */
   checkShippingType(): boolean {
     if (this.idShippingType == 2 && this.idAddress > 0) {
-      return false;
-    } else if (this.idShippingType == 1) {
-      return false;
-    } else {
       return true;
+    } else if (this.idShippingType == 1) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -367,31 +305,20 @@ export class CartComponent implements OnInit {
   clickCloseForm(): void {
     this.openForm = false;
   }
-
+  
   /**
    * Mediante petición post envía un domicilio al servidor para persistirlo
    * @param form 
    */
-   saveNewAddress(form: DomicilioForm): void {
-    this.localidadService.getLocalidadById(form.idLocalidad).subscribe((localidad) => {
-      let domicilio = { "id": 0, "calle": form.calle, "numero": form.numero, "localidad": localidad, "fechaBaja": null, "usuario": this.usuario };
-      this.domicilios.push(domicilio);
-      this.domicilioService.saveDomicilio(domicilio).subscribe();
-      this.formAddress.reset();
-    })
+  saveNewAddress(form:DomicilioForm):void{
+    this.localidadService.getLocalidadById(form.idLocalidad).pipe(
+      concatMap(dataLocalidad => { 
+        let domicilio = { "id": 0, "calle": form.calle, "numero": form.numero, "localidad": dataLocalidad, "fechaBaja": null, "usuario": this.usuario };
+        this.domicilios.push(domicilio);
+        return this.domicilioService.saveDomicilio(domicilio)}),
+    ).subscribe();
+    this.formAddress.reset();
   }
-
-  // prueba(form: DomicilioForm): void {
-  //   this.localidadService.getLocalidadById(form.idLocalidad).pipe(
-  //     concatMap(val => {
-  //         return this.localidadService.getLocalidadById(form.idLocalidad).pipe();
-  //       }
-  //     )
-  //   ).subscribe(data => {
-  //     console.log(data)
-  //   })
-  // }
-
 
   /**
    * @param form
@@ -406,12 +333,18 @@ export class CartComponent implements OnInit {
     })
   }
 
+  /**
+   * Listado de localidades
+   */
   listLocalities(): void {
     this.localidadService.getLocalidades().subscribe((localidad) => {
       this.localidades = localidad;
     })
   }
 
+  /**
+   * Web Sockect
+   */
   connect() {
     const socket = new SockJS(this.webSocketEndPoint);
     this.stompClient = Stomp.over(socket);
@@ -425,8 +358,6 @@ export class CartComponent implements OnInit {
     if (this.stompClient != null) {
       this.stompClient.disconnect();
     }
-
     console.log('Disconnected!');
   }
-
 }

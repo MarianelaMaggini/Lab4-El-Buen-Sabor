@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Articulo } from 'src/app/models/articulo';
 import { HourSystemService } from 'src/app/services/hour-system.service';
 import { TokenService } from 'src/app/services/token.service';
-import { Dia } from 'src/app/utils/dia';
-import { Horario } from 'src/app/utils/horario';
 
 @Component({
   selector: 'app-home',

@@ -3,12 +3,12 @@
 }
 
 .fondoJumbo {
-    background-image: url('../../../assets/img/slider.png');
+    background-image: url('../../../../assets/img/slider.png');
     background-size: cover;
     background-position: center;
     opacity: 0.75;
 }
-
+  
 .sizeImg{
     width: 150px;
     height: 80px;

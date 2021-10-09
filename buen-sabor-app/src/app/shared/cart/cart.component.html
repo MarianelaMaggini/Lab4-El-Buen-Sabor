@@ -1,0 +1,48 @@
+<!-- MODAL CARRITO -->
+<div class="modal" id="cartModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mi pedido</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="refresh()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="cartItems.length < 1">
+          <div class="alert alert-light text-center">
+            <h4>🛒 Tu carrito está vacío 😭</h4>
+          </div>
+        </div>
+        <div class="text-center mb-2" *ngIf="cartItems.length > 0">
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of cartItems; let i = index">
+              <div class="row">
+                <div class="col-md-10">
+                  <app-item-cart [cartItem]="item"></app-item-cart>
+                </div>
+                <div class="col-md-2">
+                  <i class="text-danger fas fa-trash" style="cursor: pointer; padding-top: 15px"
+                    (click)="deleteItem(i)"></i>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="alert alert-success text-center" *ngIf="cartItems.length > 0">
+          <strong>TOTAL: </strong>{{ total | currency: "AR":"$" }}
+        </div>
+        <div class="modal-footer" *ngIf="cartItems.length > 0">
+          <a routerLink="/" class="btn btn-secondary" data-dismiss="modal">
+            Seguir comprando
+          </a>
+          <a routerLink="/checkout" 
+             class="btn btn-primary"
+             data-dismiss="modal">
+            Pagar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

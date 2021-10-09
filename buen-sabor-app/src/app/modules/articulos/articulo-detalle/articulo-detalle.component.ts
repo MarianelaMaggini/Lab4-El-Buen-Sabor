@@ -8,10 +8,10 @@ import { HourSystemService } from 'src/app/services/hour-system.service';
 import { MessageService } from 'src/app/services/message.service';
 import { RecetaElaboradoService } from 'src/app/services/receta-elaborado.service';
 import { TokenService } from 'src/app/services/token.service';
-import { Articulo } from '../../models/articulo';
-import { RecetaElaborado } from '../../models/receta-elaborado';
-import { ArticuloService } from '../../services/articulo.service';
-import { InventarioService } from '../../services/inventario.service';
+import { Articulo } from 'src/app/models/articulo';
+import { RecetaElaborado } from 'src/app/models/receta-elaborado';
+import { ArticuloService } from 'src/app/services/articulo.service';
+import { InventarioService } from 'src/app/services/inventario.service';
 @Component({
   selector: 'app-articulo-detalle',
   templateUrl: './articulo-detalle.component.html',

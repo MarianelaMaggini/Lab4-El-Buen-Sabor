@@ -15,11 +15,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Rutas
 import { AppRoutingModule } from './app-routing.module';
 
-// Componentes
-import { CartComponent } from './components/cart/cart.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
-import { ItemCartComponent } from './components/item-cart/item-cart.component';
+// Componentes genéricos
+import { CartComponent } from './shared/cart/cart.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { ItemCartComponent } from './shared/item-cart/item-cart.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 
 // Servicios
@@ -55,9 +55,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 // Modulos propios
-import { AuthModule } from './auth/auth.module';
-import { ArticulosModule } from './articulos/articulos.module';
-import { PedidosModule } from './pedidos/pedidos.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { ArticulosModule } from './modules/articulos/articulos.module';
+import { PedidosModule } from './modules/pedidos/pedidos.module';
+import { CheckoutModule } from './modules/checkout/checkout.module';
 
 registerLocaleData(localeEs);
 @NgModule({
@@ -79,6 +80,7 @@ registerLocaleData(localeEs);
     AuthModule,
     ArticulosModule,
     PedidosModule,
+    CheckoutModule,
     SocialLoginModule,
     ToastrModule.forRoot(), // ToastrModule added
     SweetAlert2Module.forRoot(),

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppGuardService } from '../guard/app-guard.service';
+import { AppGuardService } from '../../guard/app-guard.service';
 import { ArticuloDetalleComponent } from './articulo-detalle/articulo-detalle.component';
 import { HomeComponent } from './home/home.component';
 
