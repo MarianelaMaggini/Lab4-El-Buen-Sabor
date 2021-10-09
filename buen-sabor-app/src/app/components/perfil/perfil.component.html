@@ -1,1 +1,67 @@
-<p>perfil works!</p>
+<main class="d-flex align-items-center" style="height: 800px;">
+    <div class="container col-md-6">
+      <div class="card login-card">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <div class="card-body">
+              <div class="brand-wrapper">
+                <img src="assets/img/logo.png" alt="logo" class="logo">
+              </div>
+              <p class="login-card-description">Mi perfil</p>
+              <form [formGroup]="usuarioForm" (ngSubmit)="getUser(usuarioForm.value)">
+                  <div class="row">
+                      <div class="col">
+                        <span>Nombre</span>
+                        <input [readonly]="!editable" type="text" class="form-control" formControlName="nombre">
+                      </div>
+                      <div class="col">
+                        <span>Apellido</span>
+                        <input [readonly]="!editable" type="text" class="form-control" formControlName="apellido">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <span>Email</span>
+                    <input [readonly]="!editable" type="text" class="form-control" formControlName="email">
+                  </div>
+                  <div class="form-group">
+                    <span>Teléfono</span>
+                    <input type="text" class="form-control" formControlName="telefono">
+                  </div>
+                </form>
+
+                <div>
+                  <h6>{{ titulo }}</h6>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Calle</th>
+                        <th scope="col">Número</th>
+                        <th scope="col">Localidad</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let domicilio of domicilios; let i = index">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ domicilio.calle }}</td>
+                        <td>{{ domicilio.numero }}</td>
+                        <td>{{ domicilio.localidad.nombre }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <button name="login" id="login" class="btn btn-block login-btn mb-4" routerLink="/">Volver</button>
+                  </div>
+                  <div class="col">
+                    <button name="login" id="login" class="btn btn-block login-btn mb-4">Guardar</button>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</main>

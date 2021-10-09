@@ -14,6 +14,7 @@ import { LoginGuard } from './guard/login.guard';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { AppGuardService } from './guard/app-guard.service';
 import { ArticuloDetalleComponent } from './components/articulo-detalle/articulo-detalle.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'registro', component: RegistroComponent, canActivate: [LoginGuard]},
   {path: 'pedidos', component: PedidosComponent, canActivate: [AppGuardService], data: { expectedRol: ['admin', 'user']}},
   {path: 'detalle/:id', component: ArticuloDetalleComponent},
+  {path: 'perfil', component: PerfilComponent},
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];
 
