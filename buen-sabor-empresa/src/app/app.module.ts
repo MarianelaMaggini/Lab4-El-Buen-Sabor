@@ -69,6 +69,10 @@ import { UnidadMedidaService } from './services/unidadMedida.service';
 // File
 import { FileService } from './services/file.service';
 
+// Reporte
+import { ReporteService } from './services/reporte.service';
+import { ListarReporteComponent } from './components/reporte/listado/listar-reporte/listar-reporte.component';
+
 // Alerta
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -98,7 +102,8 @@ import { interceptorProvider } from './interceptors/prod-interceptor.service';
     ListarPedidoComponent,
     ListarFacturaComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    ListarReporteComponent
   ],
   imports: [
     BrowserModule,
@@ -109,7 +114,7 @@ import { interceptorProvider } from './interceptors/prod-interceptor.service';
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, HistoricoArticuloService, InventarioService, PedidoService, DetallePedidoService, FacturaService, DetalleFacturaService, UnidadMedidaService, FileService, AlertaService, interceptorProvider],
+  providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, HistoricoArticuloService, InventarioService, PedidoService, DetallePedidoService, FacturaService, DetalleFacturaService, UnidadMedidaService, FileService, ReporteService, AlertaService, interceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

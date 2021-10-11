@@ -4,7 +4,6 @@ import com.example.buensabor.entities.articulos.Articulo;
 import com.example.buensabor.repositories.articulos.ArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -43,10 +42,6 @@ public class ArticuloService {
     }
 
     public Articulo saveOrUpdateArticulo(Articulo articulo) {
-        return (Articulo) articuloRepository.save(articulo);
-    }
-
-    public Articulo updateArticulo(Articulo articulo) {
         return (Articulo) articuloRepository.save(articulo);
     }
 

@@ -19,6 +19,11 @@ export class ArticuloService {
     return this.http.get<Articulo[]>(this.articuloUrl + "/todos", { headers: this.header });
   }
 
+  // Obtener todos los artículos activos
+  getAllArticulosActivos(): Observable<Articulo[]> {
+    return this.http.get<Articulo[]>(this.articuloUrl + "/todosActivos", { headers: this.header });
+  }
+
   // Obtener un artículo por id
   getArticuloById(id: any): Observable<Articulo> {
     return this.http.get<Articulo>(this.articuloUrl + '/' + id, { headers: this.header });
@@ -32,11 +37,6 @@ export class ArticuloService {
   // Guardar-actualizar artículo
   saveArticulo(articulo: Articulo): Observable<Articulo> {
     return this.http.post<Articulo>(this.articuloUrl, articulo, { headers: this.header });
-  }
-
-  // Eliminar un artículo por id
-  deleteArticuloById(id: any) {
-    return this.http.delete(this.articuloUrl + '/' + id, { responseType: 'text' });
   }
 
 }

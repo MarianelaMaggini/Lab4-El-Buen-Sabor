@@ -34,6 +34,12 @@ public class RecetaElaboradoController {
     public List<RecetaElaborado> getRecetaByIdArticulo(@RequestParam("id") Long id) {
         return recetaElaboradoService.getRecetaByIdArticulo(id);
     }
+
+    @GetMapping("/historica")
+    public List<RecetaElaborado> getRecetaHistoricaByIdArticulo(@RequestParam("id") Long id) {
+        return recetaElaboradoService.getRecetaHistoricaByIdArticulo(id);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public RecetaElaborado saveOrUpdateReceta(@RequestBody RecetaElaborado receta) {

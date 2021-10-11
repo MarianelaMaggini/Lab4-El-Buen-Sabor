@@ -1,0 +1,116 @@
+<body>
+	<br />
+	<div class="container">
+		<h3>{{ titulo }}</h3>
+		<div class="form-group">
+			<select class="form-select" (change)="capturarValor($event)">
+				<option value="">Seleccione un tipo de reporte</option>
+				<option value="1">Cantidad de pedidos agrupados por cliente en un determinado periodo de tiempo</option>
+                <option value="2">Ranking comidas más pedidas en un periodo de tiempo determinado</option>
+                <option value="3">Monto de Ganancia en un periodo de tiempo (ventas menos costos)</option>
+                <option value="4">Ingresos (recaudaciones) por períodos de tiempo. Mensual</option>
+                <option value="5">Ingresos (recaudaciones) por períodos de tiempo. Diario</option>
+			</select>
+		</div>
+        <span *ngIf="tipoReporte == 1 || tipoReporte == 2 || tipoReporte == 3">
+            <div class="col-md-4">
+                <div class="container">
+					<div class="card card-body">
+						<form [formGroup]="fechasForm" (ngSubmit)="postForm(fechasForm.value)" #f="ngForm">
+							<div class="form-group">
+								Fecha desde: <input type="date" formControlName="fechaDesde" class="form-control" required />
+							</div>
+							<div class="form-group">
+								Fecha hasta: <input type="date" formControlName="fechaHasta" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-success" [disabled]="!f.valid">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-bar-graph" viewBox="0 0 16 16">
+										<path d="M10 13.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-6a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z"/>
+										<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+									</svg>&nbsp;GENERAR REPORTE
+								</button>
+							</div>
+						</form>
+					</div>
+                </div>
+            </div>    
+        </span><br />
+		<span *ngIf="tipoReporte == 1">
+			<table class="table table-hover table-dark">
+				<thead>
+					<th scope="col">#</th>
+					<th scope="col">Cliente</th>
+					<th scope="col">Pedidos</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of cantidadPedidos, let i = index">
+						<td>{{ i+1 }}</td>
+						<td>{{ item.nombreCompleto }}</td>
+						<td>{{ item.numeroPedidos }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</span>
+        <span *ngIf="tipoReporte == 2">
+			<table class="table table-hover table-dark">
+				<thead>
+					<th scope="col">#</th>
+					<th scope="col">Denominacion</th>
+					<th scope="col">Cantidad</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of rankingComidas, let i = index">
+						<td>{{ i+1 }}</td>
+						<td>{{ item.denominacion }}</td>
+						<td>{{ item.cantidad }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</span>
+        <span *ngIf="tipoReporte == 3 && montoGanancia != null">
+            <h5>Monto ganancia: ${{ montoGanancia.monto }}</h5>
+        </span>
+        <span *ngIf="tipoReporte == 4">
+			<table class="table table-hover table-dark">
+				<thead>
+					<th scope="col">#</th>
+					<th scope="col">Periodo</th>
+					<th scope="col">Ingreso</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of ingresos, let i = index">
+						<td>{{ i+1 }}</td>
+						<td>{{ item.periodo }}</td>
+						<td>${{ item.ingreso }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</span>
+        <span *ngIf="tipoReporte == 5">
+			<table class="table table-hover table-dark">
+				<thead>
+					<th scope="col">#</th>
+					<th scope="col">Periodo</th>
+					<th scope="col">Ingreso</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of ingresos, let i = index">
+						<td>{{ i+1 }}</td>
+						<td>{{ item.periodo }}</td>
+						<td>${{ item.ingreso }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</span>
+        <span *ngIf="reporteGenerado == 1">
+            <button type="button" class="btn btn-success" (click)="exportExcel()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-excel" viewBox="0 0 16 16">
+                    <path d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z"/>
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                </svg>&nbsp;DESCARGAR EXCEL
+            </button>
+        </span>
+	</div>
+	<br />
+</body>

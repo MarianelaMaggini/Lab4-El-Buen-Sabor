@@ -17,23 +17,29 @@ export class ListarArticuloComponent implements OnInit {
   articulos: Articulo[];
   isLogged = false;
   isAdmin = false;
-  constructor(
-    private articuloService: ArticuloService, 
-    private router: Router, 
-    private activatedRoute: ActivatedRoute,
-    private tokenService: TokenService
-    ) { }
+
+  constructor(private articuloService: ArticuloService, private router: Router, private tokenService: TokenService) { }
 
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
     this.isLogged = this.tokenService.isLogged();
-    this.getAllArticulos();
+    this.getAllArticulosActivos();
   }
 
-  getAllArticulos() {
-    this.articuloService.getAllArticulos().subscribe(data =>{
+  getAllArticulosActivos() {
+    this.articuloService.getAllArticulosActivos().subscribe(data =>{
       this.articulos = data;
     });
+  }
+
+  filterArticulos(event: any) {
+    if(event.target.checked) {
+      this.articuloService.getAllArticulos().subscribe(data =>{
+        this.articulos = data;
+      });
+    } else {
+      this.getAllArticulosActivos();
+    }
   }
 
   editarArticulo(id: number): void {

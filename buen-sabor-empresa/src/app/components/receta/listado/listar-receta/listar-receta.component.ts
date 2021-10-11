@@ -22,14 +22,8 @@ export class ListarRecetaComponent implements OnInit {
   idArticulo: number;
   isLogged = false;
   isAdmin = false;
-  constructor(
-    private recetaService: RecetaService, 
-    private articuloService: ArticuloService, 
-    private aedService: AedService, 
-    private router: Router, 
-    private activatedRoute: ActivatedRoute,
-    private tokenService: TokenService
-    ) { }
+
+  constructor(private recetaService: RecetaService, private articuloService: ArticuloService, private aedService: AedService, private router: Router, private tokenService: TokenService) { }
 
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
@@ -50,6 +44,18 @@ export class ListarRecetaComponent implements OnInit {
         this.recetaService.getRecetaByIdArticulo(aed.id).subscribe(data =>{
           this.receta = data;
         });
+      });
+    }
+  }
+
+  filterReceta(event: any) {
+    if(event.target.checked) {
+      this.recetaService.getRecetaHistoricaByIdArticulo(this.idArticulo).subscribe(data =>{
+        this.receta = data;
+      });
+    } else {
+      this.recetaService.getRecetaByIdArticulo(this.idArticulo).subscribe(data =>{
+        this.receta = data;
       });
     }
   }

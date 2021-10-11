@@ -28,6 +28,7 @@ export class NuevoArticuloComponent implements OnInit {
   imagenName: string;
   file: File;
   id = this.activatedRoute.snapshot.paramMap.get('id');
+  fechaActual: Date;
 
   articuloForm = new FormGroup({
     id: new FormControl(''),
@@ -79,7 +80,7 @@ export class NuevoArticuloComponent implements OnInit {
       this.rubroService.getRubroById(form.rubro).subscribe(rubro =>{
         this.tipoArticuloService.getTipoArticuloById(form.tipoArticulo).subscribe(tipoArticulo =>{
           let articulo: Articulo = { "id": +(this.id)!, "denominacion": form.denominacion, "imagen": this.imagenName, 
-          "precioVenta": 0, "unidadMedida": unidadMedida, "rubro": rubro, "tipoArticulo": tipoArticulo };
+          "precioVenta": 0, "unidadMedida": unidadMedida, "rubro": rubro, "tipoArticulo": tipoArticulo, "fechaBaja": this.fechaActual };
           this.articuloService.saveArticulo(articulo).subscribe(data =>{
             if(data == null) {
               this.alerta.mostrarError("No se pudo guardar el artículo!", "Error");
@@ -94,15 +95,10 @@ export class NuevoArticuloComponent implements OnInit {
     await this.router.navigate(['articulos']);
   }
 
-  async deleteArticulo() {
-    this.articuloService.deleteArticuloById(this.id).subscribe(data =>{
-      if(data == null) {
-        this.alerta.mostrarError("No se pudo eliminar el artículo!", "Error");
-      } else {
-        this.alerta.mostrarSuccess("Artículo eliminado!", "Hecho");
-      }
-    });
-    await this.router.navigate(['articulos']);
+  setFechaBaja(event: any) {
+    if(event.target.checked) {
+      this.fechaActual = new Date();
+    }
   }
 
 }
