@@ -5,23 +5,31 @@
                 <li class="nav-item">
                   <a class="nav-link active" routerLink="/login">Iniciar Sesión</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/registro">Crear cuenta</a>
-                </li>
-              </ul>
+            </ul>
         </div>
         <div class="card-body">
-            <form #f="ngForm" (ngSubmit)="onLogin()" novalidate>
+            <form [formGroup]="login" (ngSubmit)="onLogin(login.value)" novalidate>
                 <div class="form-group">
                     <label for="email">Email: </label>
-                    <input type="email" name="email" id="email" class="form-control" [(ngModel)]="email" required>
+                    <input type="email" id="email" class="form-control" formControlName="email">
+                    <div *ngIf="f.email?.touched && !f.email?.valid">
+                        <span class="text-danger" *ngIf="f.email?.errors?.required">
+                          El correo electrónico es requerido
+                        </span>
+                        <span class="text-danger" *ngIf="f.email?.errors?.email">Debe ser un correo electrónico</span>
+                      </div>
                 </div>
                 <div class="form-group">
-                    <label for="password">Contraseña: </label>
-                    <input type="password" name="password" id="password" autocomplete="off" class="form-control" [(ngModel)]="clave" required>
+                    <label for="clave">Contraseña: </label>
+                    <input type="password" id="clave" autocomplete="off" class="form-control" formControlName="clave">
+                    <div *ngIf="f.clave?.touched && !f.clave?.valid">
+                        <span class="text-danger" *ngIf="f.clave?.errors?.required">
+                          La contraseña es requerida
+                        </span>
+                      </div>
                 </div>
                 <div class="form-group">
-                    <button name="login" id="login" class="btn btn-outline-success btn-block" [disabled]="!f.valid"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
+                    <button name="login" id="login" class="btn btn-outline-success btn-block" [disabled]="!login.valid"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
                 </div>
             </form>
         </div>

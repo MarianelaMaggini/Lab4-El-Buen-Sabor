@@ -4,17 +4,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Inicio
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './modules/articulos/home/home.component';
 
 // Login y Registro de usuario
-import { LoginComponent } from './components/auth/login/login.component';
-import { RegistroComponent } from './components/auth/registro/registro.component';
+import { LoginComponent } from './modules/auth/login/login.component';
+import { RegistroComponent } from './modules/auth/registro/registro.component';
 import { LoginGuard } from './guard/login.guard';
 
-import { PedidosComponent } from './components/pedidos/pedidos.component';
+import { PedidosComponent } from './modules/pedidos/pedidos/pedidos.component';
 import { AppGuardService } from './guard/app-guard.service';
-import { ArticuloDetalleComponent } from './components/articulo-detalle/articulo-detalle.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
+import { ArticuloDetalleComponent } from './modules/articulos/articulo-detalle/articulo-detalle.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -22,7 +21,6 @@ const routes: Routes = [
   {path: 'registro', component: RegistroComponent, canActivate: [LoginGuard]},
   {path: 'pedidos', component: PedidosComponent, canActivate: [AppGuardService], data: { expectedRol: ['admin', 'user']}},
   {path: 'detalle/:id', component: ArticuloDetalleComponent},
-  {path: 'perfil', component: PerfilComponent},
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];
 

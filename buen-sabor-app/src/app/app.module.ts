@@ -1,6 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
+
+// Locale 
+import localeEs from '@angular/common/locales/ar';
+import { registerLocaleData } from '@angular/common';
 
 // Peticiones HTTP
 import { HttpClientModule } from '@angular/common/http';
@@ -11,41 +15,29 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Rutas
 import { AppRoutingModule } from './app-routing.module';
 
-// Header
-import { HeaderComponent } from './components/header/header.component';
-
-// Footer
-import { FooterComponent } from './components/footer/footer.component';
-
-// Home
-import { HomeComponent } from './components/home/home.component';
-
-// Carrito
-import { CartComponent } from './components/cart/cart.component';
-
-// Detalles del Carrito
-import { ItemCartComponent } from './components/item-cart/item-cart.component';
-
-// Articulos
-import { ArticulosComponent } from './components/articulos/articulos.component';
-
-// Item Articulo
-import { ItemArticuloComponent } from './components/item-articulo/item-articulo.component';
-
-// Login y Registro de usuario
-import { LoginComponent } from './components/auth/login/login.component';
-import { RegistroComponent } from './components/auth/registro/registro.component';
+// Componentes genéricos
+import { CartComponent } from './shared/cart/cart.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { ItemCartComponent } from './shared/item-cart/item-cart.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 // Servicios
-// Servicio de Articulo
+import { ArticuloElaboradoDetalleService } from './services/articulo-elaborado-detalle.service';
 import { ArticuloService } from './services/articulo.service';
-
-// Servicio de Mercado Pago
-import { MercadoPagoService } from './services/mercado-pago.service';
-
-
-// Interceptor
+import { AuthService } from './services/auth.service';
+import { DomicilioService } from './services/domicilio.service';
+import { EmailPasswordService } from './services/email-password.service';
 import { interceptorProvider } from './interceptors/app-interceptor.service';
+import { LocalidadService } from './services/localidad.service';
+import { MessageService } from './services/message.service';
+import { MercadoPagoService } from './services/mercado-pago.service';
+import { PedidoEstadoService } from './services/pedidoEstado.service';
+import { PedidoService } from './services/pedido.service';
+import { RecetaElaboradoService } from './services/receta-elaborado.service';
+import { StorageService } from './services/storage.service';
+import { TipoEnvioService } from './services/tipo-envio.service';
+import { TokenService } from './services/token.service';
 
 // Imports externos
 // Alertas
@@ -54,56 +46,49 @@ import { ToastrModule } from 'ngx-toastr';
 
 // Angularx-social
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
-import {
-  GoogleLoginProvider,
-  
-} from 'angularx-social-login';
-import { PedidosComponent } from './components/pedidos/pedidos.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
-import { TipoEnvioService } from './services/tipo-envio.service';
-import { DomicilioService } from './services/domicilio.service';
-import { PedidoService } from './services/pedido.service';
+import { GoogleLoginProvider } from 'angularx-social-login';
 
 // Sweet Alert 2
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { AuthService } from './services/auth.service';
-import { MessageService } from './services/message.service';
-import { PedidoEstadoService } from './services/pedidoEstado.service';
-import { RubroService } from './services/rubro.service';
-import { StorageService } from './services/storage.service';
-import { TokenService } from './services/token.service';
-import { LocalidadService } from './services/localidad.service';
-import { ArticuloDetalleComponent } from './components/articulo-detalle/articulo-detalle.component';
-import { RecetaElaboradoService } from './services/receta-elaborado.service';
-import { ArticuloElaboradoDetalleService } from './services/articulo-elaborado-detalle.service';
+
+// Spinner
+import { NgxSpinnerModule } from 'ngx-spinner';
+
+// Modulos propios
+import { AuthModule } from './modules/auth/auth.module';
+import { ArticulosModule } from './modules/articulos/articulos.module';
+import { PedidosModule } from './modules/pedidos/pedidos.module';
+import { CheckoutModule } from './modules/checkout/checkout.module';
+
+registerLocaleData(localeEs);
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent,
     CartComponent,
     ItemCartComponent,
-    ArticulosComponent,
-    ItemArticuloComponent,
-    LoginComponent,
-    RegistroComponent,
-    PedidosComponent,
     PerfilComponent,
-    ArticuloDetalleComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    SocialLoginModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule, // required animations module
+    ReactiveFormsModule,
+    AuthModule,
+    ArticulosModule,
+    PedidosModule,
+    CheckoutModule,
+    SocialLoginModule,
     ToastrModule.forRoot(), // ToastrModule added
     SweetAlert2Module.forRoot(),
+    NgxSpinnerModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
+    {provide: LOCALE_ID, useValue: 'ar-AR'},
     ArticuloService, 
     MercadoPagoService,
     TipoEnvioService,
@@ -112,18 +97,19 @@ import { ArticuloElaboradoDetalleService } from './services/articulo-elaborado-d
     AuthService,
     MessageService,
     PedidoEstadoService,
-    RubroService,
     StorageService,
     TokenService,
     LocalidadService,
     RecetaElaboradoService,
     ArticuloElaboradoDetalleService,
+    EmailPasswordService,
     interceptorProvider,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
         autoLogin: false,
         providers: [
+          
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(

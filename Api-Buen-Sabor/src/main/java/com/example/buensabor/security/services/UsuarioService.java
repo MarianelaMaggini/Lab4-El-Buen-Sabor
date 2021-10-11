@@ -23,7 +23,9 @@ public class UsuarioService {
     public boolean existsByEmail(String email){
         return usuarioRepository.existsByEmail(email);
     }
-
+    public Optional<Usuario> getByTokenPassword(String tokenPassword){
+        return usuarioRepository.findByTokenPassword(tokenPassword);
+    }
     public Usuario save(Usuario usuario){
         return  usuarioRepository.save(usuario);
     }

@@ -14,15 +14,17 @@ export class RecetaElaboradoService {
 
   constructor(private http: HttpClient) { }
 
-   /* petición para obtener todas las recetas */
+   //Obtener todas las recetas
    getRecetas(): Observable<RecetaElaborado[]> {
     return this.http.get<RecetaElaborado[]>(this.recetaElaboradoUrl + '/todos', { headers: this.header });
   }
 
+  //Obtener la receta por el id
   getRecetaById(id:number):Observable<RecetaElaborado> {
     return this.http.get<RecetaElaborado>(this.recetaElaboradoUrl + "/" + id, {headers: this.header})
   }
 
+  //Obtener todas las recetas por el id del articulo elaborado detalle
   getRecetaByArticuloDetalleId(id:number):Observable<RecetaElaborado[]>{
     return this.http.get<RecetaElaborado[]>(this.recetaElaboradoUrl + '/detalle?id=' + id, {headers: this.header});
   }  

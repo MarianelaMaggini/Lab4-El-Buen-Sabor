@@ -1,8 +1,7 @@
 package com.example.buensabor.security.controllers;
 
-import com.example.buensabor.security.dto.JwtDto;
-import com.example.buensabor.security.dto.LoginUsuario;
-import com.example.buensabor.security.dto.NuevoUsuario;
+import com.example.buensabor.dtos.Message;
+import com.example.buensabor.security.dto.*;
 import com.example.buensabor.security.entities.Rol;
 import com.example.buensabor.security.entities.Usuario;
 import com.example.buensabor.security.enums.RolNombre;
@@ -27,10 +26,8 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -49,6 +46,11 @@ public class UsuarioController {
     private String googleClientId;
     @Value("${secretPsw}")
     private String secretPsw;
+    @Value("${spring.mail.username}")
+    private String mailFrom;
+    private static final String SUBJECT = "Bienvenido, solo queda verificar tu correo.";
+    @Value("${mail.urlVerification}")
+    private String urlVerification;
 
     @Autowired
     public UsuarioController(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UsuarioService usuarioService, RolService rolService, JwtProvider jwtProvider, EnviarMailService emailSenderService) {
@@ -87,33 +89,35 @@ public class UsuarioController {
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult) throws MessagingException {
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>("campos mal puestos o email inválido", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         }
         if (usuarioService.existsByEmail(nuevoUsuario.getEmail())) {
-            return new ResponseEntity<>("ese email ya existe", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("ese email ya existe"), HttpStatus.BAD_REQUEST);
         }
+        UUID uuid = UUID.randomUUID();
+        String tokenPassword = uuid.toString();
         nuevoUsuario.setEnabled(false);
+        nuevoUsuario.setTokenPassword(tokenPassword);
         saveNewUsuario(nuevoUsuario);
-        emailSenderService.sendEmail(nuevoUsuario.getEmail(), "Bienvenido, solo queda verificar tu correo.", nuevoUsuario.getNombre(), nuevoUsuario.getEmail());
-        return new ResponseEntity<>("Usuario guardado", HttpStatus.CREATED);
-    }
+        EmailValuesDto emailValuesDto = new EmailValuesDto();
+        emailValuesDto.setNombre(nuevoUsuario.getNombre());
+        emailValuesDto.setMailFrom(mailFrom);
+        emailValuesDto.setMailTo(nuevoUsuario.getEmail());
+        emailValuesDto.setSubject(SUBJECT);
 
-    @GetMapping("/confirmar-cuenta")
-    public ResponseEntity<?> confirmarCuenta (@RequestParam("email") String email){
-        Usuario usuario = usuarioService.getByEmail(email).get();
-        usuario.setEnabled(true);
-        usuarioService.save(usuario);
-        return new ResponseEntity<>("Cuenta verificada", HttpStatus.OK);
+        emailValuesDto.setTokenPassword(tokenPassword);
+        emailSenderService.sendEmail(emailValuesDto, "email-verification", urlVerification);
+        return new ResponseEntity<>(new Message("Usuario guardado"), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult) {
         Usuario usuario = usuarioService.getByEmail(loginUsuario.getEmail()).get();
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity("campos mal puestos o email inválido", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         }
         if (!usuario.isEnabled()){
-            return new ResponseEntity("cuenta no verificada", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Cuenta no verificada"), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(loginUsuario(loginUsuario.getEmail(), loginUsuario.getClave()), HttpStatus.OK);
     }
@@ -130,6 +134,8 @@ public class UsuarioController {
         return usuarioService.getByEmail(email);
     }
 
+
+
     private JwtDto loginUsuario(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -144,7 +150,8 @@ public class UsuarioController {
                 nuevoUsuario.getTelefono(),
                 nuevoUsuario.getEmail(),
                 passwordEncoder.encode(nuevoUsuario.getClave()),
-                nuevoUsuario.isEnabled());
+                nuevoUsuario.isEnabled(),
+                nuevoUsuario.getTokenPassword());
         Set<Rol> roles = new HashSet<>();
         roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
         if (nuevoUsuario.getRoles().contains("admin")) {

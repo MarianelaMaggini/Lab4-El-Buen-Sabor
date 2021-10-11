@@ -34,7 +34,7 @@ public class MercadoPagoController {
                 new BackUrls().setSuccess("http://localhost:4200")
         );
         Item item = new Item();
-        item.setTitle("Mi producto")
+        item.setTitle("Mi pedido")
                 .setQuantity(1)
                 .setUnitPrice(precio);
         preference.appendItem(item);

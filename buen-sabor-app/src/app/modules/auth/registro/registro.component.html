@@ -1,0 +1,81 @@
+<main class="d-flex align-items-center" style="height: 800px;">
+  <div class="container col-md-8">
+    <div class="card login-card">
+      <div class="row no-gutters">
+        <div class="col-md-6">
+          <img src="assets/img/fritas.jpeg" alt="login" class="login-card-img">
+        </div>
+        <div class="col-md-6">
+          <div class="card-body">
+            <div class="brand-wrapper">
+              <img src="assets/img/logo.png" alt="logo" class="logo">
+            </div>
+            <p class="login-card-description">Registro</p>
+            <form [formGroup]="nuevo" (ngSubmit)="onRegister(nuevo.value)" novalidate>
+              <div class="row">
+                <div class="col">
+                  <label for="nombre" class="sr-only">Nombre</label>
+                  <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre">
+                  <div *ngIf="f.nombre?.touched && !f.nombre?.valid">
+                    <span class="text-danger" *ngIf="f.nombre?.errors?.required">
+                      El nombre es requerido
+                    </span>
+                    <span class="text-danger" *ngIf="f.nombre?.errors?.minlength">El mínimo es de 4 caractéres</span>
+                    <span class="text-danger" *ngIf="f.nombre?.errors?.maxlength">El máximo es de 20 caractéres</span>
+                  </div>
+                </div>
+                <div class="col">
+                  <label for="apellido" class="sr-only">Apellido</label>
+                  <input type="text" class="form-control" placeholder="Apellido" formControlName="apellido">
+                  <div *ngIf="f.apellido?.touched && !f.apellido?.valid">
+                    <span class="text-danger" *ngIf="f.apellido?.errors?.required">
+                      El apellido es requerido
+                    </span>
+                    <span class="text-danger" *ngIf="f.apellido?.errors?.minlength">El mínimo es de 4 caractéres</span>
+                    <span class="text-danger" *ngIf="f.apellido?.errors?.maxlength">El máximo es de 20 caractéres</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="telefono" class="sr-only">Teléfono</label>
+                <input type="text" class="form-control" placeholder="Teléfono" formControlName="telefono">
+                <div *ngIf="f.telefono?.touched && !f.telefono?.valid">
+                  <span class="text-danger" *ngIf="f.telefono?.errors?.required">
+                    El teléfono es requerido
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email" class="sr-only">Email</label>
+                <input type="text" autocomplete="off" class="form-control" placeholder="Correo electrónico"
+                  formControlName="email">
+                <div *ngIf="f.email?.touched && !f.email?.valid">
+                  <span class="text-danger" *ngIf="f.email?.errors?.required">
+                    El correo electrónico es requerido
+                  </span>
+                  <span class="text-danger" *ngIf="f.email?.errors?.email">Debe ser un correo electrónico</span>
+                </div>
+              </div>
+              <div class="form-group mb-4">
+                <span class="icon-span" (click)="isActive = !isActive"><i
+                    class="{{ isActive ? 'fas fa-eye-slash' : 'fas fa-eye'}}"></i></span>
+                <input type="{{ isActive ? 'text': 'password'}}" autocomplete="off" class="form-control form-input"
+                  formControlName="clave">
+                <div *ngIf="f.clave?.touched && !f.clave?.valid">
+                  <span class="text-danger" *ngIf="f.clave?.errors?.required">
+                    La contraseña es requerida
+                  </span>
+                  <span class="text-danger" *ngIf="f.clave?.errors?.pattern">Debe contener al menos una minúscula,
+                    mayúscula, número, caracter especial y mínimo 8 de longitud.</span>
+                </div>
+              </div>
+              <button name="login" id="login" class="btn btn-block login-btn mb-4"
+                [disabled]="!nuevo.valid">Registrarse</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+

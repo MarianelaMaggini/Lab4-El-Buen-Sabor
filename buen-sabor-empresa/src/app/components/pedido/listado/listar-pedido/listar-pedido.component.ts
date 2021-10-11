@@ -7,7 +7,11 @@ import { DetallePedidoService } from 'src/app/services/detalle-pedido.service';
 
 import { Pedido } from 'src/app/models/pedido';
 import { DetallePedido } from 'src/app/models/detalle-pedido';
+import { TokenService } from 'src/app/services/token.service';
 
+import * as SockJS from 'sockjs-client';
+import * as Stomp from '@stomp/stompjs';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-listar-pedido',
   templateUrl: './listar-pedido.component.html',
@@ -19,15 +23,33 @@ export class ListarPedidoComponent implements OnInit {
   pedidos: Pedido[];
   detallesPedido: DetallePedido[];
   numeroPedido: number;
+  isChef: boolean = false;
+  isCashier: boolean = false;
+  isAdmin: boolean = false;
+  webSocketEndPoint: string = 'http://localhost:8080/ws';
+  disabled = true;
+  stompClient: any;
 
-  constructor(private pedidoService: PedidoService, private pedidoEstadoService: PedidoEstadoService, private detallePedidoService: DetallePedidoService, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private pedidoService: PedidoService, 
+    private pedidoEstadoService: PedidoEstadoService, 
+    private detallePedidoService: DetallePedidoService, 
+    private activatedRoute: ActivatedRoute, 
+    private tokenService: TokenService, 
+    private toastrService: ToastrService
+    ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isChef = this.tokenService.isChef();
+    this.isCashier = this.tokenService.isCashier();
     this.getAllPedidos();
+    
   } 
 
   getAllPedidos() {
     this.pedidoService.getAllPedidos().subscribe(data =>{
+      console.log(data)
       this.pedidos = data.filter(item => item.pedidoEstado.id < 5);
     });
   }
@@ -77,6 +99,63 @@ export class ListarPedidoComponent implements OnInit {
     if(confirmacion) {
       this.nuevoEstado(pedido, 6);
     }
+  }
+
+  setConnected(connected: boolean) {
+    this.disabled = !connected;
+
+    if (connected) {
+      this.pedidos = [];
+    }
+  }
+
+  connect() {
+    const socket = new SockJS(this.webSocketEndPoint);
+    this.stompClient = Stomp.over(socket);
+    const _this = this;
+    _this.stompClient.connect({},  (frame: any) => {
+      this.setConnected(true);
+      console.log('Connected: ' + frame)
+      this.getAllPedidos();
+      _this.stompClient.subscribe('/topic/pedido', function(data: any) {
+        _this.showPedidos(data.body);
+      })
+
+      _this.stompClient.subscribe('/topic/mensaje', function(message: any){
+        console.log(message.body)
+        _this.showMessage(JSON.parse(message.body).message)
+      })
+    })
+  }
+
+  disconnect() {
+    if (this.stompClient != null) {
+      this.stompClient.disconnect();
+    }
+
+    this.setConnected(false);
+    console.log('Disconnected!');
+  }
+
+  showPedidos(pedido: Pedido) {
+    this.pedidos.push(JSON.parse(pedido.toString()));
+    this.getAllPedidos();        
+  }
+
+  showMessage(message: string){
+    this.reproducir();
+    this.toastrService.info("<h5>"+message+"</h5>", 'Hola', {
+      timeOut: 4000,
+      positionClass: 'toast-top-center',
+      closeButton:true,
+      progressBar: true,
+      enableHtml: true
+    })
+  }
+
+  reproducir():void{
+    const audio = new Audio('assets/notification.mp3')
+    audio.play();
   }
 
 }

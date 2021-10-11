@@ -17,6 +17,8 @@ export const environment = {
   articuloElaboradoDetallesUrl:'http://localhost:8080/articuloElaboradoDetalles',
   recetaElaboradoUrl:'http://localhost:8080/recetasElaborado',
   tiempoUrl: 'http://localhost:8080/tiempos',
+  inventarioUrl: 'http://localhost:8080/inventarios',
+  changePasswordUrl:'http://localhost:8080/account'
 };
 
 /*

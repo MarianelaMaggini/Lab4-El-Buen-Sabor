@@ -28,7 +28,6 @@ public class PedidoController {
         return pedidoService.getPedidoById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Pedido saveOrUpdatePedido(@RequestBody Pedido pedido) {
         return pedidoService.saveOrUpdatePedido(pedido);

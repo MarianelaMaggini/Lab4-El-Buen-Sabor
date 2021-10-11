@@ -8,8 +8,8 @@
         Te damos la bienvenida
       </div>
       <div class="card-body">
-        <h5 class="card-title">Buen Sabor tips</h5>
-        <p class="card-text">¿Sabías que una hamburguesa tiene 295 calorías?</p>
+        <h5 class="card-title">Buen Sabor - Curiosidades</h5>
+        <p class="card-text" >{{mensaje.texto}}</p>
         <a routerLink="/login" class="btn btn-primary">Inicia sesión</a>
       </div>
     </div>
@@ -41,6 +41,9 @@
         </tr>
         <tr>
           <td><a routerLink='/facturas'>Facturas</a></td>
+        </tr>
+        <tr *ngIf="isAdmin">
+          <td><a routerLink='/registro'>Usuarios</a></td>
         </tr>
         <tr>
           <td><a routerLink='/reportes'>Reportes</a></td>

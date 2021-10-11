@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-md-4">
+    <h3 >Buscar por:</h3>
+    <div *ngFor="let filter of filters | keyvalue">
+      <div>
+        <span>{{filter.value}}</span>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-info m-2" (click)="filterByRubro(filters)">Filtrar</button>
+      <button class="btn btn-warning m-2" (click)="clearFilters()">Limpiar</button>
+    </div>
+    <hr class="division" />
+    <ul class="nav flex-column mb-3">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#submenu" data-toggle="collapse" data-target="#submenu">Rubro</a>
+        <div class="collapse" id="submenu" aria-expanded="false">
+          <ul class="flex-column pl-2 nav">
+            <li class="nav-item" *ngFor="let articulo of articulosRubros">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" (change)="valueRubro($event)"
+                  value="{{articulo.rubro.id}}" id="{{articulo.rubro.denominacion}}"
+                  name="{{articulo.rubro.denominacion}}" [checked]="checked">
+                <label class="form-check-label" for="rubros">
+                  {{articulo.rubro.denominacion}}
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-8">
+    <div class="row">
+      <div class="col-md-6 d-flex justify-content-center align-items-center" *ngFor="let articulo of articulos; let i = index">
+        <app-item-articulo (articuloSeleccionado)="detail($event)" [articulo]="articulo" [index]="articulo.id">
+        </app-item-articulo>
+      </div>
+    </div>
+  </div>
+</div>

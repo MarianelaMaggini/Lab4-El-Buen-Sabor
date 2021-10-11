@@ -25,7 +25,7 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero_pedido")
-    private Long numeroPedido;
+    private long numeroPedido;
 
     @Column(name = "hora_estimada_fin", nullable = false)
     @NotNull
@@ -58,4 +58,13 @@ public class Pedido implements Serializable {
     @NotNull
     private String formaPago;
 
+    public Pedido(long numeroPedido, @NotNull Date horaEstimadaFin, double total, Domicilio domicilio, TipoEnvio tipoEnvio, Usuario usuario, PedidoEstado pedidoEstado) {
+        this.numeroPedido = numeroPedido;
+        this.horaEstimadaFin = horaEstimadaFin;
+        this.total = total;
+        this.domicilio = domicilio;
+        this.tipoEnvio = tipoEnvio;
+        this.usuario = usuario;
+        this.pedidoEstado = pedidoEstado;
+    }
 }

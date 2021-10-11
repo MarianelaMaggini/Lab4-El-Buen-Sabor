@@ -32,6 +32,9 @@ public class InventarioService {
         return (Inventario) inventarioRepository.save(inventario);
     }
 
+    public List<Inventario> getInventarioByArticuloId(Long id) {
+        return (List<Inventario>) inventarioRepository.findInventarioByArticuloId(id);
+    }
     public Inventario updateInventario(Inventario inventario) {
         return (Inventario) inventarioRepository.save(inventario);
     }

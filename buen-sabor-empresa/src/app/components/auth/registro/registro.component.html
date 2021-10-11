@@ -1,84 +1,50 @@
 <div class="container d-flex justify-content-center my-4">
-  <div class="card">
+  <div class="card col-md-4">
     <div class="card-header">
       <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login">Iniciar Sesión</a>
-        </li>
         <li class="nav-item">
           <a class="nav-link active" routerLink="/registro">Crear cuenta</a>
         </li>
       </ul>
     </div>
     <div class="card-body">
-      <form #f="ngForm" (ngSubmit)="onRegister()" novalidate>
+      <form #f="ngForm" [formGroup]="nuevoUsuarioForm" (ngSubmit)="onRegister(nuevoUsuarioForm.value)" novalidate>
         <div class="form-group">
-          <label for="nombre">Nombre</label>
-          <input
-            type="text"
-            name="nombre"
-            id="nombre"
-            class="form-control"
-            placeholder="Nombre"
-            [(ngModel)]="nombre"
-            required
-          />
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" class="form-control" placeholder="Nombre" formControlName="nombre"
+            required />
         </div>
         <div class="form-group">
-          <label for="apellido">Apellido</label>
-          <input
-            type="text"
-            name="apellido"
-            id="apellido"
-            class="form-control"
-            placeholder="Apellido"
-            [(ngModel)]="apellido"
-            required
-          />
+          <label for="apellido">Apellido:</label>
+          <input type="text" id="apellido" class="form-control" placeholder="Apellido"
+          formControlName="apellido" required />
         </div>
         <div class="form-group">
-          <label for="telefono">Teléfono</label>
-          <input
-            type="text"
-            name="telefono"
-            id="telefono"
-            class="form-control"
-            placeholder="Teléfono"
-            [(ngModel)]="telefono"
-            required
-          />
+          <label for="telefono">Teléfono:</label>
+          <input type="text" id="telefono" class="form-control" placeholder="Teléfono"
+          formControlName="telefono" required />
         </div>
         <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="text"
-            autocomplete="off"
-            name="email"
-            id="email"
-            class="form-control"
-            placeholder="Correo electrónico"
-            [(ngModel)]="email"
-            required
-          />
+          <label for="email">Email:</label>
+          <input type="text" autocomplete="off" id="email" class="form-control"
+            placeholder="Correo electrónico" formControlName="email" required />
         </div>
         <div class="form-group mb-4">
-          <label for="clave">Contraseña</label>
-          <input
-            type="password"
-            autocomplete="off"
-            name="clave"
-            id="clave"
-            class="form-control"
-            placeholder="***********"
-            [(ngModel)]="clave"
-            required
-          />
+          <label for="clave">Contraseña:</label>
+          <input type="password" autocomplete="off" id="clave" class="form-control"
+            placeholder="***********" formControlName="clave" required />
+        </div>
+        <div class="form-group mb-4">
+          <label for="roles">Roles:</label>
+          <select name="roles" id="roles" class="form-control" (change)="rolesChange($event)">
+            <option value="">Seleccione un rol</option>
+            <option value="admin">Administrador</option>
+            <option value="cajero">Cajero</option>
+            <option value="cocinero">Cocinero</option>
+          </select>
         </div>
         <div class="form-group">
-          <button
-            class="btn btn-outline-success btn-block"
-            [disabled]="!f.valid"
-          >
+          <button class="btn btn-outline-success btn-block" [disabled]="!nuevoUsuarioForm.valid">
             <i class="fas fa-sign-in-alt"></i> Crear cuenta
           </button>
         </div>

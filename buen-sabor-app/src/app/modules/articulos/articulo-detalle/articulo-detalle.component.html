@@ -1,0 +1,61 @@
+<ngx-spinner 
+  bdColor = "rgb(255,255,255)" 
+  size = "medium" 
+  color = "#4a4a4a" 
+  type = "pacman" 
+  [fullScreen] = "true">
+<p style="color: #4a4a4a"> Cargando... </p>
+</ngx-spinner>
+<div class="container my-4" *ngIf="articulo">
+  <div class="row justify-content-md-center">
+    <div class="col-md-6">
+      <img [src]="imagen" class="sizeImg d-block mx-auto"/>
+    </div>
+    <div class="col-md-auto">
+      <div class="verticalLine d-none d-lg-block"></div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col">
+          <p class="title">{{ articulo.denominacion | uppercase}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <em><p class="lead" *ngIf="articuloDetalle && articulo.tipoArticulo.id == 2">{{ articuloDetalle.descripcion }}</p></em>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="precio">{{ articulo.precioVenta | currency:'AR':'$':'1.2-2' }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="text-success" *ngIf="active">Artículo disponible</p>
+          <p class="text-danger" *ngIf="!active">Artículo no disponible</p>
+        </div>
+      </div>
+      <div class="row" *ngIf="articulo.tipoArticulo.id == 2">
+        <div class="col">
+          <u><p>Ingredientes: </p></u>
+          <ul *ngFor="let receta of recetasElaborados; let i = index" >
+            <li [ngClass]="{'text-danger': receta.articulo.denominacion.includes('sin stock')}">
+              {{ receta.articulo.denominacion }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="row my-4 py-4">
+        <div class="col">
+          <button class="btn btn-outline-primary m-2" routerLink="/">
+            Volver
+          </button>
+          <button *ngIf="isLogged && isHour && active" class="btn btn-danger" (click)="addCart()" data-toggle="modal"
+            data-target="#cartModal">Añadir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

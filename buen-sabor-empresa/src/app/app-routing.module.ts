@@ -52,36 +52,36 @@ const routes: Routes = [
   {path:'login', component: LoginComponent, canActivate: [LoginGuard]},
 
   // Registro usuario
-  {path:'registro', component: RegistroComponent, canActivate: [LoginGuard]},
+  {path:'registro', component: RegistroComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Rubro
-  {path:'rubros', component: ListarRubroComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path:'rubros', component: ListarRubroComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'cajero','cocinero']}},
   {path:'nuevo-rubro/:id', component: NuevoRubroComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Articulo
-  {path:'articulos', component: ListarArticuloComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path:'articulos', component: ListarArticuloComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin','cajero','cocinero']}},
   {path:'nuevo-articulo/:id', component: NuevoArticuloComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Artículo Elaborado Detalle
-  {path:'aeds', component: ListarAedComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path:'aeds', component: ListarAedComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin','cajero','cocinero']}},
   {path:'nuevo-aed/:id', component: NuevoAedComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Receta
-  {path:'recetas', component: ListarRecetaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path:'recetas', component: ListarRecetaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin','cajero','cocinero']}},
   {path:'nueva-receta/:id1/:id2', component: NuevaRecetaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Histórico Artículo
-  {path: 'historico-articulos', component: ListarHistoricoComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path: 'historico-articulos', component: ListarHistoricoComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin','cajero','cocinero']}},
   {path: 'nuevo-historico/:id', component: NuevoHistoricoComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin']}},
 
   // Inventario
-  {path: 'inventario', component: ListarInventarioComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path: 'inventario', component: ListarInventarioComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin','cajero','cocinero']}},
 
   // Pedido
-  {path: 'pedidos', component: ListarPedidoComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path: 'pedidos', component: ListarPedidoComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin','cajero','cocinero']}},
 
   // Factura
-  {path: 'facturas', component: ListarFacturaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+  {path: 'facturas', component: ListarFacturaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin','cajero','cocinero']}},
   
   // Reporte
   {path: 'reportes', component: ListarReporteComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
