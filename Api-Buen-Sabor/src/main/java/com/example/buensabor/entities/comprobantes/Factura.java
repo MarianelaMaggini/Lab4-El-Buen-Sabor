@@ -1,16 +1,12 @@
 package com.example.buensabor.entities.comprobantes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
@@ -33,21 +29,8 @@ public class Factura implements Serializable {
     @NotNull
     private double montoDescuento;
 
-    @Column(name = "forma_pago", length = 50, nullable = false)
-    @NotNull
-    private String formaPago;
-
-    @Transient
-    private double totalVenta;
-
-    @Transient
-    private double totalCosto;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "numero_pedido")
     private Pedido pedido;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "factura")
-    private List<DetalleFactura> detalleFacturas = new ArrayList<>();
 }

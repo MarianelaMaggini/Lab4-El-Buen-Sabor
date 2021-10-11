@@ -16,15 +16,13 @@ public class RubroController {
     @Autowired
     RubroService rubroService;
 
-    @GetMapping("/todosActivo")
-    public List<Rubro> getRubrosSinFechaDeBaja() {
-        return rubroService.getRubrosSinFechaDeBaja() ;
-    }
-
     @GetMapping("/todos")
     public List<Rubro> getRubros() {
         return rubroService.getRubros() ;
     }
+
+    @GetMapping("/todosActivos")
+    public List<Rubro> getRubrosSinFechaDeBaja() { return rubroService.getRubrosSinFechaDeBaja() ; }
 
     @GetMapping("/{id}")
     public Optional<Rubro> getRubroById(@PathVariable("id") Long id) {

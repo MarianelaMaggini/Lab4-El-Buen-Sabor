@@ -18,4 +18,10 @@ export class FacturaService {
   getAllFacturas(): Observable<Factura[]> {
     return this.http.get<Factura[]>(this.facturaUrl + "/todos", { headers: this.header });
   }
+
+  // Obtener una factura por id
+  getFacturaById(id: any): Observable<Factura> {
+    return this.http.get<Factura>(this.facturaUrl + '/' + id, { headers: this.header });
+  }
+
 }

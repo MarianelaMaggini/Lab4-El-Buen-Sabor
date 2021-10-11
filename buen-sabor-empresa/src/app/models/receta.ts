@@ -9,4 +9,5 @@ export interface Receta {
     articulo: Articulo;
     articuloElaboradoDetalle: Aed;
     unidadMedida: UnidadMedida;
+    fechaBaja: Date;
 }

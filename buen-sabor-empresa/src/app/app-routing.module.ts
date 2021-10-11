@@ -35,6 +35,9 @@ import { ListarPedidoComponent } from './components/pedido/listado/listar-pedido
 // Factura
 import { ListarFacturaComponent } from './components/factura/listado/listar-factura/listar-factura.component';
 
+// Reporte
+import { ListarReporteComponent } from './components/reporte/listado/listar-reporte/listar-reporte.component';
+
 // Usuario 
 import { RegistroComponent } from './components/auth/registro/registro.component';
 import { LoginComponent } from './components/auth/login/login.component';
@@ -80,6 +83,9 @@ const routes: Routes = [
   // Factura
   {path: 'facturas', component: ListarFacturaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
   
+  // Reporte
+  {path: 'reportes', component: ListarReporteComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user']}},
+
   {path: '**', redirectTo:'', pathMatch: 'full'}
 ];
 

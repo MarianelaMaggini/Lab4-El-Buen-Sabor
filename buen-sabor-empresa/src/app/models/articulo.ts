@@ -11,4 +11,5 @@ export interface Articulo {
     unidadMedida: UnidadMedida;
     rubro: Rubro;
     tipoArticulo: TipoArticulo;
+    fechaBaja: Date;
 }

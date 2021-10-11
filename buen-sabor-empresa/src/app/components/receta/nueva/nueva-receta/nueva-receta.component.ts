@@ -20,6 +20,7 @@ import { Articulo } from 'src/app/models/articulo';
 export class NuevaRecetaComponent implements OnInit {
 
   articulos: Articulo[];
+  fechaActual: Date;
 
   idItem = this.activatedRoute.snapshot.paramMap.get('id1');
   idArticulo = this.activatedRoute.snapshot.paramMap.get('id2');
@@ -65,7 +66,7 @@ export class NuevaRecetaComponent implements OnInit {
     this.aedService.getAedByIdArticulo(this.idArticulo).subscribe(aed =>{
       this.articuloService.getArticuloById(form.articulo).subscribe(articulo =>{
         let receta: Receta = { "id": +(this.idItem)!, "cantidad": form.cantidad, "articulo": articulo,
-        "articuloElaboradoDetalle": aed, "unidadMedida": articulo.unidadMedida };
+        "articuloElaboradoDetalle": aed, "unidadMedida": articulo.unidadMedida, "fechaBaja": this.fechaActual };
         this.recetaService.saveReceta(receta).subscribe(data =>{
           if(data == null) {
             this.alerta.mostrarError("No se pudo guardar la receta!", "Error");
@@ -78,15 +79,10 @@ export class NuevaRecetaComponent implements OnInit {
     await this.router.navigate(['recetas']);
   }
 
-  async deleteItem() {
-    this.recetaService.deleteRecetaById(this.idItem).subscribe(data =>{
-      if(data == null) {
-        this.alerta.mostrarError("No se pudo eliminar la receta!", "Error");
-      } else {
-        this.alerta.mostrarSuccess("Receta eliminada!", "Hecho");
-      }
-    });
-    await this.router.navigate(['recetas']);
+  setFechaBaja(event: any) {
+    if(event.target.checked) {
+      this.fechaActual = new Date();
+    }
   }
 
 }

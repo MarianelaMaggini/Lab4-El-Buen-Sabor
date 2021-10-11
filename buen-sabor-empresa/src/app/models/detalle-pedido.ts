@@ -7,4 +7,5 @@ export interface DetallePedido {
     cantidad: number;
     articulo: Articulo;
     pedido: Pedido;
+    subtotal: number;
 }

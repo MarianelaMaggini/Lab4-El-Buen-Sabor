@@ -29,14 +29,14 @@ export class RecetaService {
     return this.http.get<Receta[]>(this.recetaUrl + '/articulo?id=' + id, { headers: this.header });
   }
 
+  // Obtener una receta histórica por id de artículo
+  getRecetaHistoricaByIdArticulo(id: any): Observable<Receta[]> {
+    return this.http.get<Receta[]>(this.recetaUrl + '/historica?id=' + id, { headers: this.header });
+  }
+
   // Guardar-actualizar una receta
   saveReceta(receta: Receta): Observable<Receta> {
     return this.http.post<Receta>(this.recetaUrl, receta, { headers: this.header });
-  }
-
-  // Eliminar una receta por id
-  deleteRecetaById(id: any) {
-    return this.http.delete(this.recetaUrl + '/' + id, { responseType: 'text' });
   }
 
 }

@@ -21,7 +21,7 @@ export class RubroService {
 
   // Obtener todos los rubros activos
   getAllRubrosActivos(): Observable<Rubro[]> {
-    return this.http.get<Rubro[]>(this.rubroUrl + "/todosActivo", { headers: this.header });
+    return this.http.get<Rubro[]>(this.rubroUrl + "/todosActivos", { headers: this.header });
   }
 
   // Obtener un rubro por id
@@ -32,11 +32,6 @@ export class RubroService {
   // Guardar-actualizar rubro
   saveRubro(rubro: Rubro): Observable<Rubro> {
     return this.http.post<Rubro>(this.rubroUrl, rubro, { headers: this.header });
-  }
-
-  // Eliminar un rubro por id
-  deleteRubroById(id: any) {
-    return this.http.delete(this.rubroUrl + '/' + id, { responseType: 'text' });
   }
 
 }

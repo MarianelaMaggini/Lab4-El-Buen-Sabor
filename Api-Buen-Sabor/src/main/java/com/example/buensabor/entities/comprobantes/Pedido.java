@@ -25,7 +25,7 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero_pedido")
-    private long numeroPedido;
+    private Long numeroPedido;
 
     @Column(name = "hora_estimada_fin", nullable = false)
     @NotNull
@@ -54,6 +54,8 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "id_domicilio")
     private Domicilio domicilio;
 
-
+    @Column(name = "forma_pago", length = 50, nullable = false)
+    @NotNull
+    private String formaPago;
 
 }

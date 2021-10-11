@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -74,4 +73,5 @@ public interface ArticuloRepository extends CrudRepository<Articulo, Long> {
             "inner join receta_elaborado r on r.id_articulo_elaborado_detalle = aed.id \n" +
             "where aed.id_articulo = :idArticuloDetalle and r.id_articulo = :idArticulo", nativeQuery = true)
     Double getCantidadInsumosByElaborado(@Param("idArticuloDetalle") Long idArticuloDetalle, @Param("idArticulo") Long idArticulo);
+
 }
