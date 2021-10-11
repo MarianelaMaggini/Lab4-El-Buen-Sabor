@@ -1,5 +1,6 @@
 package com.example.buensabor.controllers.websockets;
 
+import com.example.buensabor.dtos.Message;
 import com.example.buensabor.entities.comprobantes.Pedido;
 import com.example.buensabor.services.comprobantes.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,11 @@ public class PedidoControllerWs {
                 pedido.getPedidoEstado()
         );
     }
+
+    @MessageMapping("/mensajes")
+    @SendTo("/topic/mensaje")
+    public Message getMessage(Message message){
+        return new Message(message.getMessage());
+    }
+
 }

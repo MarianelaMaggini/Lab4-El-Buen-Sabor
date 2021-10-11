@@ -12,11 +12,11 @@ import { Router } from '@angular/router';
 })
 export class CartComponent implements OnInit {
 
-  // atributos
+  /** atributos */
   cartItems: any = [];
   total: number;
 
-  // constructor
+  /** @constructor */
   constructor(
     private messageService: MessageService,
     private router: Router,
@@ -74,7 +74,7 @@ export class CartComponent implements OnInit {
   }
 
   /**
-   * Método void que limpia el carrito completamente
+   * @description Método void que limpia el carrito completamente
    */
   emptyCart(): void {
     this.cartItems = [];

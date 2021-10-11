@@ -24,6 +24,9 @@ import * as Stomp from '@stomp/stompjs';
 import { Articulo } from 'src/app/models/articulo';
 import { ItemCart } from 'src/app/models/item-cart';
 import { PedidoCreate } from 'src/app/models/pedidoCreate';
+import { PedidoEstado } from 'src/app/models/pedido-estado';
+import { Pedido } from 'src/app/models/pedido';
+import { Router } from '@angular/router';
 
 const EMAIL_BUENSABOR = 'bsabor2021@gmail.com';
 @Component({
@@ -32,12 +35,14 @@ const EMAIL_BUENSABOR = 'bsabor2021@gmail.com';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  // atributos
+
+  /** Atributos */
   cartItems: any = [];
   tiposEnvios: TipoEnvio[];
   domicilios: Domicilio[];
   localidades: Localidad[];
   usuario: Usuario;
+  domicilio: Domicilio;
   localidad: Localidad;
   paymentMethod: any;
   idShippingType: number;
@@ -48,11 +53,12 @@ export class CheckoutComponent implements OnInit {
   emailUser: string;
   webSocketEndPoint: string;
   disabled: boolean;
+  buttonPay: boolean;
   stompClient: any;
   message: string;
   formAddress: FormGroup;
 
-  // constructor
+  /** @constructor */
   constructor(
     private messageService: MessageService,
     private storageService: StorageService,
@@ -66,6 +72,7 @@ export class CheckoutComponent implements OnInit {
     private articuloService: ArticuloService,
     private detallePedidoService: DetallePedidoService,
     private localidadService: LocalidadService,
+    private router: Router
 
   ) {
     this.paymentMethod = ['Efectivo', 'Mercado Pago'];
@@ -76,8 +83,9 @@ export class CheckoutComponent implements OnInit {
     this.webSocketEndPoint = 'http://localhost:8080/ws';
     this.message = 'Ingresó un nuevo pedido.';
     this.disabled = true;
+    this.buttonPay = false;
 
-    // Formulario para domicilio
+    /** Formulario para domicilio */
     this.formAddress = new FormGroup({
       id: new FormControl(''),
       calle: new FormControl('', [Validators.required]),
@@ -97,10 +105,21 @@ export class CheckoutComponent implements OnInit {
     this.getItem();
     this.total = this.getTotal();
     this.listShippingType();
+    this.connect();
   }
 
   /**
-   * Método void que obtiene el articulo y lo añade al carrito
+   * @description Recupera la información completa del usuario mediante el correo electrónico
+   * @param email 
+   */
+   getUser(email: string): void {
+    this.authService.getDataUsuario(email).subscribe((data) => {
+      this.usuario = data;
+    });
+  }
+
+  /**
+   * @description Método void que obtiene el articulo y lo añade a la tabla
    */
   getItem(): void {
     this.messageService.getMessage().subscribe((articulo: Articulo) => {
@@ -120,8 +139,9 @@ export class CheckoutComponent implements OnInit {
     });
   }
   /**
-   * Este método itera sobre los items del carrito y suma al total el precio por la cantidad de cada item
-   * @returns el precio total del carrito
+   * @description Este método itera sobre los items del carrito y suma al total el precio 
+   * por la cantidad de cada item
+   * @returns el precio total
    */
   getTotal(): number {
     let total = 0;
@@ -132,68 +152,16 @@ export class CheckoutComponent implements OnInit {
   }
 
   /**
-   * Método void que finaliza la compra dependiendo de la forma de pago
-   * Si tipo envio es 1 (retiro) Y metodo de pago es 0 (efectivo)
-   * Si no Si tipo envio es 1 (retiro) Y metodo de pago es 1 (Mercado Pago)
-   * Si No tipo envio es 2 (domicilio) Y metodo de pago es 1(Mercado Pago)
-   */
-  toPay(): void {
-    if (this.idShippingType == 1 && this.idPaymentMethod == 0) {
-      this.authService.getDataUsuario(EMAIL_BUENSABOR).subscribe((dataUsuario) => {
-        this.tipoEnvioService.getTipoEnvioById(this.idShippingType).subscribe((dataTipoEnvio) => {
-          this.pedidoEstadoService.getPedidoEstadoById(1).subscribe((dataPedidoEstado) => {
-            this.domicilioService.getDomicilioByUserId(dataUsuario.id).subscribe((dataDomicilio) => {
-              let pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio[0])
-              this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
-              this.pedidoService.savePedido(pedido).subscribe(data => {
-                this.cartItems.forEach((item: any) => {
-                  this.articuloService.getArticuloById(item.id).subscribe((dataArticulo) => {
-                    let detallePedido = { "id": 0, "cantidad": item.cantidad, "subtotal": item.precio, "articulo": dataArticulo, "pedido": data }
-                    this.detallePedidoService.saveDetallePedido(detallePedido).subscribe();
-                  })
-                });
-                Swal.fire({
-                  title: 'Pedido realizado con éxito',
-                  icon: 'success',
-                  text: 'Gracias por confiar en el Buen Sabor 🍕',
-                }).then(res => {
-                  this.stompClient.send('/app/mensajes', {}, JSON.stringify({'message':this.message}));
-                });
-              });
-            });
-          });
-        });
-      });
-
-
-    } else {
-      if (this.idShippingType == 1 && this.idPaymentMethod == 1) {
-        this.authService.getDataUsuario(EMAIL_BUENSABOR).subscribe((dataUsuario) => {
-          this.tipoEnvioService.getTipoEnvioById(this.idShippingType).subscribe((dataTipoEnvio) => {
-            this.pedidoEstadoService.getPedidoEstadoById(1).subscribe((dataPedidoEstado) => {
-              this.domicilioService.getDomicilioByUserId(dataUsuario.id).subscribe((dataDomicilio) => {
-                let pedido = new PedidoCreate(0, new Date(), this.total, dataUsuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio[0])
-                this.savePedidoAndDetallePedido(pedido);
-              });
-            });
-          });
-        });
-
-      } else if (this.idShippingType == 2 && this.idPaymentMethod == 1) {
-        this.tipoEnvioService.getTipoEnvioById(this.idShippingType).subscribe((dataTipoEnvio) => {
-          this.pedidoEstadoService.getPedidoEstadoById(1).subscribe((dataPedidoEstado) => {
-            this.domicilioService.getDomicilioById(this.idAddress).subscribe((dataDomicilio) => {
-              let pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, dataTipoEnvio, dataPedidoEstado, dataDomicilio)
-              this.savePedidoAndDetallePedido(pedido);
-            });
-          });
-        });
-      }
-
-    }
+  * @description Método void que a través del servicio de Tipo Envio, 
+  * lista todos los tipos envios de la base de datos 
+  */
+  listShippingType(): void {
+    this.tipoEnvioService.getTiposEnvios().subscribe((data) => {
+      this.tiposEnvios = data;
+    })
   }
   /**
-   * Captura el valor del radio button del tipo envio
+   * @description Captura el valor del radio button del tipo envio
    */
   captureShippingValue(event: any): void {
     this.idShippingType = event.target.value;
@@ -202,46 +170,12 @@ export class CheckoutComponent implements OnInit {
     this.listAddress(this.usuario.id);
   }
 
-  /** 
-   * Captura el valor del radio button de la forma de pago
-   */
-  capturePaymentMethod(event: any): void {
-    this.idPaymentMethod = event.target.value;
-    console.log(this.idPaymentMethod)
-  }
-
-  /** 
-  * Captura el valor del radio button del domicilio
-  */
-  captureAddressValue(event: any): void {
-    this.idAddress = event.target.value;
-    console.log(this.idAddress)
-  }
-
   /**
-   * Método void que a través del servicio de Tipo Envio, lista todos los tipos envios de la base de datos 
-   */
-  listShippingType(): void {
-    // this.connect();
-    this.tipoEnvioService.getTiposEnvios().subscribe((data) => {
-      this.tiposEnvios = data;
-    })
-  }
-  /**
-   * Método void que a través del servicio de Domicilio, lista todos los domicilios de la base de datos
-   */
-  listAddress(id: number): void {
-    this.domicilioService.getDomicilioByUserId(id).subscribe((data) => {
-      this.domicilios = data;
-    })
-  }
-
-  /**
-   * Evalua si el retiro envio fue seleccionado y habilita el botón siguiente
+   * @description Evalua si el retiro envio fue seleccionado
    * En caso de envio a domicilio, debe elegir un domicilio sino el botón sigue inhabilido
    * @returns valor true o false según corresponda
    */
-  checkShippingType(): boolean {
+   checkShippingType(): boolean {
     if (this.idShippingType == 2 && this.idAddress > 0) {
       return true;
     } else if (this.idShippingType == 1) {
@@ -252,70 +186,58 @@ export class CheckoutComponent implements OnInit {
   }
 
   /**
-   * Recupera la información completa del usuario mediante el correo electrónico
-   * @param email 
+   * @description Listado de localidades
    */
-  getUser(email: string): void {
-    this.authService.getDataUsuario(email).subscribe((data) => {
-      this.usuario = data;
-    });
+   listLocalities(): void {
+    this.localidadService.getLocalidades().subscribe((localidad) => {
+      this.localidades = localidad;
+    })
   }
 
   /**
-   * Guarda un pedido y de acuerdo a cada item cargado en el carrito, los persiste luego de persistir el pedido
-   * @param pedido 
+   * @description Método void que a través del servicio de Domicilio, 
+   * lista todos los domicilios de la base de datos
    */
-  savePedidoAndDetallePedido(pedido: PedidoCreate): void {
-    this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
-    this.pedidoService.savePedido(pedido).subscribe(data => {
-      this.cartItems.forEach((item: any) => {
-        this.articuloService.getArticuloById(item.id).subscribe((dataArticulo) => {
-          let detallePedido = { "id": 0, "cantidad": item.cantidad, "subtotal": item.precio, "articulo": dataArticulo, "pedido": data }
-          this.detallePedidoService.saveDetallePedido(detallePedido).subscribe();
-        })
-      });
-      Swal.fire({
-        title: 'Pedido realizado con éxito',
-        icon: 'success',
-        text: 'Gracias por confiar en el Buen Sabor 🍕',
-      }).then(res => {
-        this.stompClient.send('/app/mensajes', {}, JSON.stringify({'message':this.message}));
-        this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
-          (data) => {
-            window.location.href = data;
-          },
-          (err) => {
-            console.log(err.error.text);
-          }
-        );
-      });
-    });
+  listAddress(id: number): void {
+    this.domicilioService.getDomicilioByUserId(id).subscribe((data) => {
+      this.domicilios = data;
+    })
+  }
+
+  /** 
+   * @description Captura el valor del radio button del domicilio
+   */
+  captureAddressValue(event: any): void {
+    this.idAddress = event.target.value;
+    console.log(this.idAddress)
   }
 
   /**
-   * Abre el formulario para cargar un domicilio
+   * @description Abre el formulario para cargar un domicilio
    */
-  clickOpenForm(): void {
+   clickOpenForm(): void {
     this.openForm = true;
     this.listLocalities();
   }
+
   /**
-   * Cierra el formulario para cargar un domicilio
+   * @description Cierra el formulario para cargar un domicilio
    */
   clickCloseForm(): void {
     this.openForm = false;
   }
-  
+
   /**
-   * Mediante petición post envía un domicilio al servidor para persistirlo
    * @param form 
+   * @description Mediante petición post envía un domicilio al servidor para persistirlo
    */
-  saveNewAddress(form:DomicilioForm):void{
+   saveNewAddress(form: DomicilioForm): void {
     this.localidadService.getLocalidadById(form.idLocalidad).pipe(
-      concatMap(dataLocalidad => { 
+      concatMap(dataLocalidad => {
         let domicilio = { "id": 0, "calle": form.calle, "numero": form.numero, "localidad": dataLocalidad, "fechaBaja": null, "usuario": this.usuario };
         this.domicilios.push(domicilio);
-        return this.domicilioService.saveDomicilio(domicilio)}),
+        return this.domicilioService.saveDomicilio(domicilio)
+      }),
     ).subscribe();
     this.formAddress.reset();
   }
@@ -333,31 +255,168 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
-  /**
-   * Listado de localidades
+  /** 
+   * @description Captura el valor del radio button de la forma de pago
    */
-  listLocalities(): void {
-    this.localidadService.getLocalidades().subscribe((localidad) => {
-      this.localidades = localidad;
-    })
+   capturePaymentMethod(event: any): void {
+    this.idPaymentMethod = event.target.value;
+    console.log(this.idPaymentMethod)
+    this.buttonPay = true;
+    
   }
 
-  /**
-   * Web Sockect
+    /**
+   * @description Iniciar conexión con el websocket
    */
-  connect() {
-    const socket = new SockJS(this.webSocketEndPoint);
-    this.stompClient = Stomp.over(socket);
-    const _this = this;
-    _this.stompClient.connect({},  (frame: any) => {
-      console.log('Connected: ' + frame)
-    })
-  }
-
-  disconnect() {
-    if (this.stompClient != null) {
-      this.stompClient.disconnect();
+     connect() {
+      const socket = new SockJS(this.webSocketEndPoint);
+      this.stompClient = Stomp.over(socket);
+      const _this = this;
+      _this.stompClient.connect({}, (frame: any) => {
+        console.log('Connected: ' + frame)
+      })
     }
-    console.log('Disconnected!');
+  
+    /**
+     * @description Desconectar el websocket
+     */
+    disconnect() {
+      if (this.stompClient != null) {
+        this.stompClient.disconnect();
+      }
+      console.log('Disconnected!');
+    }
+
+  /**
+   * @description Método void que finaliza la compra dependiendo de la forma de pago
+   * Si tipo envio es 1 (retiro) Y metodo de pago es 0 (efectivo)
+   * Si no Si tipo envio es 1 (retiro) Y metodo de pago es 1 (Mercado Pago)
+   * Si No tipo envio es 2 (domicilio) Y metodo de pago es 1(Mercado Pago)
+   */
+  toPay(): void {
+    if (this.idShippingType == 1 && this.idPaymentMethod == 0) {
+      this.toPayInWithdrawal();
+    } else {
+      if (this.idShippingType == 1 && this.idPaymentMethod == 1) {
+        this.toPayInWithdrawal();
+      } else if (this.idShippingType == 2 && this.idPaymentMethod == 1) {
+        this.toPayInAddress();
+      }
+    }
+  }
+
+  /**
+   * @description Si se elige el retiro en local se procede
+   * a crear el pedido para guardarlo
+   */
+  toPayInWithdrawal(): void {
+    let usuario: Usuario;
+    let domicilio: Domicilio[];
+    let pedidoEstado: PedidoEstado;
+    let pedido: Pedido;
+    let tipoEnvio: TipoEnvio;
+    this.authService.getDataUsuario(EMAIL_BUENSABOR).pipe(
+      concatMap(data => {
+        usuario = data;
+        return this.domicilioService.getDomicilioByUserId(data.id)
+      }),
+      concatMap(data1 => {
+        domicilio = data1;
+        return this.pedidoEstadoService.getPedidoEstadoById(1)
+      }),
+      concatMap(data2 => {
+        pedidoEstado = data2;
+        return this.tipoEnvioService.getTipoEnvioById(this.idShippingType)
+      }),
+      concatMap(data3 => {
+        tipoEnvio = data3;
+        this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
+        pedido = new PedidoCreate(0, new Date(), this.total, usuario, tipoEnvio, pedidoEstado, domicilio[0])
+        return this.pedidoService.savePedido(pedido)
+      }),
+    ).subscribe(data => {
+      this.savePedidoAndDetallePedido(data);
+    });
+  }
+  /**
+   * 
+   */
+  toPayInAddress():void{
+    let domicilio: Domicilio;
+    let pedidoEstado: PedidoEstado;
+    let pedido: Pedido;
+    let tipoEnvio: TipoEnvio;
+    this.tipoEnvioService.getTipoEnvioById(this.idShippingType).pipe(
+      concatMap((data) => {
+        tipoEnvio = data;
+        return this.pedidoEstadoService.getPedidoEstadoById(1)
+      }),
+      concatMap(data1 => {
+        pedidoEstado = data1;
+        return this.domicilioService.getDomicilioById(this.idAddress)
+      }),
+      concatMap(data2 => {
+        domicilio = data2;
+        pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, tipoEnvio, pedidoEstado, domicilio)
+        return this.pedidoService.savePedido(pedido)
+      }),
+    ).subscribe(data => {
+      this.savePedidoAndDetallePedido(data);
+    });
+  }
+
+  /**
+   * @description Guarda un pedido y de acuerdo a cada item cargado en el carrito, 
+   * los persiste luego de persistir el pedido
+   * @param pedido 
+   */
+  savePedidoAndDetallePedido(pedido: PedidoCreate): void {
+    this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
+    this.cartItems.forEach((item: any) => {
+      this.articuloService.getArticuloById(item.id).pipe(
+        concatMap(dataArticulo => {
+          let detallePedido = { "id": 0, "cantidad": item.cantidad, "subtotal": item.precio, "articulo": dataArticulo, "pedido": pedido }
+          return this.detallePedidoService.saveDetallePedido(detallePedido);
+        })
+      ).subscribe(data => {
+        Swal.fire({
+          title: 'Pedido realizado con éxito',
+          icon: 'success',
+          text: 'Gracias por confiar en el Buen Sabor 🍕',
+        }).then(res => {
+          this.stompClient.send('/app/mensajes', {}, JSON.stringify({ 'message': this.message }));
+          //this.emptyCart();
+          this.buttonPay = false;
+          this.payWithMercadoPago();
+        });
+      });
+    });
+  }
+  /**
+   * @description Si el método del pago es mercado pago redirige al proceso de pago
+   * de Mercado Pago
+   */
+  payWithMercadoPago(): void {
+    if (this.idPaymentMethod == 1) {
+      this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
+        (data) => {
+          window.location.href = data;
+        },
+        (err) => {
+          console.log(err.error.text);
+        }
+      );
+    }else if(this.idPaymentMethod == 0){
+      this.router.navigate(['/']);
+    }
+  }
+
+  /**
+   * @description Método void que limpia el carrito completamente
+   */
+   emptyCart(): void {
+    this.cartItems = [];
+    this.total = 0;
+    this.storageService.clear();
   }
 }

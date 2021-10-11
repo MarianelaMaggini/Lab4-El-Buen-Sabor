@@ -11,6 +11,7 @@ import { TokenService } from 'src/app/services/token.service';
 
 import * as SockJS from 'sockjs-client';
 import * as Stomp from '@stomp/stompjs';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-listar-pedido',
   templateUrl: './listar-pedido.component.html',
@@ -29,13 +30,21 @@ export class ListarPedidoComponent implements OnInit {
   disabled = true;
   stompClient: any;
 
-  constructor(private pedidoService: PedidoService, private pedidoEstadoService: PedidoEstadoService, private detallePedidoService: DetallePedidoService, private activatedRoute: ActivatedRoute, private tokenService: TokenService) { }
+  constructor(
+    private pedidoService: PedidoService, 
+    private pedidoEstadoService: PedidoEstadoService, 
+    private detallePedidoService: DetallePedidoService, 
+    private activatedRoute: ActivatedRoute, 
+    private tokenService: TokenService, 
+    private toastrService: ToastrService
+    ) { }
 
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
     this.isChef = this.tokenService.isChef();
     this.isCashier = this.tokenService.isCashier();
     this.getAllPedidos();
+    
   } 
 
   getAllPedidos() {
@@ -109,8 +118,12 @@ export class ListarPedidoComponent implements OnInit {
       console.log('Connected: ' + frame)
       this.getAllPedidos();
       _this.stompClient.subscribe('/topic/pedido', function(data: any) {
-        console.log(JSON.stringify(data.body))
         _this.showPedidos(data.body);
+      })
+
+      _this.stompClient.subscribe('/topic/mensaje', function(message: any){
+        console.log(message.body)
+        _this.showMessage(JSON.parse(message.body).message)
       })
     })
   }
@@ -125,9 +138,24 @@ export class ListarPedidoComponent implements OnInit {
   }
 
   showPedidos(pedido: Pedido) {
-    console.log(JSON.parse(pedido.toString()))
     this.pedidos.push(JSON.parse(pedido.toString()));
     this.getAllPedidos();        
+  }
+
+  showMessage(message: string){
+    this.reproducir();
+    this.toastrService.info("<h5>"+message+"</h5>", 'Hola', {
+      timeOut: 4000,
+      positionClass: 'toast-top-center',
+      closeButton:true,
+      progressBar: true,
+      enableHtml: true
+    })
+  }
+
+  reproducir():void{
+    const audio = new Audio('assets/notification.mp3')
+    audio.play();
   }
 
 }

@@ -35,8 +35,8 @@ export class PedidosComponent implements OnInit {
   }
 
   /**
-   * @deprecated
    * @param email 
+   * 
    */
   listOrder(email: string): void {
     this.authService.getDataUsuario(email).subscribe((dataUser) => {

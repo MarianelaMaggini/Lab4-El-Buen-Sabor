@@ -152,7 +152,7 @@
             <button class="btn btn-outline-primary m-2" routerLink="/">
                 Volver
               </button>
-            <button type="button" class="btn btn-primary" [disabled]="idPaymentMethod != 0 && idPaymentMethod != 1"
+            <button type="button" class="btn btn-primary" [disabled]="!buttonPay"
              (click)="toPay()" >
                 Finalizar compra
             </button>

@@ -28,6 +28,11 @@ public class InventarioController {
     public Optional<Inventario> getInventarioById(@PathVariable("id") Long id) {
         return inventarioService.getInventarioById(id);
     }
+
+    @GetMapping("/articulo")
+    public List<Inventario> getInventarioByArticuloId(@RequestParam("id") Long id) {
+        return inventarioService.getInventarioByArticuloId(id);
+    }
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Inventario saveOrUpdateInventario(@RequestBody Inventario inventario) {
