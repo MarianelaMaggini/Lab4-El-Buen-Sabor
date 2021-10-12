@@ -27,7 +27,8 @@ public class PedidoControllerWs {
                 pedido.getDomicilio(),
                 pedido.getTipoEnvio(),
                 pedido.getUsuario(),
-                pedido.getPedidoEstado()
+                pedido.getPedidoEstado(),
+                pedido.getFormaPago()
         );
     }
 

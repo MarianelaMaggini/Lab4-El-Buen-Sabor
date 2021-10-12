@@ -11,4 +11,5 @@ export interface Pedido {
     tipoEnvio: TipoEnvio;
     pedidoEstado: PedidoEstado;
     domicilio: Domicilio;
+    formaPago: string;
 }

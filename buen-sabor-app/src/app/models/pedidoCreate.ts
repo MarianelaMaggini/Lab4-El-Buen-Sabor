@@ -11,8 +11,9 @@ export class PedidoCreate {
     tipoEnvio: TipoEnvio;
     pedidoEstado: PedidoEstado;
     domicilio: Domicilio;
+    formaPago: string;
 
-    constructor(numeroPedido: number, horaEstimadaFin: Date, total: number, usuario: Usuario, tipoEnvio: TipoEnvio, pedidoEstado: PedidoEstado, domicilio: Domicilio) {
+    constructor(numeroPedido: number, horaEstimadaFin: Date, total: number, usuario: Usuario, tipoEnvio: TipoEnvio, pedidoEstado: PedidoEstado, domicilio: Domicilio, formaPago: string) {
         this.numeroPedido = numeroPedido;
         this.horaEstimadaFin = horaEstimadaFin;
         this.total = total;
@@ -20,5 +21,6 @@ export class PedidoCreate {
         this.tipoEnvio = tipoEnvio;
         this.pedidoEstado = pedidoEstado;
         this.domicilio = domicilio;
+        this.formaPago = formaPago;
     }
 }

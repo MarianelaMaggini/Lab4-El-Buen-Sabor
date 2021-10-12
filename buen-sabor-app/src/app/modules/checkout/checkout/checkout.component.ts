@@ -47,6 +47,7 @@ export class CheckoutComponent implements OnInit {
   paymentMethod: any;
   idShippingType: number;
   idPaymentMethod: number;
+  valuePaymentMethod: string;
   idAddress: number;
   total: number;
   openForm: boolean;
@@ -260,7 +261,13 @@ export class CheckoutComponent implements OnInit {
    */
    capturePaymentMethod(event: any): void {
     this.idPaymentMethod = event.target.value;
-    console.log(this.idPaymentMethod)
+    if (this.idPaymentMethod == 0) {
+      this.valuePaymentMethod = this.paymentMethod[0]
+      console.log(this.valuePaymentMethod)
+    }else{
+      this.valuePaymentMethod = this.paymentMethod[1];
+      console.log(this.valuePaymentMethod)
+    }
     this.buttonPay = true;
     
   }
@@ -331,7 +338,7 @@ export class CheckoutComponent implements OnInit {
       concatMap(data3 => {
         tipoEnvio = data3;
         this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
-        pedido = new PedidoCreate(0, new Date(), this.total, usuario, tipoEnvio, pedidoEstado, domicilio[0])
+        pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, tipoEnvio, pedidoEstado, domicilio[0], this.valuePaymentMethod)
         return this.pedidoService.savePedido(pedido)
       }),
     ).subscribe(data => {
@@ -357,7 +364,7 @@ export class CheckoutComponent implements OnInit {
       }),
       concatMap(data2 => {
         domicilio = data2;
-        pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, tipoEnvio, pedidoEstado, domicilio)
+        pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, tipoEnvio, pedidoEstado, domicilio, this.valuePaymentMethod)
         return this.pedidoService.savePedido(pedido)
       }),
     ).subscribe(data => {

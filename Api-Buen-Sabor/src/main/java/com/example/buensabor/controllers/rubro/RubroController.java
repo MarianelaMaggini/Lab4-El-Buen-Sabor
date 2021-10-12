@@ -15,10 +15,12 @@ public class RubroController {
 
     @Autowired
     RubroService rubroService;
-    @GetMapping("/todosActivo")
+
+    @GetMapping("/todosActivos")
     public List<Rubro> getRubrosSinFechaDeBaja() {
         return rubroService.getRubrosSinFechaDeBaja() ;
     }
+
     @GetMapping("/todos")
     public List<Rubro> getRubros() {
         return rubroService.getRubros() ;

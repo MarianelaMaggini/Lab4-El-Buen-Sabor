@@ -58,7 +58,7 @@ public class Pedido implements Serializable {
     @NotNull
     private String formaPago;
 
-    public Pedido(long numeroPedido, @NotNull Date horaEstimadaFin, double total, Domicilio domicilio, TipoEnvio tipoEnvio, Usuario usuario, PedidoEstado pedidoEstado) {
+    public Pedido(long numeroPedido, @NotNull Date horaEstimadaFin, double total, Domicilio domicilio, TipoEnvio tipoEnvio, Usuario usuario, PedidoEstado pedidoEstado, String formaPago) {
         this.numeroPedido = numeroPedido;
         this.horaEstimadaFin = horaEstimadaFin;
         this.total = total;
@@ -66,5 +66,6 @@ public class Pedido implements Serializable {
         this.tipoEnvio = tipoEnvio;
         this.usuario = usuario;
         this.pedidoEstado = pedidoEstado;
+        this.formaPago = formaPago;
     }
 }

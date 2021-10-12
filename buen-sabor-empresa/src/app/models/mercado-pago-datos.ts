@@ -1,3 +1,5 @@
+import { Pedido } from "./pedido";
+
 export interface MercadoPagoDatos {
     
     identificadorPago: number;
@@ -6,4 +8,5 @@ export interface MercadoPagoDatos {
     formaPago: string;
     metodoPago: string;
     estado: string;
+    pedido: Pedido;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PedidoService } from 'src/app/services/pedido.service';
@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './listar-pedido.component.html',
   styleUrls: ['./listar-pedido.component.css']
 })
-export class ListarPedidoComponent implements OnInit {
+export class ListarPedidoComponent implements OnInit, OnDestroy {
 
   titulo: string = 'Listado de pedidos:';
   pedidos: Pedido[];
@@ -38,14 +38,18 @@ export class ListarPedidoComponent implements OnInit {
     private tokenService: TokenService, 
     private toastrService: ToastrService
     ) { }
-
+  
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
     this.isChef = this.tokenService.isChef();
     this.isCashier = this.tokenService.isCashier();
     this.getAllPedidos();
-    
-  } 
+    this.connect();
+  }
+  
+  ngOnDestroy(): void {
+   this.disconnect();
+  }
 
   getAllPedidos() {
     this.pedidoService.getAllPedidos().subscribe(data =>{
@@ -146,7 +150,7 @@ export class ListarPedidoComponent implements OnInit {
     this.reproducir();
     this.toastrService.info("<h5>"+message+"</h5>", 'Hola', {
       timeOut: 4000,
-      positionClass: 'toast-top-center',
+      positionClass: 'toast-top-right',
       closeButton:true,
       progressBar: true,
       enableHtml: true

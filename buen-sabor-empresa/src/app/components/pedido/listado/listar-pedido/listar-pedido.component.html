@@ -10,9 +10,8 @@
 				<th scope="col">Tipo de entrega</th>
 				<th scope="col">Domicilio</th>
                 <th scope="col">Usuario</th>
+                <th scope="col">Forma de pago</th>
 				<th scope="col">Detalle</th>
-                <!-- <th scope="col">Factura #</th> -->
-                <th scope="col">Detalle</th>
                 <th scope="col">Estado</th>
             </thead>
             <tbody>
@@ -22,10 +21,7 @@
                     <td>{{ pedido.tipoEnvio.denominacion }}</td>
                     <td>{{ pedido.domicilio.calle }} {{ pedido.domicilio.numero }}</td>
                     <td>{{ pedido.usuario.nombre }} {{ pedido.usuario.apellido }}</td>
-					<td>
-                        <button type="button" (click)="verDetalle(pedido.numeroPedido)" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"></svg></button>
-                    <!-- <td>{{ pedido.factura.numeroFactura }}</td> -->
+                    <td>{{ pedido.formaPago }}</td>
                     <td>
                         <button type="button" (click)="verDetalle(pedido.numeroPedido)" class="btn btn-success"
                             data-bs-toggle="modal" data-bs-target="#exampleModal">
