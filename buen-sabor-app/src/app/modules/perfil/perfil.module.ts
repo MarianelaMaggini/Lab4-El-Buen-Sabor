@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CheckoutRoutingModule } from './checkout-routing.module';
-import { CheckoutComponent } from './checkout/checkout.component';
+import { PerfilRoutingModule } from './perfil-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 @NgModule({
-  declarations: [CheckoutComponent],
+  declarations: [PerfilComponent],
   imports: [
     CommonModule,
-    CheckoutRoutingModule,
+    PerfilRoutingModule,
     FormsModule,
     ReactiveFormsModule,
   ]
 })
-export class CheckoutModule { }
+export class PerfilModule { }

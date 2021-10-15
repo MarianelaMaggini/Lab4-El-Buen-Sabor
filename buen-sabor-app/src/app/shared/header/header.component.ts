@@ -33,18 +33,20 @@ export class HeaderComponent implements OnInit {
       this.userLogged = data;
       this.isLogged = (this.userLogged != null && this.tokenService.getToken() != null);
     })
-    
   }
 
   onLogOut(): void {
-    this.tokenService.logOut();
     this.isLogged = false;
+    this.storageService.clear('cart');
+    this.tokenService.logOut();
+    window.location.reload()
   }
 
   logOutWithGoogle(){
     this.socialAuthService.signOut().then(data => {
         this.tokenService.logOut();
         this.isLogged = false;
+        this.storageService.clear('cart');
     });
   }
 
@@ -57,8 +59,8 @@ export class HeaderComponent implements OnInit {
 
   countCart():void {
     let cant = 0;
-    if (this.storageService.existCart()) {
-      this.storageService.getCart().forEach((item) => {
+    if (this.storageService.exist('cart')) {
+      this.storageService.get('cart').forEach((item: { cantidad: number; }) => {
         cant += item.cantidad;
       })
     this.cantidad = cant;

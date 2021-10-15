@@ -3,9 +3,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SocialAuthService, SocialUser } from "angularx-social-login";
 import {  GoogleLoginProvider } from "angularx-social-login";
 import { ToastrService } from 'ngx-toastr';
+import { Inventario } from 'src/app/models/inventario';
 import { JwtDto } from 'src/app/models/jwt-dto';
 import { LoginUsuario } from 'src/app/models/login-usuario';
 import { AuthService } from 'src/app/services/auth.service';
+import { InventarioService } from 'src/app/services/inventario.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { TokenService } from 'src/app/services/token.service';
 
 @Component({
@@ -20,6 +23,7 @@ export class LoginComponent implements OnInit {
   socialUser: SocialUser;
   userLogged: SocialUser;
   isLogged: boolean;
+  inventarios: Inventario[];
 
   // Formulario para login
   login = new FormGroup({
@@ -30,8 +34,9 @@ export class LoginComponent implements OnInit {
     private tokenService: TokenService,
     private authService: AuthService,
     private socialAuthService: SocialAuthService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    
+  ) {}
   
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((data) => {

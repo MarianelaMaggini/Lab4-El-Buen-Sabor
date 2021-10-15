@@ -38,4 +38,8 @@ export class AuthService {
   getDataUsuario(email: string): Observable<Usuario> {
     return this.http.get<Usuario>(this.authUrl + email);
   }
+
+  updateUsuario(usuario: Usuario): Observable<Usuario>{
+    return this.http.post<Usuario>(this.authUrl + 'update', usuario, {headers: this.header});
+  }
 }

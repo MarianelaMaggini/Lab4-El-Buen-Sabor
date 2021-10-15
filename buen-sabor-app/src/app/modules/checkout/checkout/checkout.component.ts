@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { concatMap } from 'rxjs/operators';
 import { Domicilio } from 'src/app/models/domicilio';
@@ -27,6 +27,7 @@ import { PedidoCreate } from 'src/app/models/pedidoCreate';
 import { PedidoEstado } from 'src/app/models/pedido-estado';
 import { Pedido } from 'src/app/models/pedido';
 import { Router } from '@angular/router';
+import { InventarioService } from 'src/app/services/inventario.service';
 
 const EMAIL_BUENSABOR = 'bsabor2021@gmail.com';
 @Component({
@@ -34,7 +35,7 @@ const EMAIL_BUENSABOR = 'bsabor2021@gmail.com';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
 
   /** Atributos */
   cartItems: any = [];
@@ -42,6 +43,7 @@ export class CheckoutComponent implements OnInit {
   domicilios: Domicilio[];
   localidades: Localidad[];
   usuario: Usuario;
+  usuarioBuenSabor: Usuario;
   domicilio: Domicilio;
   localidad: Localidad;
   paymentMethod: any;
@@ -73,7 +75,8 @@ export class CheckoutComponent implements OnInit {
     private articuloService: ArticuloService,
     private detallePedidoService: DetallePedidoService,
     private localidadService: LocalidadService,
-    private router: Router
+    private router: Router,
+    private inventarioService: InventarioService
 
   ) {
     this.paymentMethod = ['Efectivo', 'Mercado Pago'];
@@ -96,17 +99,23 @@ export class CheckoutComponent implements OnInit {
       usuario: new FormControl('')
     })
   }
+ 
 
   ngOnInit(): void {
     this.emailUser = this.tokenService.getUserName()
     this.getUser(this.emailUser);
-    if (this.storageService.existCart()) {
-      this.cartItems = this.storageService.getCart();
+    this.getUserBuenSabor(EMAIL_BUENSABOR);
+    if (this.storageService.exist('cart')) {
+      this.cartItems = this.storageService.get('cart');
     }
     this.getItem();
     this.total = this.getTotal();
     this.listShippingType();
     this.connect();
+  }
+
+  ngOnDestroy(): void {
+    this.disconnect();
   }
 
   /**
@@ -118,6 +127,16 @@ export class CheckoutComponent implements OnInit {
       this.usuario = data;
     });
   }
+
+   /**
+   * @description Recupera la información completa del usuario mediante el correo electrónico
+   * @param email 
+   */
+    getUserBuenSabor(email: string): void {
+      this.authService.getDataUsuario(email).subscribe((data) => {
+        this.usuarioBuenSabor = data;
+      });
+    }
 
   /**
    * @description Método void que obtiene el articulo y lo añade a la tabla
@@ -136,7 +155,7 @@ export class CheckoutComponent implements OnInit {
         this.cartItems.push(cartItem);
       }
       this.total = this.getTotal();
-      this.storageService.setCart(this.cartItems);
+      this.storageService.set('cart', this.cartItems);
     });
   }
   /**
@@ -166,9 +185,13 @@ export class CheckoutComponent implements OnInit {
    */
   captureShippingValue(event: any): void {
     this.idShippingType = event.target.value;
-    console.log(this.idShippingType)
     this.idAddress = 0;
-    this.listAddress(this.usuario.id);
+    if (this.idShippingType == 1) {
+      this.listAddress(this.usuarioBuenSabor.id);
+    }
+    if(this.idShippingType == 2){
+      this.listAddress(this.usuario.id);
+    }
   }
 
   /**
@@ -179,7 +202,7 @@ export class CheckoutComponent implements OnInit {
    checkShippingType(): boolean {
     if (this.idShippingType == 2 && this.idAddress > 0) {
       return true;
-    } else if (this.idShippingType == 1) {
+    } else if (this.idShippingType == 1 && this.idAddress > 0) {
       return true;
     } else {
       return false;
@@ -210,7 +233,6 @@ export class CheckoutComponent implements OnInit {
    */
   captureAddressValue(event: any): void {
     this.idAddress = event.target.value;
-    console.log(this.idAddress)
   }
 
   /**
@@ -248,12 +270,14 @@ export class CheckoutComponent implements OnInit {
    * @description Mediante petición post envía un domicilio existente al servidor para persistirlo
    * lo elimina de manera lógica por fecha
    */
-  deleteAddress(id: number): void {
+   deleteAddress(id: number): void {
     this.domicilios = this.domicilios.filter((item) => item.id !== id);
-    this.domicilioService.getDomicilioById(id).subscribe((dataDomicilio) => {
-      let domicilio = { "id": dataDomicilio.id, "calle": dataDomicilio.calle, "numero": dataDomicilio.numero, "localidad": dataDomicilio.localidad, "fechaBaja": new Date(), "usuario": this.usuario };
-      this.domicilioService.saveDomicilio(domicilio).subscribe();
-    })
+    this.domicilioService.getDomicilioById(id).pipe(
+      concatMap(dataDomicilio => {
+        let domicilio = { "id": dataDomicilio.id, "calle": dataDomicilio.calle, "numero": dataDomicilio.numero, "localidad": dataDomicilio.localidad, "fechaBaja": new Date(), "usuario": this.usuario };
+        return this.domicilioService.saveDomicilio(domicilio);
+      }),
+    ).subscribe();
   }
 
   /** 
@@ -302,53 +326,20 @@ export class CheckoutComponent implements OnInit {
    */
   toPay(): void {
     if (this.idShippingType == 1 && this.idPaymentMethod == 0) {
-      this.toPayInWithdrawal();
+      this.Payment();
     } else {
       if (this.idShippingType == 1 && this.idPaymentMethod == 1) {
-        this.toPayInWithdrawal();
+        this.Payment();
       } else if (this.idShippingType == 2 && this.idPaymentMethod == 1) {
-        this.toPayInAddress();
+        this.Payment();
       }
     }
   }
 
   /**
-   * @description Si se elige el retiro en local se procede
-   * a crear el pedido para guardarlo
+   * @description Se procede a construir el pedido dependiendo de las selecciones y persistirlo en la bd
    */
-  toPayInWithdrawal(): void {
-    let usuario: Usuario;
-    let domicilio: Domicilio[];
-    let pedidoEstado: PedidoEstado;
-    let pedido: Pedido;
-    let tipoEnvio: TipoEnvio;
-    this.authService.getDataUsuario(EMAIL_BUENSABOR).pipe(
-      concatMap(data => {
-        usuario = data;
-        return this.domicilioService.getDomicilioByUserId(data.id)
-      }),
-      concatMap(data1 => {
-        domicilio = data1;
-        return this.pedidoEstadoService.getPedidoEstadoById(1)
-      }),
-      concatMap(data2 => {
-        pedidoEstado = data2;
-        return this.tipoEnvioService.getTipoEnvioById(this.idShippingType)
-      }),
-      concatMap(data3 => {
-        tipoEnvio = data3;
-        this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
-        pedido = new PedidoCreate(0, new Date(), this.total, this.usuario, tipoEnvio, pedidoEstado, domicilio[0], this.valuePaymentMethod)
-        return this.pedidoService.savePedido(pedido)
-      }),
-    ).subscribe(data => {
-      this.savePedidoAndDetallePedido(data);
-    });
-  }
-  /**
-   * 
-   */
-  toPayInAddress():void{
+  Payment():void{
     let domicilio: Domicilio;
     let pedidoEstado: PedidoEstado;
     let pedido: Pedido;
@@ -392,7 +383,6 @@ export class CheckoutComponent implements OnInit {
           text: 'Gracias por confiar en el Buen Sabor 🍕',
         }).then(res => {
           this.stompClient.send('/app/mensajes', {}, JSON.stringify({ 'message': this.message }));
-          //this.emptyCart();
           this.buttonPay = false;
           this.payWithMercadoPago();
         });
@@ -407,6 +397,7 @@ export class CheckoutComponent implements OnInit {
     if (this.idPaymentMethod == 1) {
       this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
         (data) => {
+          this.emptyCart();
           window.location.href = data;
         },
         (err) => {
@@ -414,6 +405,7 @@ export class CheckoutComponent implements OnInit {
         }
       );
     }else if(this.idPaymentMethod == 0){
+      this.emptyCart();
       this.router.navigate(['/']);
     }
   }
@@ -424,6 +416,6 @@ export class CheckoutComponent implements OnInit {
    emptyCart(): void {
     this.cartItems = [];
     this.total = 0;
-    this.storageService.clear();
+    this.storageService.clear('cart');
   }
 }

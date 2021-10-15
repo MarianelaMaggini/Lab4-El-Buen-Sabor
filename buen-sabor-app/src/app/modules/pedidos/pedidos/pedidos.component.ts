@@ -26,53 +26,44 @@ export class PedidosComponent implements OnInit {
     private tokenService: TokenService,
     private authService: AuthService,
     private detallePedidoService: DetallePedidoService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.emailUser = this.tokenService.getUserName()
     this.listOrder(this.emailUser);
-    this.listOrder2(this.emailUser);
+    
   }
 
   /**
    * @param email 
-   * 
+   * @description Busca el pedido por el usuario y sus respectivos detalles de ese pedido
    */
-  listOrder(email: string): void {
-    this.authService.getDataUsuario(email).subscribe((dataUser) => {
-      this.pedidoService.getPedidosByUser(dataUser.id).subscribe((dataPedido) => {
-        this.pedidos = dataPedido
-        this.pedidos.forEach((itemPedido) => {
-          this.detallePedidoService.getDetallesPedidosByPedido(itemPedido.numeroPedido).subscribe((dataDetallePedido) => {
-            dataDetallePedido.forEach((itemDetallePedido) => {
-              itemPedido.total += itemDetallePedido.cantidad * itemDetallePedido.subtotal;
-            })
-          })
-        })
-      })
-    });
-  }
-  // En desarrollo
-  listOrder2(email:string): void{
+  listOrder(email:string): void{
     this.authService.getDataUsuario(email).pipe(
        concatMap(dataUser => { return this.pedidoService.getPedidosByUser(dataUser.id) }),
-       concatMap(dataPedido => { 
+       concatMap(dataPedido => {
+        this.pedidos = dataPedido
          return dataPedido.map(p => {
           return this.detallePedidoService.getDetallesPedidosByPedido(p.numeroPedido)
          })
         }),
         concatMap(dataDetalle => {
-          return dataDetalle.pipe()
+          return dataDetalle
         })
-    ).subscribe(data => {
-      console.log(data)
+    ).subscribe(detallePedidos => {
+      this.pedidos.forEach(p => {
+        detallePedidos.forEach(d => {
+          if (p.numeroPedido == d.pedido.numeroPedido) {
+            p.total += d.cantidad * d.subtotal;
+          }
+        })
+      })
     })
   }
 
   showDetails(id: any): void {
-    this.detallePedidoService.getDetallesPedidosByPedido(id).subscribe((data) => {
-      this.detallesPedidos = data;
+      this.detallePedidoService.getDetallesPedidosByPedido(id).subscribe((data) => {
+        this.detallesPedidos = data;
     })
   }
-
 }

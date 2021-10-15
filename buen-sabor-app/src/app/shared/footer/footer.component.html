@@ -1,24 +1,3 @@
-<!-- FOOTER
-<footer class="top-border text-white mt-3 p-3 bg-success">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <p class="lead text-center">
-          BUEN SABOR &copy; 2021&nbsp;
-        </p>
-      </div>
-      <div class="col-sm-12 lead text-center">
-        <p>
-          <b>Nuestros horarios: </b><br>
-          <span>De lunes a domingo de {{horaInicial}}:{{minuto}} a {{horaFinal}}:{{minuto}} horas.</span><br>
-          <span>Sábado y domingo de {{horaInicialSabDom}}:{{minuto}} a {{horaFinallSabDom}}:{{minuto}} horas.</span>
-        </p>
-
-      </div>
-    </div>
-  </div>
-</footer> -->
-
 <footer class="footer-class">
   <div class="container">
     <div class="row justify-content-center">
@@ -42,9 +21,52 @@
     <div class="row mt-3">
       <div class="col-md-12 text-center">
         <p class="copyright">
-        Copyright &copy; Todos los derechos reservados <i class="fas fa-heart"></i> por <a href="#" target="_blank">Rebels</a>
+        Copyright &copy; Todos los derechos reservados <i class="fas fa-heart"></i> por <a style="cursor: pointer;" data-toggle="modal" data-target="#rebels">Rebels</a>
       </p>
       </div>
     </div>
   </div>
 </footer>
+
+
+<!-- Modal -->
+<div class="modal fade" id="rebels" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Equipo de desarrollo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action active">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">Marianela Maggini</h5>
+              <small>Developer</small>
+            </div>
+            <p class="mb-1">Análisis de los requerimientos.</p>
+            <small>Su potencial está como QA.</small>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">Lautaro Panella</h5>
+              <small class="text-muted">Developer</small>
+            </div>
+            <p class="mb-1">Eficiencia y calidad.</p>
+            <small class="text-muted">Autosuficiente y pensamiento lógico.</small>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">Bruno Tarditi</h5>
+              <small class="text-muted">Developer</small>
+            </div>
+            <p class="mb-1">Creatividad y dedicación.</p>
+            <small class="text-muted">Futuro lider de equipo.</small>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

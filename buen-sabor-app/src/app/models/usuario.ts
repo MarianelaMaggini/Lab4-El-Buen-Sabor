@@ -4,4 +4,7 @@ export interface Usuario {
     apellido: string;
     telefono: string;
     email: string;
+    clave:string;
+    enabled:boolean;
+    tokenPassword:string | null;
 }

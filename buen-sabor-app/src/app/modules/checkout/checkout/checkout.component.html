@@ -24,7 +24,7 @@
     <div class="row p-2">
         <div class="col">
             <h5>
-                Elige el tipo de envío
+                Seleccione el tipo de envío
             </h5>
         </div>
     </div>
@@ -36,10 +36,43 @@
                 <label class="form-check-label" for="local">{{ envio.denominacion }}</label>
             </div>
             <hr />
+            <div *ngIf="idShippingType == 1">
+                <div>
+                    <h5>
+                        Seleccione el domicilio para retirar su pedido
+                    </h5>
+                </div>
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Calle</th>
+                                <th scope="col">Número</th>
+                                <th scope="col">Localidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let domicilio of domicilios; let i = index">
+                                <th scope="row">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="exampleRadios"
+                                            id="exampleRadios1" value="{{ domicilio.id }}"
+                                            (change)="captureAddressValue($event)" />
+                                    </div>
+                                </th>
+                                <td>{{ domicilio.calle }}</td>
+                                <td>{{ domicilio.numero }}</td>
+                                <td>{{ domicilio.localidad.nombre }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div *ngIf="idShippingType == 2">
                 <div>
                     <h5>
-                        Elige tu domicilio
+                        Seleccione el domicilio para su entrega
                     </h5>
                 </div>
                 <div>
@@ -126,10 +159,9 @@
     <div class="row p-2" *ngIf="checkShippingType()">
         <div class="col">
             <h5>
-                Elige cómo vas abonar tu compra
+                Seleccione el método de pago
             </h5>
         </div>
-       
     </div>
     <div class="row p-2" *ngIf="checkShippingType()">
         <div class="col">

@@ -20,7 +20,6 @@ import { CartComponent } from './shared/cart/cart.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { ItemCartComponent } from './shared/item-cart/item-cart.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
 
 // Servicios
 import { ArticuloElaboradoDetalleService } from './services/articulo-elaborado-detalle.service';
@@ -59,6 +58,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ArticulosModule } from './modules/articulos/articulos.module';
 import { PedidosModule } from './modules/pedidos/pedidos.module';
 import { CheckoutModule } from './modules/checkout/checkout.module';
+import { PerfilModule } from './modules/perfil/perfil.module';
 
 registerLocaleData(localeEs);
 @NgModule({
@@ -68,7 +68,6 @@ registerLocaleData(localeEs);
     FooterComponent,
     CartComponent,
     ItemCartComponent,
-    PerfilComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,6 +80,7 @@ registerLocaleData(localeEs);
     ArticulosModule,
     PedidosModule,
     CheckoutModule,
+    PerfilModule,
     SocialLoginModule,
     ToastrModule.forRoot(), // ToastrModule added
     SweetAlert2Module.forRoot(),

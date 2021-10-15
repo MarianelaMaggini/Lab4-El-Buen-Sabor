@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Articulo } from 'src/app/models/articulo';
+import { Inventario } from 'src/app/models/inventario';
 import { HourSystemService } from 'src/app/services/hour-system.service';
+import { InventarioService } from 'src/app/services/inventario.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { TokenService } from 'src/app/services/token.service';
 
 @Component({
@@ -11,6 +14,7 @@ import { TokenService } from 'src/app/services/token.service';
 })
 export class HomeComponent implements OnInit {
   articulos: Articulo[];
+  inventarios: Inventario[]
   isLogged = false;
   isAdmin = false;
   animate: string;
@@ -21,7 +25,9 @@ export class HomeComponent implements OnInit {
   constructor(
     private tokenService: TokenService,
     private route: ActivatedRoute,
-    private hourSystemService: HourSystemService
+    private hourSystemService: HourSystemService,
+    private inventarioService: InventarioService,
+    private storageService: StorageService
   ) {
     this.state = 'Cerrado';
     this.animate = 'animate__bounceOutRight';
@@ -31,11 +37,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
     this.isLogged = this.tokenService.isLogged();
-
+    this.setInventariosInStorage();
     setInterval(() => { this.fechaActual = new Date(); }, 1000)
     this.mercadoPagoDatos();
     this.isOpenOrClose();
-
   }
   over() {
     const element = document.getElementById("delivery");
@@ -56,5 +61,18 @@ export class HomeComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       console.log(params)
     })
+  }
+
+  setInventariosInStorage():void{
+    if (this.isLogged) {
+      this.inventarioService.getInventarios().subscribe(data => {
+        this.inventarios = data;
+        if (!this.storageService.exist('inventario')) {
+          this.storageService.set('inventario', this.inventarios);
+        }
+      })
+    }else{
+      this.storageService.clear('inventario')
+    }
   }
 }

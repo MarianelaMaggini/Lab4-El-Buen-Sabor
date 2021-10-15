@@ -1,4 +1,4 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SocialUser } from 'angularx-social-login';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -12,6 +12,8 @@ import { Articulo } from 'src/app/models/articulo';
 import { RecetaElaborado } from 'src/app/models/receta-elaborado';
 import { ArticuloService } from 'src/app/services/articulo.service';
 import { InventarioService } from 'src/app/services/inventario.service';
+import { concatMap } from 'rxjs/operators';
+import { StorageService } from 'src/app/services/storage.service';
 @Component({
   selector: 'app-articulo-detalle',
   templateUrl: './articulo-detalle.component.html',
@@ -37,7 +39,8 @@ export class ArticuloDetalleComponent implements OnInit {
     private tokenService: TokenService,
     private inventarioService: InventarioService,
     private spinnerService: NgxSpinnerService,
-    private hourSystemService: HourSystemService
+    private hourSystemService: HourSystemService,
+    private storageService: StorageService,
   ) {
     this.isLogged = false;
     this.isHour = false;
@@ -51,8 +54,8 @@ export class ArticuloDetalleComponent implements OnInit {
       this.isLogin();
       this.isHour = this.hourSystemService.activeSystem();
       this.spinnerService.hide();
-     }, 1500)
-    
+    }, 1500)
+
   }
   addCart(): void {
     this.messageService.sendMessage(this.articulo);
@@ -73,45 +76,43 @@ export class ArticuloDetalleComponent implements OnInit {
   }
 
   listDetalleAndRecetaAndInventarios(id: number): void {
-    this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(id).subscribe((detalles) => {
-      this.articuloDetalle = detalles;
-      this.recetaService.getRecetaByArticuloDetalleId(detalles.id).subscribe((recetas) => {
-        this.recetasElaborados = recetas;
-        
-        this.inventarioService.getInventarios().subscribe((inventarios) => {
-          let disponible = 0;
-          let coincidencias = 0;
-          inventarios.forEach(i => {
-            this.recetasElaborados.forEach(r => {
-              if (i.articulo.id === r.articulo.id) {
-                coincidencias += 1;
-                if (i.stockMinimo < i.stockActual && i.stockMinimo > r.cantidad) {
-                  disponible += 1;
-                }else{
-                  this.recetasElaborados.map((re) => {
-                    if(re.articulo.id === r.articulo.id){
-                      re.articulo.denominacion += " sin stock." 
-                    }
-                  })
-                }  
-              }
-            })
-          })
-        
-          if (disponible === coincidencias ) {
-            this.active = true;
+    this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(id).pipe(
+      concatMap(data => {
+        this.articuloDetalle = data;
+        return this.recetaService.getRecetaByArticuloDetalleId(data.id);
+      }),
+    ).subscribe(data => {
+      let inventarios = this.storageService.get('inventario');
+      this.recetasElaborados = data;
+      let disponible = 0;
+      let coincidencias = 0;
+      this.recetasElaborados.forEach(r => {
+        inventarios.forEach((i: { articulo: { id: number; }; stockMinimo: number; stockActual: number; }) => {
+          if (i.articulo.id === r.articulo.id) {
+            coincidencias ++;
+            if (i.stockMinimo < i.stockActual && i.stockMinimo > r.cantidad) {
+              disponible ++;
+            } else {
+              this.recetasElaborados.map((re) => {
+                if (re.articulo.id === r.articulo.id) {
+                  re.articulo.denominacion += " sin stock."
+                }
+              })
+            }
           }
+        })
       })
-    })
-  })
-}
+      if (disponible === coincidencias) {
+        this.active = true;
+      }
+    });
+  }
 
-  isLogin():void{
+  isLogin(): void {
     if (this.tokenService.getToken()) {
       this.isLogged = true;
     } else {
       this.isLogged = false;
     }
   }
-
 }
