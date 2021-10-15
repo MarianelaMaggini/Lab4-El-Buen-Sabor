@@ -30,7 +30,7 @@ public class DomicilioController {
     public Optional<Domicilio> getDomicilioById(@PathVariable("id") Long id) {
         return domicilioService.getDomicilioById(id);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping()
     public Domicilio saveOrUpdateDomicilio(@RequestBody Domicilio domicilio) {
         return domicilioService.saveOrUpdateDomicilio(domicilio);

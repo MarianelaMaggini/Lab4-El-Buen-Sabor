@@ -61,6 +61,13 @@ public class UsuarioController {
         this.jwtProvider = jwtProvider;
         this.emailSenderService = emailSenderService;
     }
+
+    @PostMapping("/update")
+    public Usuario update(@RequestBody Usuario usuario){
+        usuario.setEnabled(true);
+        return usuarioService.save(usuario);
+    }
+
     @PostMapping("/google")
     public ResponseEntity<?> loginWithGoogle(@RequestBody JwtDto token) throws IOException {
         final NetHttpTransport transport = new NetHttpTransport();
