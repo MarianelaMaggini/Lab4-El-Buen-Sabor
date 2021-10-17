@@ -34,6 +34,8 @@ public class FacturaService {
         return facturaRepository.findById(id);
     }
 
+    public Optional<Factura> getFacturaByPedidoNumeroPedido(Long numeroPedido){ return facturaRepository.findByPedidoNumeroPedido(numeroPedido); }
+
     public Factura saveOrUpdateFactura(Factura factura) {
         return (Factura) facturaRepository.save(factura);
     }

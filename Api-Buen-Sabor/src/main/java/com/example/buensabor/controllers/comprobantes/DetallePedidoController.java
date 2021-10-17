@@ -32,7 +32,7 @@ public class DetallePedidoController {
     public List<DetallePedido> getDetalleByIdPedido(@RequestParam("id") Long id) {
         return detallePedidoService.getDetalleByIdPedido(id);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping()
     public DetallePedido saveOrUpdateDetallePedido(@RequestBody DetallePedido detallePedido) {
         return detallePedidoService.saveOrUpdateDetallePedido(detallePedido);

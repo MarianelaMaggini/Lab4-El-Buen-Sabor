@@ -32,6 +32,11 @@ public class FacturaController {
         return facturaService.getFacturaById(id);
     }
 
+    @GetMapping("/pedido")
+    public Optional<Factura> getFacturaByPedidoNumeroPedido(@RequestParam("numero") Long numero) {
+        return facturaService.getFacturaByPedidoNumeroPedido(numero);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Factura saveOrUpdateFactura(@RequestBody Factura factura) {

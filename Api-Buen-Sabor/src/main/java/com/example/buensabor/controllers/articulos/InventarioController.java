@@ -33,7 +33,7 @@ public class InventarioController {
     public List<Inventario> getInventarioByArticuloId(@RequestParam("id") Long id) {
         return inventarioService.getInventarioByArticuloId(id);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping()
     public Inventario saveOrUpdateInventario(@RequestBody Inventario inventario) {
         return inventarioService.saveOrUpdateInventario(inventario);
