@@ -23,7 +23,7 @@ export class InventarioService {
   } 
 
   //Actualizar un inventario
-  updateInventario(pedido: Inventario): Observable<Inventario>{
-    return this.http.post<Inventario>(this.inventarioUrl, pedido, {headers: this.header});
+  updateInventario(inventario: Inventario): Observable<Inventario>{
+    return this.http.post<Inventario>(this.inventarioUrl, inventario, {headers: this.header});
   }
 }

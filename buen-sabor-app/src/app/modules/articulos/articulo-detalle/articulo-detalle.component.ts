@@ -11,7 +11,6 @@ import { TokenService } from 'src/app/services/token.service';
 import { Articulo } from 'src/app/models/articulo';
 import { RecetaElaborado } from 'src/app/models/receta-elaborado';
 import { ArticuloService } from 'src/app/services/articulo.service';
-import { InventarioService } from 'src/app/services/inventario.service';
 import { concatMap } from 'rxjs/operators';
 import { StorageService } from 'src/app/services/storage.service';
 @Component({
@@ -37,13 +36,12 @@ export class ArticuloDetalleComponent implements OnInit {
     private recetaService: RecetaElaboradoService,
     private messageService: MessageService,
     private tokenService: TokenService,
-    private inventarioService: InventarioService,
     private spinnerService: NgxSpinnerService,
     private hourSystemService: HourSystemService,
     private storageService: StorageService,
   ) {
     this.isLogged = false;
-    this.isHour = false;
+    this.isHour = true;
     this.active = false;
   }
 
@@ -52,13 +50,32 @@ export class ArticuloDetalleComponent implements OnInit {
     setTimeout(() => {
       this.getArticuloById();
       this.isLogin();
-      this.isHour = this.hourSystemService.activeSystem();
+      //this.isHour = this.hourSystemService.activeSystem();
       this.spinnerService.hide();
     }, 1500)
 
   }
   addCart(): void {
     this.messageService.sendMessage(this.articulo);
+    let inventarios = this.storageService.get('inventario');
+      this.recetasElaborados.forEach(r => {
+        inventarios.forEach((i: { articulo: { id: number; }; stockMinimo: number; stockActual: number; }) => {
+          if (i.articulo.id === r.articulo.id) {
+            i.stockActual -= r.cantidad;
+            if (i.stockMinimo < i.stockActual && i.stockMinimo > r.cantidad) {
+              this.active = true;
+            } else {
+              this.active = false;
+              this.recetasElaborados.map((re) => {
+                if (re.articulo.id === r.articulo.id) {
+                  re.articulo.denominacion += " sin stock."
+                }
+              })
+            }
+          }
+        })
+      })
+      
   }
   getArticuloById(): void {
     this.id = this.route.snapshot.params['id'];
@@ -86,12 +103,15 @@ export class ArticuloDetalleComponent implements OnInit {
       this.recetasElaborados = data;
       let disponible = 0;
       let coincidencias = 0;
+      let stockActualAux = 0;
       this.recetasElaborados.forEach(r => {
         inventarios.forEach((i: { articulo: { id: number; }; stockMinimo: number; stockActual: number; }) => {
           if (i.articulo.id === r.articulo.id) {
-            coincidencias ++;
-            if (i.stockMinimo < i.stockActual && i.stockMinimo > r.cantidad) {
-              disponible ++;
+            coincidencias++;
+            stockActualAux = i.stockActual;
+            stockActualAux -= r.cantidad;
+            if (i.stockMinimo < stockActualAux && i.stockMinimo > r.cantidad) {
+              disponible++;
             } else {
               this.recetasElaborados.map((re) => {
                 if (re.articulo.id === r.articulo.id) {

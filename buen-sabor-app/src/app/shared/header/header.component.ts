@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { Usuario } from 'src/app/models/usuario';
+import { Articulo } from 'src/app/models/articulo';
 import { AuthService } from 'src/app/services/auth.service';
+import { MessageService } from 'src/app/services/message.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { TokenService } from 'src/app/services/token.service';
 
@@ -22,7 +24,10 @@ export class HeaderComponent implements OnInit {
     private tokenService: TokenService,
     private authService: AuthService,
     private socialAuthService: SocialAuthService,
-    ) {}
+    private messageService: MessageService
+    ) {
+      this.cantidad = 0;
+    }
 
   ngOnInit(): void {
     this.getUser();
@@ -58,14 +63,8 @@ export class HeaderComponent implements OnInit {
   }
 
   countCart():void {
-    let cant = 0;
-    if (this.storageService.exist('cart')) {
-      this.storageService.get('cart').forEach((item: { cantidad: number; }) => {
-        cant += item.cantidad;
-      })
-    this.cantidad = cant;
-    }else {
-      this.cantidad = 0;
-    }
+    this.messageService.getMessage().subscribe(() => {
+      this.cantidad += 1;
+    });
   }
 }

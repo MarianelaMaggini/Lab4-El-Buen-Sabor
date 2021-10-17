@@ -11,8 +11,8 @@ export class MessageService {
   message = new Subject();
   constructor() { }
 
-  sendMessage(articulo: Articulo):void {
-      this.message.next(articulo);
+  sendMessage(value: any):void {
+      this.message.next(value);
   }
 
   getMessage(): Observable<any>{

@@ -12,7 +12,6 @@ import { DetallePedidoService } from 'src/app/services/detalle-pedido.service';
 import { DomicilioService } from 'src/app/services/domicilio.service';
 import { LocalidadService } from 'src/app/services/localidad.service';
 import { MercadoPagoService } from 'src/app/services/mercado-pago.service';
-import { MessageService } from 'src/app/services/message.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { PedidoEstadoService } from 'src/app/services/pedidoEstado.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -21,8 +20,6 @@ import { TokenService } from 'src/app/services/token.service';
 import Swal from 'sweetalert2';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from '@stomp/stompjs';
-import { Articulo } from 'src/app/models/articulo';
-import { ItemCart } from 'src/app/models/item-cart';
 import { PedidoCreate } from 'src/app/models/pedidoCreate';
 import { PedidoEstado } from 'src/app/models/pedido-estado';
 import { Pedido } from 'src/app/models/pedido';
@@ -63,7 +60,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   /** @constructor */
   constructor(
-    private messageService: MessageService,
     private storageService: StorageService,
     private mercadoPagoService: MercadoPagoService,
     private tipoEnvioService: TipoEnvioService,
@@ -76,7 +72,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private detallePedidoService: DetallePedidoService,
     private localidadService: LocalidadService,
     private router: Router,
-    private inventarioService: InventarioService
+    private inventarioService: InventarioService,
 
   ) {
     this.paymentMethod = ['Efectivo', 'Mercado Pago'];
@@ -105,11 +101,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.emailUser = this.tokenService.getUserName()
     this.getUser(this.emailUser);
     this.getUserBuenSabor(EMAIL_BUENSABOR);
-    if (this.storageService.exist('cart')) {
-      this.cartItems = this.storageService.get('cart');
-    }
-    this.getItem();
-    this.total = this.getTotal();
+    this.getItems();
+    this.getTotal();
     this.listShippingType();
     this.connect();
   }
@@ -141,35 +134,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   /**
    * @description Método void que obtiene el articulo y lo añade a la tabla
    */
-  getItem(): void {
-    this.messageService.getMessage().subscribe((articulo: Articulo) => {
-      let exist = false;
-      this.cartItems.forEach((item: { id: number; cantidad: number }) => {
-        if (item.id === articulo.id) {
-          exist = true;
-          item.cantidad++;
-        }
-      });
-      if (!exist) {
-        const cartItem = new ItemCart(articulo);
-        this.cartItems.push(cartItem);
-      }
-      this.total = this.getTotal();
-      this.storageService.set('cart', this.cartItems);
-    });
+  getItems(): void {
+    this.cartItems = this.storageService.get('cart');
   }
-  /**
-   * @description Este método itera sobre los items del carrito y suma al total el precio 
-   * por la cantidad de cada item
-   * @returns el precio total
+
+   /**
+   * Este método itera sobre los items del carrito y suma al total el precio por la cantidad de cada item
+   * @returns el precio total del carrito
    */
-  getTotal(): number {
-    let total = 0;
-    this.cartItems.forEach((item: { cantidad: number; precio: number }) => {
-      total += item.cantidad * item.precio;
-    });
-    return +total.toFixed(2);
-  }
+    getTotal(): number {
+      this.cartItems.forEach((item: { cantidad: number; precio: number }) => {
+        this.total += item.cantidad * item.precio;
+      });
+      return +this.total.toFixed(2);
+    }
 
   /**
   * @description Método void que a través del servicio de Tipo Envio, 
@@ -285,12 +263,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
    */
    capturePaymentMethod(event: any): void {
     this.idPaymentMethod = event.target.value;
+    let montoDescuento = 0.1
     if (this.idPaymentMethod == 0) {
       this.valuePaymentMethod = this.paymentMethod[0]
-      console.log(this.valuePaymentMethod)
+      montoDescuento *= this.total;
+      this.total -= montoDescuento;
     }else{
       this.valuePaymentMethod = this.paymentMethod[1];
-      console.log(this.valuePaymentMethod)
+      this.total = 0;
+      this.total = this.getTotal();
     }
     this.buttonPay = true;
     
@@ -385,6 +366,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           this.stompClient.send('/app/mensajes', {}, JSON.stringify({ 'message': this.message }));
           this.buttonPay = false;
           this.payWithMercadoPago();
+          this.persistRealInventory();
         });
       });
     });
@@ -417,5 +399,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.cartItems = [];
     this.total = 0;
     this.storageService.clear('cart');
+  }
+
+  /**
+   * @description
+   */
+  persistRealInventory():void{
+    let inventarioTemp = this.storageService.get('inventario');
+     this.inventarioService.getInventarios().subscribe((data) => {
+       data.forEach(itemReal => {
+        let itemTemp = inventarioTemp.filter((x: { id: number; }) => { return x.id == itemReal.id })
+        if (itemTemp[0].stockActual < itemReal.stockActual) {
+          this.inventarioService.updateInventario(itemTemp[0]).subscribe();
+        }
+      })
+     })  
   }
 }

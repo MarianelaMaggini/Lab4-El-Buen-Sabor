@@ -10,12 +10,15 @@
                         <th>Precio</th>
                     </tr>
                 </thead>
-                <tbody *ngFor="let item of cartItems; let i = index">
-                    <tr>
+                <tbody>
+                    <tr *ngFor="let item of cartItems; let i = index">
                         <th>{{ i + 1}}</th>
                         <td>{{ item.articuloDenominacion}}</td>
                         <td>{{ item.cantidad }}</td>
-                        <td>{{ item.precio }}</td>
+                        <td>{{ item.precio | currency:'AR':'$':'1.2-2' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center" colspan="12"><b>Tu total es: {{ this.total | currency:'AR':'$':'1.2-2' }}</b></td>
                     </tr>
                 </tbody>
             </table>
@@ -113,44 +116,52 @@
                         <button class="btn btn-danger" (click)="clickCloseForm()" *ngIf="openForm">Cerrar</button>
                     </div>
                     <div *ngIf="openForm" class="mt-2">
-                        <form [formGroup]="formAddress" (ngSubmit)="saveNewAddress(formAddress.value)">
-                            <div class="form-group">
-                                <label for="calle">Calle</label>
-                                <input type="text" class="form-control" id="calle" formControlName="calle">
-                                <div *ngIf="formAddress.controls.calle.touched">
-                                    <span class="text-danger" *ngIf="formAddress.controls.calle.errors?.required">
-                                        La calle es requerida
-                                    </span>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form [formGroup]="formAddress" (ngSubmit)="saveNewAddress(formAddress.value)">
+                                        <div class="form-group">
+                                            <label for="calle">Calle</label>
+                                            <input type="text" class="form-control" id="calle" formControlName="calle">
+                                            <div *ngIf="formAddress.controls.calle.touched">
+                                                <span class="text-danger" *ngIf="formAddress.controls.calle.errors?.required">
+                                                    La calle es requerida
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="localidad">Localidad</label>
+                                            <select class="form-control" id="localidad" formControlName="idLocalidad">
+                                                <option value="">Seleccione la localidad</option>
+                                                <option *ngFor="let localidad of localidades" [value]="localidad.id">{{
+                                                    localidad.nombre }}</option>
+                                            </select>
+                                            <div *ngIf="formAddress.controls.idLocalidad.touched">
+                                                <span class="text-danger" *ngIf="formAddress.controls.idLocalidad.errors?.required">
+                                                    La localidad es requerida
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="numero">Número</label>
+                                            <input type="number" class="form-control" id="numero" formControlName="numero">
+                                            <div *ngIf="formAddress.controls.numero.touched">
+                                                <span class="text-danger" *ngIf="formAddress.controls.numero.errors?.required">
+                                                    El número es requerido
+                                                </span>
+                                                <span class="text-danger"
+                                                    *ngIf="formAddress.controls.numero.errors?.maxlength.requiredLength">
+                                                    El máximo de números es {{
+                                                    formAddress.controls.numero.errors?.maxlength.requiredLength }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary"
+                                            [disabled]="!formAddress.valid">Guardar</button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="localidad">Localidad</label>
-                                <select class="form-control" id="localidad" formControlName="idLocalidad">
-                                    <option value="">Seleccione la localidad</option>
-                                    <option *ngFor="let localidad of localidades" [value]="localidad.id">{{ localidad.nombre }}</option>
-                                </select>
-                                <div *ngIf="formAddress.controls.idLocalidad.touched">
-                                    <span class="text-danger" *ngIf="formAddress.controls.idLocalidad.errors?.required">
-                                        La localidad es requerida
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="numero">Número</label>
-                                <input type="number" class="form-control" id="numero" formControlName="numero">
-                                <div *ngIf="formAddress.controls.numero.touched">
-                                    <span class="text-danger" *ngIf="formAddress.controls.numero.errors?.required">
-                                        El número es requerido
-                                    </span>
-                                    <span class="text-danger"
-                                        *ngIf="formAddress.controls.numero.errors?.maxlength.requiredLength">
-                                        El máximo de números es {{ formAddress.controls.numero.errors?.maxlength.requiredLength }}
-                                    </span>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary"
-                                [disabled]="!formAddress.valid">Guardar</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -177,15 +188,17 @@
                     <label class="form-check-label" for="local" *ngIf="i===1">{{ method }}</label>
                 </div>
             </div>
+            <div *ngIf="idPaymentMethod == 0">
+                <span class="text-success">Recibe un 10% de descuento en el total de su compra.</span>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <button class="btn btn-outline-primary m-2" routerLink="/">
                 Volver
-              </button>
-            <button type="button" class="btn btn-primary" [disabled]="!buttonPay"
-             (click)="toPay()" >
+            </button>
+            <button type="button" class="btn btn-primary" [disabled]="!buttonPay" (click)="toPay()">
                 Finalizar compra
             </button>
         </div>

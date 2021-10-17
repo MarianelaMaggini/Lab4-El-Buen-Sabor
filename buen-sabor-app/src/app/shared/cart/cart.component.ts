@@ -61,22 +61,7 @@ export class CartComponent implements OnInit {
    */
   getItem(): void {
     this.messageService.getMessage().subscribe((articulo: Articulo) => {
-      this.stockControl(articulo.id, OPCION_UNO);
-      let exist = false;
-      if (this.available) {
-        this.cartItems.forEach((item: { id: number; cantidad: number }) => {
-          if (item.id === articulo.id) {
-            exist = true;
-            item.cantidad++;
-          }
-        });
-        if (!exist) {
-          const cartItem = new ItemCart(articulo);
-          this.cartItems.push(cartItem);
-        }
-        this.total = this.getTotal();
-        this.storageService.set('cart',this.cartItems);
-      }
+      this.stockControl(OPCION_UNO, articulo);
     });
   }
   /**
@@ -105,8 +90,7 @@ export class CartComponent implements OnInit {
    * @param i Recibe por parametro el indice del item 
    */
   deleteItem(i: number): void {
-    console.log(this.cartItems[i].id)
-    this.stockControl(this.cartItems[i].id, OPCION_DOS)
+    this.stockControl(OPCION_DOS, this.cartItems[i])
     if (this.cartItems[i].cantidad > 1) {
       this.cartItems[i].cantidad--;
     } else {
@@ -116,19 +100,26 @@ export class CartComponent implements OnInit {
     this.storageService.set('cart', this.cartItems);
   }
 
-  stockControl(id: number, opcion: number): void {
+  stockControl(opcion: number, articulo: Articulo): void {
     let inventarios = this.storageService.get('inventario');
-    this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(id).pipe(
+    inventarios.forEach((i: { articulo: { id: number; }; stockActual: number; }) => {
+      if (i.articulo.id === articulo.id && articulo.tipoArticulo.id == 3 && opcion == 1) {
+        this.available = true;
+        i.stockActual--;
+        this.addCart(articulo);
+      }
+    });
+    this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(articulo.id).pipe(
       concatMap(data => {
         this.articuloDetalle = data;
         return this.recetaService.getRecetaByArticuloDetalleId(data.id);
       }),
     ).subscribe(data => {
-      this.incrementOrDecrementInventory(data, inventarios, opcion);
+      this.incrementOrDecrementInventory(data, inventarios, opcion, articulo);
     });
   }
 
-  incrementOrDecrementInventory(recetas: any, inventarios:any, opcion:number):void{
+  incrementOrDecrementInventory(recetas: any, inventarios:any, opcion:number, articulo: Articulo):void{
     recetas.forEach((r: { articulo: { id: number; }; cantidad: number; }) => {
       inventarios.forEach((i: { articulo: { id: number; }; stockActual: number; stockMinimo: number; }) => {
           if (i.articulo.id === r.articulo.id) {
@@ -136,7 +127,9 @@ export class CartComponent implements OnInit {
               i.stockActual -= r.cantidad;
               if (i.stockMinimo < i.stockActual && i.stockMinimo > r.cantidad) {
                 this.available = true;
+                this.addCart(articulo);
               } else {
+                i.stockActual += r.cantidad
                 this.available = false;
                 this.toastr.error('Se ha agotado el stock para este artículo', 'Disculpe');
               }
@@ -145,10 +138,30 @@ export class CartComponent implements OnInit {
               i.stockActual += r.cantidad;
             }
           }
+          
         });
         this.storageService.set('inventario', inventarios);
-      });
-      
+        
+      });   
   }
+
+  addCart(articulo: any):void{
+    let exist = false;
+      if (this.available) {
+        this.cartItems.forEach((item: { id: number; cantidad: number }) => {
+          if (item.id === articulo.id) {
+            exist = true;
+            item.cantidad++;
+          }
+        });
+        if (!exist) {
+          const cartItem = new ItemCart(articulo);
+          this.cartItems.push(cartItem);
+        }
+        this.total = this.getTotal();
+        this.storageService.set('cart',this.cartItems);
+      }
+  }
+
 }
 

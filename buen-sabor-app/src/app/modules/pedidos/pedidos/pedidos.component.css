@@ -1,0 +1,12 @@
+.imagen{
+    width: 200px;
+}
+.btn-close{
+    margin-bottom: 160px;
+}
+.cabecera{
+    background-color: lightgrey;
+}
+.justificado{
+    align-content: flex-end;
+}
