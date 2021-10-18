@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { Usuario } from 'src/app/models/usuario';
-import { Articulo } from 'src/app/models/articulo';
 import { AuthService } from 'src/app/services/auth.service';
-import { MessageService } from 'src/app/services/message.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { TokenService } from 'src/app/services/token.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-header',
@@ -24,14 +23,18 @@ export class HeaderComponent implements OnInit {
     private tokenService: TokenService,
     private authService: AuthService,
     private socialAuthService: SocialAuthService,
-    private messageService: MessageService
+    private dataService: DataService
     ) {
       this.cantidad = 0;
     }
 
   ngOnInit(): void {
     this.getUser();
-    this.countCart();
+    if (this.storageService.exist('quantity')) {
+      this.cantidad = this.storageService.get('quantity');
+    }
+    this.addCountCart();
+    this.removeCountCart();
     this.isAdmin = this.tokenService.isAdmin();
     this.isLogged = this.tokenService.isLogged();
     this.socialAuthService.authState.subscribe((data) => {
@@ -62,9 +65,17 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  countCart():void {
-    this.messageService.getMessage().subscribe(() => {
-      this.cantidad += 1;
-    });
+  addCountCart():void {
+    this.dataService.quantityAdd$.subscribe(cantidadCart => {
+        this.cantidad += cantidadCart;
+        this.storageService.set('quantity', this.cantidad);
+      })
+  }
+
+  removeCountCart(): void{
+    this.dataService.quantityRemove$.subscribe(cantidadCart => {
+      this.cantidad -= cantidadCart;
+      this.storageService.set('quantity', this.cantidad);
+    });  
   }
 }

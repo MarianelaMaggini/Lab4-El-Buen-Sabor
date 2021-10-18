@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { concat, Observable } from 'rxjs';
-import { concatMap, map, switchMap } from 'rxjs/operators';
+import { concatMap } from 'rxjs/operators';
 import { DetallePedido } from 'src/app/models/detalle-pedido';
 import { Factura } from 'src/app/models/factura';
 import { Pedido } from 'src/app/models/pedido';

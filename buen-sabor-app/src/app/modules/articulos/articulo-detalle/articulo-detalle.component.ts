@@ -13,6 +13,7 @@ import { RecetaElaborado } from 'src/app/models/receta-elaborado';
 import { ArticuloService } from 'src/app/services/articulo.service';
 import { concatMap } from 'rxjs/operators';
 import { StorageService } from 'src/app/services/storage.service';
+import { DataService } from 'src/app/services/data.service';
 @Component({
   selector: 'app-articulo-detalle',
   templateUrl: './articulo-detalle.component.html',
@@ -39,6 +40,7 @@ export class ArticuloDetalleComponent implements OnInit {
     private spinnerService: NgxSpinnerService,
     private hourSystemService: HourSystemService,
     private storageService: StorageService,
+    private dataService: DataService
   ) {
     this.isLogged = false;
     this.isHour = true;
@@ -50,14 +52,16 @@ export class ArticuloDetalleComponent implements OnInit {
     setTimeout(() => {
       this.getArticuloById();
       this.isLogin();
-      //this.isHour = this.hourSystemService.activeSystem();
+      this.isHour = this.hourSystemService.activeSystem();
       this.spinnerService.hide();
     }, 1500)
 
   }
   addCart(): void {
     this.messageService.sendMessage(this.articulo);
+    this.dataService.quantityAdd$.emit(1);
     let inventarios = this.storageService.get('inventario');
+    if (this.articulo.tipoArticulo.id == 2) {
       this.recetasElaborados.forEach(r => {
         inventarios.forEach((i: { articulo: { id: number; }; stockMinimo: number; stockActual: number; }) => {
           if (i.articulo.id === r.articulo.id) {
@@ -75,6 +79,16 @@ export class ArticuloDetalleComponent implements OnInit {
           }
         })
       })
+    }
+    if (this.articulo.tipoArticulo.id == 3) {
+      inventarios.forEach((inventarioTemp: { articulo: { id: number; }; stockActual: number; stockMinimo: number; }) => {
+        if (inventarioTemp.articulo.id === this.articulo.id) {
+          if (inventarioTemp.stockMinimo >= inventarioTemp.stockActual) {
+            this.active = false;
+          }
+        }
+      });
+    }
       
   }
   getArticuloById(): void {

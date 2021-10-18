@@ -10,6 +10,7 @@ import { concatMap } from 'rxjs/operators';
 import { ArticuloElaboradoDetalle } from 'src/app/models/articulo-elaborado-detalle';
 import { RecetaElaborado } from 'src/app/models/receta-elaborado';
 import { ToastrService } from 'ngx-toastr';
+import { DataService } from 'src/app/services/data.service';
 
 const OPCION_UNO = 1;
 const OPCION_DOS = 2;
@@ -22,10 +23,11 @@ export class CartComponent implements OnInit {
 
   /** atributos */
   cartItems: any = [];
-  total: number;
-  articuloDetalle: ArticuloElaboradoDetalle;
   recetasElaborados: RecetaElaborado[];
+  articuloDetalle: ArticuloElaboradoDetalle;
+  total: number;
   available: boolean;
+  quantity: number;
 
   /** @constructor */
   constructor(
@@ -34,10 +36,12 @@ export class CartComponent implements OnInit {
     private storageService: StorageService,
     private articuloDetalleService: ArticuloElaboradoDetalleService,
     private recetaService: RecetaElaboradoService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dataService: DataService
   ) {
     this.total = 0;
     this.available = true;
+    this.quantity = 0;
   }
 
   ngOnInit(): void {
@@ -61,7 +65,25 @@ export class CartComponent implements OnInit {
    */
   getItem(): void {
     this.messageService.getMessage().subscribe((articulo: Articulo) => {
-      this.stockControl(OPCION_UNO, articulo);
+      let inventarios = this.storageService.get('inventario');
+      if (articulo.tipoArticulo.id == 2) {
+        this.stockControl(OPCION_UNO, articulo, inventarios);
+      }
+      if(articulo.tipoArticulo.id == 3){
+        inventarios.forEach((inventarioTemp: { articulo: { id: number; }; stockActual: number; stockMinimo: number; }) => {
+          if (inventarioTemp.articulo.id === articulo.id) {
+            this.available = true;
+            inventarioTemp.stockActual--;
+            if (inventarioTemp.stockMinimo > inventarioTemp.stockActual) {
+              inventarioTemp.stockActual++;
+              this.available = false;
+              this.dataService.quantityRemove$.emit(1);
+              this.toastr.error('Se ha agostado el artículo ' + articulo.denominacion, 'Disculpe');            }
+            this.addCart(articulo);
+          }
+        });
+        this.storageService.set('inventario', inventarios);
+      }
     });
   }
   /**
@@ -90,52 +112,56 @@ export class CartComponent implements OnInit {
    * @param i Recibe por parametro el indice del item 
    */
   deleteItem(i: number): void {
-    this.stockControl(OPCION_DOS, this.cartItems[i])
-    if (this.cartItems[i].cantidad > 1) {
-      this.cartItems[i].cantidad--;
-    } else {
-      this.cartItems.splice(i, 1);
+    this.dataService.quantityRemove$.emit(1);
+    let inventarios = this.storageService.get('inventario');
+    if (this.cartItems[i].tipoArticulo.id == 2) {
+      this.stockControl(OPCION_DOS, this.cartItems[i], inventarios, i)
     }
-    this.total = this.getTotal();
-    this.storageService.set('cart', this.cartItems);
+    if(this.cartItems[i].tipoArticulo.id == 3){
+      inventarios.forEach((inventarioTemp: { articulo: { id: number; }; stockActual: number; }) => {
+        if (this.cartItems[i] != null) {
+          if (inventarioTemp.articulo.id === this.cartItems[i].id) {
+            this.available = true;
+            inventarioTemp.stockActual++;
+            this.removeCart(i);
+          }
+        }
+      });
+      this.storageService.set('inventario', inventarios);
+    }
+    
   }
 
-  stockControl(opcion: number, articulo: Articulo): void {
-    let inventarios = this.storageService.get('inventario');
-    inventarios.forEach((i: { articulo: { id: number; }; stockActual: number; }) => {
-      if (i.articulo.id === articulo.id && articulo.tipoArticulo.id == 3 && opcion == 1) {
-        this.available = true;
-        i.stockActual--;
-        this.addCart(articulo);
-      }
-    });
+  stockControl(opcion: number, articulo: Articulo, inventarios:any, i?: number): void {
     this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(articulo.id).pipe(
       concatMap(data => {
         this.articuloDetalle = data;
         return this.recetaService.getRecetaByArticuloDetalleId(data.id);
       }),
     ).subscribe(data => {
-      this.incrementOrDecrementInventory(data, inventarios, opcion, articulo);
+      this.incrementOrDecrementInventory(data, inventarios, opcion, articulo, i);
     });
   }
 
-  incrementOrDecrementInventory(recetas: any, inventarios:any, opcion:number, articulo: Articulo):void{
+  incrementOrDecrementInventory(recetas: any, inventarios:any, opcion:number, articulo: Articulo, i?: number):void{
     recetas.forEach((r: { articulo: { id: number; }; cantidad: number; }) => {
-      inventarios.forEach((i: { articulo: { id: number; }; stockActual: number; stockMinimo: number; }) => {
-          if (i.articulo.id === r.articulo.id) {
+      inventarios.forEach((invetarioTemp: { articulo: { id: number; }; stockActual: number; stockMinimo: number; }) => {
+          if (invetarioTemp.articulo.id === r.articulo.id) {
             if (opcion == 1) {
-              i.stockActual -= r.cantidad;
-              if (i.stockMinimo < i.stockActual && i.stockMinimo > r.cantidad) {
+              invetarioTemp.stockActual -= r.cantidad;
+              if (invetarioTemp.stockMinimo < invetarioTemp.stockActual && invetarioTemp.stockMinimo > r.cantidad) {
                 this.available = true;
                 this.addCart(articulo);
               } else {
-                i.stockActual += r.cantidad
+                invetarioTemp.stockActual += r.cantidad
                 this.available = false;
-                this.toastr.error('Se ha agotado el stock para este artículo', 'Disculpe');
+                this.dataService.quantityRemove$.emit(1);
+                this.toastr.error('Se ha agostado el artículo ' + articulo.denominacion, 'Disculpe');
               }
             }
             if (opcion == 2) {
-              i.stockActual += r.cantidad;
+              invetarioTemp.stockActual += r.cantidad;
+              this.removeCart(i!)
             }
           }
           
@@ -143,6 +169,16 @@ export class CartComponent implements OnInit {
         this.storageService.set('inventario', inventarios);
         
       });   
+  }
+
+  removeCart(i: number):void{
+    if (this.cartItems[i].cantidad > 1) {
+      this.cartItems[i].cantidad--;
+    } else {
+      this.cartItems.splice(i, 1);
+    }
+    this.total = this.getTotal();
+    this.storageService.set('cart', this.cartItems);
   }
 
   addCart(articulo: any):void{

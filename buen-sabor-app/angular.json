@@ -20,7 +20,9 @@
             "outputPath": "dist/buen-sabor-app",
             "allowedCommonJsDependencies": [
               "sockjs-client",
-              "@stomp/stompjs"
+              "@stomp/stompjs",
+              "jspdf",
+              "html2canvas"
             ],
             "index": "src/index.html",
             "main": "src/main.ts",

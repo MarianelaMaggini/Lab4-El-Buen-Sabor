@@ -46,7 +46,7 @@ public class FacturaService {
         Document document = new Document();
         Image imagen = Image.getInstance("src//main//resources//images//logo.png");
         Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
-        String nombreDocumento = "files//" + factura.getNumeroFactura() + "_factura.pdf";
+        String nombreDocumento = ".//src//main//resources//files//" + factura.getNumeroFactura() + "_factura.pdf";
         PdfWriter.getInstance(document, new FileOutputStream(nombreDocumento));
         document.open();
         imagen.scaleAbsolute(170f, 150f);

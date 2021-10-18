@@ -73,6 +73,7 @@ export class HomeComponent implements OnInit {
       })
     }else{
       this.storageService.clear('inventario')
+      this.storageService.clear('quantity')
     }
   }
 }
