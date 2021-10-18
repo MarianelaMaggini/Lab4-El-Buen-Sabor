@@ -28,7 +28,7 @@ export class ArticuloService {
    * @description Trae los artículos seteados con el precio
    */
   getArticulosByTipoArticuloId(id:number): Observable<Articulo[]>{
-    return this.http.get<Articulo[]>(this.articuloUrl + '/idTipoArticulo?id=' + id, {headers: this.header});
+    return this.http.get<Articulo[]>(this.articuloUrl + '/idTipoArticuloWithPrice?id=' + id, {headers: this.header});
   }
 
   /**

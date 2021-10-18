@@ -40,9 +40,10 @@
         <div class="col">
           <u><p>Ingredientes: </p></u>
           <ul *ngFor="let receta of recetasElaborados; let i = index" >
-            <li [ngClass]="{'text-danger': receta.articulo.denominacion.includes('sin stock')}">
+            <li *ngIf="!active" [ngClass]="{'text-danger': receta.articulo.denominacion.includes('sin stock')}">
               {{ receta.articulo.denominacion }}
             </li>
+            <li *ngIf="active">{{ receta.articulo.denominacion }}</li>
           </ul>
         </div>
       </div>

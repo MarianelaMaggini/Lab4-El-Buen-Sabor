@@ -55,7 +55,8 @@ export class ArticuloDetalleComponent implements OnInit {
       this.isHour = this.hourSystemService.activeSystem();
       this.spinnerService.hide();
     }, 1500)
-
+    
+    this.dataService.active$.subscribe(active => this.active = active);
   }
   addCart(): void {
     this.messageService.sendMessage(this.articulo);
@@ -107,6 +108,7 @@ export class ArticuloDetalleComponent implements OnInit {
   }
 
   listDetalleAndRecetaAndInventarios(id: number): void {
+    
     this.articuloDetalleService.getArtElaboradoDetalleByArticuloId(id).pipe(
       concatMap(data => {
         this.articuloDetalle = data;
@@ -127,6 +129,7 @@ export class ArticuloDetalleComponent implements OnInit {
             if (i.stockMinimo < stockActualAux && i.stockMinimo > r.cantidad) {
               disponible++;
             } else {
+              this.active = false;
               this.recetasElaborados.map((re) => {
                 if (re.articulo.id === r.articulo.id) {
                   re.articulo.denominacion += " sin stock."

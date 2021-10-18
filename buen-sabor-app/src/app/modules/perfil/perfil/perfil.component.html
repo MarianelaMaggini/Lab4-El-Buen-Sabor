@@ -1,61 +1,87 @@
-<main class="d-flex align-items-center" style="height: 900px;">
-  <div class="container col-md-6">
+<main class="d-flex align-items-center" style="height: 800px;">
+  <div class="container col-md-5">
     <div class="card login-card">
       <div class="card-body">
-        <p class="login-card-description">Mi perfil</p>
-        <form [formGroup]="usuarioForm" (ngSubmit)="updateUser(usuarioForm.value)">
+        <p class="login-card-description d-flex justify-content-center align-items-center">Mi perfil</p>
+        <div class="container d-flex justify-content-center align-items-center">
+          <form [formGroup]="usuarioForm" (ngSubmit)="updateUser(usuarioForm.value)" >
+            <div class="row ">
+              <div class="col">
+                <span>Nombre</span>
+                <input [readonly]="!editable" type="text" class="form-control" id="nombre" formControlName="nombre">
+              </div>
+              <div class="col">
+                <span>Apellido</span>
+                <input [readonly]="!editable" type="text" class="form-control" id="apellido" formControlName="apellido">
+              </div>
+            </div>
+            <div class="form-group">
+              <span>Email</span>
+              <input [readonly]="!editable" type="text" class="form-control" id="email" formControlName="email">
+            </div>
+            <div class="form-group">
+              <span>Teléfono</span>
+              <input type="text" class="form-control" id="telefono" formControlName="telefono">
+            </div>
+            <button name="login" id="login" class="btn btn-block login-btn m-4">Actualizar</button>
+          </form>
+        </div>
+        <div class="container d-flex justify-content-center align-items-center">
           <div class="row">
             <div class="col">
-              <span>Nombre</span>
-              <input [readonly]="!editable" type="text" class="form-control" id="nombre" formControlName="nombre">
+              <button type="button" class="btn btn-block login-btn m-4" data-toggle="modal" data-target="#domicilios">
+                Mis domicilios
+              </button>
+              <button type="button" (click)="localitiesInModal()" class="btn btn-block login-btn m-4" data-toggle="modal" data-target="#domicilio">
+                Añadir domicilio
+              </button>
             </div>
-            <div class="col">
-              <span>Apellido</span>
-              <input [readonly]="!editable" type="text" class="form-control" id="apellido" formControlName="apellido">
-            </div>
-          </div>
-          <div class="form-group">
-            <span>Email</span>
-            <input [readonly]="!editable" type="text" class="form-control" id="email" formControlName="email">
-          </div>
-          <div class="form-group">
-            <span>Teléfono</span>
-            <input type="text" class="form-control" id="telefono" formControlName="telefono">
-          </div>
-          <button name="login" id="login" class="btn login-btn m-4">Actualizar</button>
-        </form>
-        <div class="container pt-2">
-          <h6>{{ titulo }}</h6>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Calle</th>
-                <th scope="col">Número</th>
-                <th scope="col">Localidad</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let domicilio of domicilios; let i = index">
-                <td>{{ i+1 }}</td>
-                <td>{{ domicilio.calle }}</td>
-                <td>{{ domicilio.numero }}</td>
-                <td>{{ domicilio.localidad.nombre }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="row">
-          <div class="col">
-            <button type="button" (click)="localitiesInModal()" class="btn login-btn m-4" data-toggle="modal" data-target="#domicilio">
-              Añadir domicilio
-            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </main>
+
+<!-- Modal domicilio -->
+<div class="modal fade" id="domicilios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{titulo}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container pt-2">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Calle</th>
+                  <th scope="col">Número</th>
+                  <th scope="col">Localidad</th>
+                  <th scope="col">Eliminar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let domicilio of domicilios; let i = index">
+                  <td>{{ i+1 }}</td>
+                  <td>{{ domicilio.calle }}</td>
+                  <td>{{ domicilio.numero }}</td>
+                  <td>{{ domicilio.localidad.nombre }}</td>
+                  <td>
+                    <button (click)="deleteDomicilio(domicilio.id)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal domicilio -->
 <div class="modal fade" id="domicilio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

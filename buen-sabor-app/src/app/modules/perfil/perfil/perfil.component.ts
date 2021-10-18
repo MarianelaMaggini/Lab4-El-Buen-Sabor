@@ -128,8 +128,19 @@ export class PerfilComponent implements OnInit {
       }),
     ).subscribe();
   }
-    localitiesInModal():void{
+  
+  localitiesInModal():void{
       this.listLocalities();
-    }
+  }
+
+  deleteDomicilio(id:number):void{
+    this.domicilios = this.domicilios.filter((item) => item.id !== id);
+    this.domicilioService.getDomicilioById(id).pipe(
+      concatMap(dataDomicilio => {
+        let domicilio = { "id": dataDomicilio.id, "calle": dataDomicilio.calle, "numero": dataDomicilio.numero, "localidad": dataDomicilio.localidad, "fechaBaja": new Date(), "usuario": this.usuario };
+        return this.domicilioService.saveDomicilio(domicilio);
+      }),
+    ).subscribe();
+  }
     
 }
