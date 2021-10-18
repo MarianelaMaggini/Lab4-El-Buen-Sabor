@@ -24,13 +24,13 @@ export class RecetaService {
     return this.http.get<Receta>(this.recetaUrl + '/' + id, { headers: this.header });
   }
 
-  // Obtener una receta por id de artículo
-  getRecetaByIdArticulo(id: any): Observable<Receta[]> {
+  // Obtener una receta por id de artículo elaborado detalle
+  getRecetaByIdAed(id: any): Observable<Receta[]> {
     return this.http.get<Receta[]>(this.recetaUrl + '/detalle?id=' + id, { headers: this.header });
   }
 
-  // Obtener una receta histórica por id de artículo
-  getRecetaHistoricaByIdArticulo(id: any): Observable<Receta[]> {
+  // Obtener una receta histórica por id de artículo elaborado detalle
+  getRecetaHistoricaByIdAed(id: any): Observable<Receta[]> {
     return this.http.get<Receta[]>(this.recetaUrl + '/historica?id=' + id, { headers: this.header });
   }
 

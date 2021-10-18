@@ -68,4 +68,5 @@ public class Pedido implements Serializable {
         this.pedidoEstado = pedidoEstado;
         this.formaPago = formaPago;
     }
+
 }

@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ConfiguracionRepository extends CrudRepository<Configuracion,Long> {
+
     @Query(value = "SELECT token_mercado_pago FROM configuracion", nativeQuery = true)
     String getTokenMercadoPago();
+
+    @Query(value = "SELECT R0.cantidad_cocineros FROM configuracion R0", nativeQuery = true)
+    Integer getCantidadCocineros();
+
 }

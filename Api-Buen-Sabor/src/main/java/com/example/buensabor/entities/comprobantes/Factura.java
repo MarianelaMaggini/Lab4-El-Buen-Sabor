@@ -19,7 +19,7 @@ public class Factura implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero_factura")
-    private long numeroFactura;
+    private Long numeroFactura;
 
     @Column(name = "fecha", nullable = false)
     @NotNull
@@ -29,7 +29,7 @@ public class Factura implements Serializable {
     @NotNull
     private double montoDescuento;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "numero_pedido")
     private Pedido pedido;
 

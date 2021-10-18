@@ -18,9 +18,9 @@ public class RecetaElaboradoService {
 
     public Optional<RecetaElaborado> getRecetaById(Long id) { return recetaElaboradoRepository.findById(id); }
 
-    public List<RecetaElaborado> getRecetaByIdArticulo(Long id) { return recetaElaboradoRepository.getRecetaByIdArticulo(id); }
+    public List<RecetaElaborado> getRecetaByIdAed(Long id) { return recetaElaboradoRepository.getRecetaByIdAed(id); }
 
-    public List<RecetaElaborado> getRecetaHistoricaByIdArticulo(Long id) { return recetaElaboradoRepository.getRecetaHistoricaByIdArticulo(id); }
+    public List<RecetaElaborado> getRecetaHistoricaByIdAed(Long id) { return recetaElaboradoRepository.getRecetaHistoricaByIdAed(id); }
 
     public RecetaElaborado saveOrUpdateReceta(RecetaElaborado receta) { return (RecetaElaborado) recetaElaboradoRepository.save(receta); }
 

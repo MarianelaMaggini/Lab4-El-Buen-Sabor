@@ -6,6 +6,8 @@ import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -32,15 +34,9 @@ public class FacturaController {
         return facturaService.getFacturaById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
-    public Factura saveOrUpdateFactura(@RequestBody Factura factura) {
+    public Factura saveOrUpdateFactura(@RequestBody Factura factura) throws IOException, DocumentException, MessagingException {
         return facturaService.saveOrUpdateFactura(factura);
-    }
-
-    @GetMapping("pdf/{id}")
-    public void generateFacturaPDF(@PathVariable("id") Long id) throws DocumentException, IOException {
-        facturaService.generateFacturaPDF(id);
     }
 
 }

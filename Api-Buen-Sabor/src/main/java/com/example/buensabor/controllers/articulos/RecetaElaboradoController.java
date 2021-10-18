@@ -31,13 +31,13 @@ public class RecetaElaboradoController {
     }
 
     @GetMapping("/detalle")
-    public List<RecetaElaborado> getRecetaByIdArticulo(@RequestParam("id") Long id) {
-        return recetaElaboradoService.getRecetaByIdArticulo(id);
+    public List<RecetaElaborado> getRecetaByIdAed(@RequestParam("id") Long id) {
+        return recetaElaboradoService.getRecetaByIdAed(id);
     }
 
     @GetMapping("/historica")
-    public List<RecetaElaborado> getRecetaHistoricaByIdArticulo(@RequestParam("id") Long id) {
-        return recetaElaboradoService.getRecetaHistoricaByIdArticulo(id);
+    public List<RecetaElaborado> getRecetaHistoricaByIdAed(@RequestParam("id") Long id) {
+        return recetaElaboradoService.getRecetaHistoricaByIdAed(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

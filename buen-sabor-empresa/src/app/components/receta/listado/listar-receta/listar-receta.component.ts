@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { RecetaService } from 'src/app/services/receta.service';
 import { ArticuloService } from 'src/app/services/articulo.service';
@@ -20,6 +20,7 @@ export class ListarRecetaComponent implements OnInit {
   receta: Receta[];
   articulos: Articulo[];
   idArticulo: number;
+  idAed: number;
   isLogged = false;
   isAdmin = false;
 
@@ -41,7 +42,8 @@ export class ListarRecetaComponent implements OnInit {
     this.idArticulo = event.target.value;
     if(this.idArticulo != 0 && this.idArticulo != null) {
       this.aedService.getAedByIdArticulo(this.idArticulo).subscribe(aed =>{
-        this.recetaService.getRecetaByIdArticulo(aed.id).subscribe(data =>{
+        this.idAed = aed.id;
+        this.recetaService.getRecetaByIdAed(this.idAed).subscribe(data =>{
           this.receta = data;
         });
       });
@@ -50,11 +52,11 @@ export class ListarRecetaComponent implements OnInit {
 
   filterReceta(event: any) {
     if(event.target.checked) {
-      this.recetaService.getRecetaHistoricaByIdArticulo(this.idArticulo).subscribe(data =>{
+      this.recetaService.getRecetaHistoricaByIdAed(this.idAed).subscribe(data =>{
         this.receta = data;
       });
     } else {
-      this.recetaService.getRecetaByIdArticulo(this.idArticulo).subscribe(data =>{
+      this.recetaService.getRecetaByIdAed(this.idAed).subscribe(data =>{
         this.receta = data;
       });
     }
