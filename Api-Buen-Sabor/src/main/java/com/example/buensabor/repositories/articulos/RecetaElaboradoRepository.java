@@ -12,9 +12,9 @@ import java.util.List;
 public interface RecetaElaboradoRepository extends CrudRepository <RecetaElaborado,Long>{
 
     @Query(value = "SELECT * FROM receta_elaborado r WHERE r.id_articulo_elaborado_detalle = :idArticuloDetalle and r.fecha_baja is null", nativeQuery = true)
-    List<RecetaElaborado> getRecetaByIdArticulo(@Param("idArticuloDetalle") Long idArticuloDetalle);
+    List<RecetaElaborado> getRecetaByIdAed(@Param("idArticuloDetalle") Long idArticuloDetalle);
 
     @Query(value = "SELECT * FROM receta_elaborado r WHERE r.id_articulo_elaborado_detalle = :idArticulo", nativeQuery = true)
-    List<RecetaElaborado> getRecetaHistoricaByIdArticulo(@Param("idArticulo") Long idArticulo);
+    List<RecetaElaborado> getRecetaHistoricaByIdAed(@Param("idArticulo") Long idArticulo);
 
 }

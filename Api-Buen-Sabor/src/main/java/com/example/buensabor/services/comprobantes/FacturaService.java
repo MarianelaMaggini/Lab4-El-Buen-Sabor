@@ -3,13 +3,16 @@ package com.example.buensabor.services.comprobantes;
 import com.example.buensabor.entities.comprobantes.Factura;
 import com.example.buensabor.entities.comprobantes.DetallePedido;
 import com.example.buensabor.repositories.comprobantes.FacturaRepository;
+import com.example.buensabor.services.mail.FacturaMailService;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +29,12 @@ public class FacturaService {
     @Autowired
     DetallePedidoService detallePedidoService;
 
+    @Autowired
+    FacturaMailService facturaMailService;
+
+    @Value("${spring.mail.username}")
+    String mailFrom;
+
     public List<Factura> getFacturas() {
         return (ArrayList<Factura>) facturaRepository.findAll();
     }
@@ -36,8 +45,15 @@ public class FacturaService {
 
     public Optional<Factura> getFacturaByPedidoNumeroPedido(Long numeroPedido){ return facturaRepository.findByPedidoNumeroPedido(numeroPedido); }
 
-    public Factura saveOrUpdateFactura(Factura factura) {
-        return (Factura) facturaRepository.save(factura);
+    public Factura saveOrUpdateFactura(Factura factura) throws IOException, DocumentException, MessagingException {
+        factura.setNumeroFactura(null);
+        Factura facturaNueva = facturaRepository.save(factura);
+        this.generateFacturaPDF(facturaNueva.getNumeroFactura());
+        String mailUsuario = facturaNueva.getPedido().getUsuario().getEmail();
+        String subjet = "Envío de comprobante #" + facturaNueva.getNumeroFactura();
+        String msg = "Gracias por su compra! \n Equipo del Buen Sabor.";
+        this.facturaMailService.sendEmail(mailFrom, mailUsuario, subjet, msg, facturaNueva);
+        return facturaNueva;
     }
 
     public void generateFacturaPDF(Long numeroFactura) throws IOException, DocumentException {
@@ -46,7 +62,7 @@ public class FacturaService {
         Document document = new Document();
         Image imagen = Image.getInstance("src//main//resources//images//logo.png");
         Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
-        String nombreDocumento = ".//src//main//resources//files//" + factura.getNumeroFactura() + "_factura.pdf";
+        String nombreDocumento = "src//main//resources//files//" + factura.getNumeroFactura() + "_factura.pdf";
         PdfWriter.getInstance(document, new FileOutputStream(nombreDocumento));
         document.open();
         imagen.scaleAbsolute(170f, 150f);

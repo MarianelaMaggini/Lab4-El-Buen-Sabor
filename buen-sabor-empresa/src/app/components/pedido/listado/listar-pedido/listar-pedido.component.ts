@@ -1,17 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 
 import { PedidoService } from 'src/app/services/pedido.service';
 import { PedidoEstadoService } from 'src/app/services/pedido-estado.service';
 import { DetallePedidoService } from 'src/app/services/detalle-pedido.service';
+import { FacturaService } from 'src/app/services/factura.service';
 
 import { Pedido } from 'src/app/models/pedido';
+import { Factura } from 'src/app/models/factura';
 import { DetallePedido } from 'src/app/models/detalle-pedido';
 import { TokenService } from 'src/app/services/token.service';
 
 import * as SockJS from 'sockjs-client';
 import * as Stomp from '@stomp/stompjs';
 import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-listar-pedido',
   templateUrl: './listar-pedido.component.html',
@@ -21,7 +23,7 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
 
   titulo: string = 'Listado de pedidos:';
   pedidos: Pedido[];
-  detallesPedido: DetallePedido[];
+  detallesPedido: DetallePedido[] = [];
   numeroPedido: number;
   isChef: boolean = false;
   isCashier: boolean = false;
@@ -34,7 +36,7 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
     private pedidoService: PedidoService, 
     private pedidoEstadoService: PedidoEstadoService, 
     private detallePedidoService: DetallePedidoService, 
-    private activatedRoute: ActivatedRoute, 
+    private facturaService: FacturaService,
     private tokenService: TokenService, 
     private toastrService: ToastrService
     ) { }
@@ -53,7 +55,6 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
 
   getAllPedidos() {
     this.pedidoService.getAllPedidos().subscribe(data =>{
-      console.log(data)
       this.pedidos = data.filter(item => item.pedidoEstado.id < 5);
     });
   }
@@ -83,6 +84,9 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
     } else {
       this.getAllPedidos();
     }
+    if(estado == 5) {
+      this.saveFactura(pedido);
+    }
   }
 
   nuevoEstado(pedido: Pedido, estado: number) {
@@ -105,9 +109,24 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
     }
   }
 
+  saveFactura(pedido: Pedido) {
+    let total = 0;
+    let montoDescuento = 0;
+    this.detallePedidoService.getDetalleByIdPedido(pedido.numeroPedido).subscribe(data =>{
+      this.detallesPedido = data;
+    });
+    this.detallesPedido.forEach(detalle => {
+      total += detalle.subtotal;
+    });
+    if(pedido.formaPago == "Efectivo") {
+      montoDescuento = total * 0.1;
+    } 
+    let factura: Factura = { "numeroFactura": 0, "fecha": pedido.horaEstimadaFin, "montoDescuento": montoDescuento, "pedido": pedido };
+    this.facturaService.saveFactura(factura).subscribe();
+  }
+
   setConnected(connected: boolean) {
     this.disabled = !connected;
-
     if (connected) {
       this.pedidos = [];
     }
@@ -119,17 +138,16 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
     const _this = this;
     _this.stompClient.connect({},  (frame: any) => {
       this.setConnected(true);
-      console.log('Connected: ' + frame)
+      console.log('Connected: ' + frame);
       this.getAllPedidos();
       _this.stompClient.subscribe('/topic/pedido', function(data: any) {
         _this.showPedidos(data.body);
-      })
-
+      });
       _this.stompClient.subscribe('/topic/mensaje', function(message: any){
-        console.log(message.body)
+        console.log(message.body);
         _this.showMessage(JSON.parse(message.body).message)
-      })
-    })
+      });
+    });
   }
 
   disconnect() {
@@ -154,11 +172,11 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
       closeButton:true,
       progressBar: true,
       enableHtml: true
-    })
+    });
   }
 
   reproducir():void{
-    const audio = new Audio('assets/notification.mp3')
+    const audio = new Audio('assets/notification.mp3');
     audio.play();
   }
 

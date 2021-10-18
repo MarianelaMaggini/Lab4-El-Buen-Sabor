@@ -26,7 +26,7 @@ public interface ReportesRepository extends CrudRepository<Pedido, Long> {
                     "INNER JOIN articulo R1 ON R1.id = R0.id_articulo \n" +
                     "INNER JOIN factura R2 ON R2.numero_pedido = R0.id_pedido \n" +
                     "WHERE R1.id_tipo_articulo = 2 AND (R2.fecha >= :fechaDesde AND R2.fecha <= :fechaHasta) \n" +
-                    "GROUP BY R1.id DESC \n" +
+                    "GROUP BY R1.id \n" +
                     "ORDER BY cantidad DESC", nativeQuery = true)
     List<RankingComidas> getRankingComidas(@Param("fechaDesde") String fechaDesde, @Param("fechaHasta") String fechaHasta);
 

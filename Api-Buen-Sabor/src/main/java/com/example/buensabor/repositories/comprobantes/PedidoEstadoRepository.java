@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PedidoEstadoRepository extends CrudRepository<PedidoEstado,Long>{
+public interface PedidoEstadoRepository extends CrudRepository<PedidoEstado, Long>{
 }

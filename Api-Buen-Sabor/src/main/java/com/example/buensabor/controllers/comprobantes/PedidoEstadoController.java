@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201"})
 @RestController
-@RequestMapping("/pedidoEstados") //ruta principal
+@RequestMapping("/pedidoEstados") // Ruta principal
 public class PedidoEstadoController {
 
     @Autowired
@@ -25,4 +25,5 @@ public class PedidoEstadoController {
     public Optional<PedidoEstado> getPedidoEstadoById(@PathVariable("id") Long id) {
         return pedidoEstadoService.getPedidoEstadoById(id);
     }
+
 }

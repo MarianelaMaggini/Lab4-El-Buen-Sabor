@@ -44,6 +44,11 @@ public class ArticuloController {
         return articuloService.getArticuloByIdTipoArticulo(id);
     }
 
+    @GetMapping("/idTipoArticuloWithPrice")
+    public List<Articulo> getArticuloByIdTipoArticuloWithPrice(@RequestParam("id") Long id) {
+        return articuloService.getArticuloByIdTipoArticuloWithPrice(id);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Articulo saveOrUpdateArticulo(@RequestBody Articulo articulo) {

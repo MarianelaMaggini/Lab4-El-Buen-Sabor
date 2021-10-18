@@ -13,4 +13,8 @@ public interface PedidoRepository extends CrudRepository <Pedido,Long> {
 
     @Query(value = "SELECT p FROM Pedido p WHERE p.usuario.id = :idUsuario")
     List<Pedido> findByIdUsuario(@Param("idUsuario") Long idUsuario);
+
+    @Query(value = "SELECT * FROM pedido p WHERE p.id_estado = :pedidoEstadoId", nativeQuery = true)
+    List<Pedido> findPedidoByPedidoEstadoId(@Param("pedidoEstadoId") int pedidoEstadoId);
+
 }

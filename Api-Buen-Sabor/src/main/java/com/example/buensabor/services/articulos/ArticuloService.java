@@ -50,6 +50,10 @@ public class ArticuloService {
         return getArticulos(id, articulos);
     }
 
+    public List<Articulo> getArticuloByIdTipoArticulo(Long id) {
+        return articuloRepository.findByTipoArticuloIdAndFechaBajaIsNull(id);
+    }
+
     /**
      * Guardo en un listado de articulos los asociados al tipo articulos
      * luego recorro y seteo el atributo TRANSIENT con el precio elaborado
@@ -58,7 +62,7 @@ public class ArticuloService {
      * @param id Long
      * @return List<Articulo>
      */
-    public List<Articulo> getArticuloByIdTipoArticulo(Long id) {
+    public List<Articulo> getArticuloByIdTipoArticuloWithPrice(Long id) {
         List<Articulo> articulos = articuloRepository.findByTipoArticuloIdAndFechaBajaIsNull(id);
         return getArticulos(id, articulos);
     }
@@ -66,6 +70,7 @@ public class ArticuloService {
     public List<Articulo> getArticuloByElaboradoOrNoElaboradoGroupByRubro(Long idUno, Long idDos){
         return articuloRepository.findByElaboradoOrNoElaboradoGroupByRubro(idUno, idDos);
     }
+
     private List<Articulo> getArticulos(Long id, List<Articulo> articulos) {
         List<Long> articulosIdInsumos;
         if (id == 2) {
@@ -88,4 +93,5 @@ public class ArticuloService {
         }
         return articulos;
     }
+
 }

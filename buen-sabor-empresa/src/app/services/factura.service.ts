@@ -24,4 +24,8 @@ export class FacturaService {
     return this.http.get<Factura>(this.facturaUrl + '/' + id, { headers: this.header });
   }
 
+  saveFactura(factura: Factura): Observable<Factura> {
+    return this.http.post<Factura>(this.facturaUrl, factura, { headers: this.header });
+  }
+
 }
