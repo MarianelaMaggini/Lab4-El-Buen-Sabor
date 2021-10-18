@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DetallePedidoService } from 'src/app/services/detalle-pedido.service';
 import { FacturaService } from 'src/app/services/factura.service';
 import { PedidoService } from 'src/app/services/pedido.service';
+import { PedidoEstadoService } from 'src/app/services/pedidoEstado.service';
 import { TokenService } from 'src/app/services/token.service';
 
 @Component({
@@ -32,7 +33,8 @@ export class PedidosComponent implements OnInit {
     private tokenService: TokenService,
     private authService: AuthService,
     private detallePedidoService: DetallePedidoService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
+    private pedidoEstadoService: PedidoEstadoService
   ) {
     this.title = 'Tus pedidos';
   }
@@ -50,7 +52,7 @@ export class PedidosComponent implements OnInit {
     this.authService.getDataUsuario(email).pipe(
        concatMap(dataUser => { return this.pedidoService.getPedidosByUser(dataUser.id) }),
        concatMap(dataPedido => {
-        this.pedidos = dataPedido
+        this.pedidos = dataPedido;
          return dataPedido.map(p => {
           return this.detallePedidoService.getDetallesPedidosByPedido(p.numeroPedido)
          })
@@ -123,6 +125,13 @@ export class PedidosComponent implements OnInit {
       return doc;
     }).then((docResult) => {
       docResult.save(`${this.factura.fecha}_factura.pdf`);
+    });
+  }
+
+  cancel(pedido: Pedido):void{
+    this.pedidoEstadoService.getPedidoEstadoById(6).subscribe(data => {
+      pedido.pedidoEstado = data;
+      this.pedidoService.savePedido(pedido).subscribe();
     });
   }
 }

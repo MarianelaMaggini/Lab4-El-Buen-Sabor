@@ -78,9 +78,10 @@ export class CartComponent implements OnInit {
               inventarioTemp.stockActual++;
               this.available = false;
               this.dataService.quantityRemove$.emit(1);
-              this.toastr.error('Se ha agostado el artículo ' + articulo.denominacion, 'Disculpe');            }
-            this.addCart(articulo);
-          }
+              this.toastr.error('Se ha agostado el artículo ' + articulo.denominacion, 'Disculpe');            
+            }
+              this.addCart(articulo);
+            }
         });
         this.storageService.set('inventario', inventarios);
       }
@@ -114,6 +115,9 @@ export class CartComponent implements OnInit {
   deleteItem(i: number): void {
     this.dataService.quantityRemove$.emit(1);
     let inventarios = this.storageService.get('inventario');
+    if (this.cartItems[i]) {
+      this.dataService.active$.emit(true);
+    }
     if (this.cartItems[i].tipoArticulo.id == 2) {
       this.stockControl(OPCION_DOS, this.cartItems[i], inventarios, i)
     }

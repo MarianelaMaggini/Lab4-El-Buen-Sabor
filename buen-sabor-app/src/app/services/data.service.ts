@@ -7,5 +7,6 @@ export class DataService {
   
   quantityAdd$ = new EventEmitter<number>();
   quantityRemove$ = new EventEmitter<number>();
+  active$ = new EventEmitter<boolean>();
   constructor() { }
 }
