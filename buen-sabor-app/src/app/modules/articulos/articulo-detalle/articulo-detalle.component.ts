@@ -52,35 +52,42 @@ export class ArticuloDetalleComponent implements OnInit {
     setTimeout(() => {
       this.getArticuloById();
       this.isLogin();
-      this.isHour = this.hourSystemService.activeSystem();
+      //this.isHour = this.hourSystemService.activeSystem();
       this.spinnerService.hide();
     }, 1500)
     
     this.dataService.active$.subscribe(active => this.active = active);
   }
   addCart(): void {
+    var BreakException = {};
     this.messageService.sendMessage(this.articulo);
     this.dataService.quantityAdd$.emit(1);
     let inventarios = this.storageService.get('inventario');
     if (this.articulo.tipoArticulo.id == 2) {
-      this.recetasElaborados.forEach(r => {
-        inventarios.forEach((i: { articulo: { id: number; }; stockMinimo: number; stockActual: number; }) => {
-          if (i.articulo.id === r.articulo.id) {
-            i.stockActual -= r.cantidad;
-            if (i.stockMinimo < i.stockActual && i.stockMinimo > r.cantidad) {
-              this.active = true;
-            } else {
-              this.active = false;
-              this.recetasElaborados.map((re) => {
-                if (re.articulo.id === r.articulo.id) {
-                  re.articulo.denominacion += " sin stock."
-                }
-              })
+      try{
+        this.recetasElaborados.forEach(r => {
+          inventarios.forEach((i: { articulo: { id: number; }; stockMinimo: number; stockActual: number; }) => {
+            if (i.articulo.id === r.articulo.id) {
+              i.stockActual -= r.cantidad;
+              if (i.stockMinimo < i.stockActual && i.stockMinimo > r.cantidad) {
+                this.active = true;
+              } else {
+                this.active = false;
+                this.recetasElaborados.map((re) => {
+                  if (re.articulo.id === r.articulo.id) {
+                    re.articulo.denominacion += " sin stock."
+                  }
+                })
+              }
             }
-          }
+            if (this.active == false) throw BreakException;
+          })
         })
-      })
-    }
+      }catch (e) {
+        if (e !== BreakException) throw e;
+      }
+      }
+     
     if (this.articulo.tipoArticulo.id == 3) {
       inventarios.forEach((inventarioTemp: { articulo: { id: number; }; stockActual: number; stockMinimo: number; }) => {
         if (inventarioTemp.articulo.id === this.articulo.id) {

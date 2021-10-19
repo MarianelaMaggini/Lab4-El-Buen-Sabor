@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { concatMap } from 'rxjs/operators';
@@ -12,13 +12,15 @@ import { FacturaService } from 'src/app/services/factura.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { PedidoEstadoService } from 'src/app/services/pedidoEstado.service';
 import { TokenService } from 'src/app/services/token.service';
-
+import * as SockJS from 'sockjs-client';
+import * as Stomp from '@stomp/stompjs';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-pedidos',
   templateUrl: './pedidos.component.html',
   styleUrls: ['./pedidos.component.css']
 })
-export class PedidosComponent implements OnInit {
+export class PedidosComponent implements OnInit, OnDestroy {
   title: string;
   pedidos: Pedido[];
   facturas: Factura[];
@@ -28,6 +30,10 @@ export class PedidosComponent implements OnInit {
   emailUser: string;
   montoDescuento: number;
   total: number;
+  webSocketEndPoint: string = 'http://localhost:8080/ws';
+  disabled = true;
+  stompClient: any;
+
   constructor(
     private pedidoService: PedidoService,
     private tokenService: TokenService,
@@ -42,7 +48,12 @@ export class PedidosComponent implements OnInit {
   ngOnInit(): void {
     this.emailUser = this.tokenService.getUserName();
     this.listOrder(this.emailUser);
+    this.connect();
   }
+
+  ngOnDestroy(): void {
+    this.disconnect();
+   }
 
   /**
    * @param email 
@@ -112,9 +123,7 @@ export class PedidosComponent implements OnInit {
       scale: 2
     };
     html2canvas((DATA)!, options).then((canvas) => {
-
       const img = canvas.toDataURL('image/PNG');
-
       // Add image Canvas to PDF
       const bufferX = 15;
       const bufferY = 15;
@@ -132,6 +141,53 @@ export class PedidosComponent implements OnInit {
     this.pedidoEstadoService.getPedidoEstadoById(6).subscribe(data => {
       pedido.pedidoEstado = data;
       this.pedidoService.savePedido(pedido).subscribe();
+    });
+  }
+
+  setConnected(connected: boolean) {
+    this.disabled = !connected;
+    if (connected) {
+      this.pedidos = [];
+    }
+  }
+
+  connect() {
+    const socket = new SockJS(this.webSocketEndPoint);
+    this.stompClient = Stomp.over(socket);
+    const _this = this;
+    _this.stompClient.connect({},  (frame: any) => {
+      this.setConnected(true);
+      console.log('Connected: ' + frame);
+      this.listOrder(this.emailUser); 
+      _this.stompClient.subscribe('/topic/pedido', function(data: any) {
+        _this.showPedidos(data.body);
+      });
+      _this.stompClient.subscribe('/topic/mensaje', function(message: any){
+        console.log(message.body);
+        _this.showMessage(JSON.parse(message.body).message)
+      });
+    });
+  }
+
+  disconnect() {
+    if (this.stompClient != null) {
+      this.stompClient.disconnect();
+    }
+
+    this.setConnected(false);
+    console.log('Disconnected!');
+  }
+
+  showPedidos(pedido: Pedido) {
+    this.pedidos.push(JSON.parse(pedido.toString()));
+    this.listOrder(this.emailUser);        
+  }
+
+  showMessage(message: string){
+    Swal.fire({
+      title: 'Notificación de su pedido',
+      icon: 'success',
+      text: message,
     });
   }
 }

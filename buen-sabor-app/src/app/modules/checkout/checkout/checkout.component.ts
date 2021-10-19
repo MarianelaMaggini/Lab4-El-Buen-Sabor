@@ -25,6 +25,7 @@ import { PedidoEstado } from 'src/app/models/pedido-estado';
 import { Pedido } from 'src/app/models/pedido';
 import { Router } from '@angular/router';
 import { InventarioService } from 'src/app/services/inventario.service';
+import { DataService } from 'src/app/services/data.service';
 
 const EMAIL_BUENSABOR = 'bsabor2021@gmail.com';
 @Component({
@@ -73,6 +74,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private localidadService: LocalidadService,
     private router: Router,
     private inventarioService: InventarioService,
+    private dataService: DataService
 
   ) {
     this.paymentMethod = ['Efectivo', 'Mercado Pago'];
@@ -367,6 +369,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           this.buttonPay = false;
           this.payWithMercadoPago();
           this.persistRealInventory();
+          this.dataService.quantityZero$.emit(0);
         });
       });
     });
@@ -379,7 +382,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     if (this.idPaymentMethod == 1) {
       this.mercadoPagoService.redirectMercadoPago(this.total).subscribe(
         (data) => {
-          this.emptyCart();
           window.location.href = data;
         },
         (err) => {
@@ -387,7 +389,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         }
       );
     }else if(this.idPaymentMethod == 0){
-      this.emptyCart();
       this.router.navigate(['/']);
     }
   }
@@ -402,7 +403,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @description
+   * @description Pesiste en la base de datos el inventario modificado en el storage 
    */
   persistRealInventory():void{
     let inventarioTemp = this.storageService.get('inventario');
@@ -413,6 +414,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           this.inventarioService.updateInventario(itemTemp[0]).subscribe();
         }
       })
-     })  
+     })
+     this.storageService.clear("cart");  
   }
 }

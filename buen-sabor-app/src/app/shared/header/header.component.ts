@@ -35,6 +35,7 @@ export class HeaderComponent implements OnInit {
     }
     this.addCountCart();
     this.removeCountCart();
+    this.zeroCountCart();
     this.isAdmin = this.tokenService.isAdmin();
     this.isLogged = this.tokenService.isLogged();
     this.socialAuthService.authState.subscribe((data) => {
@@ -76,6 +77,14 @@ export class HeaderComponent implements OnInit {
     this.dataService.quantityRemove$.subscribe(cantidadCart => {
       this.cantidad -= cantidadCart;
       this.storageService.set('quantity', this.cantidad);
+    });  
+  }
+
+  zeroCountCart(): void{
+    this.dataService.quantityZero$.subscribe(cantidadCart => {
+      this.cantidad = cantidadCart;
+      this.storageService.set('quantity', this.cantidad);
+      this.storageService.clear('cart');
     });  
   }
 }

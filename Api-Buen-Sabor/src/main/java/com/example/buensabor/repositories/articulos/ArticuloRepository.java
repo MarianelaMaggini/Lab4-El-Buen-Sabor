@@ -71,7 +71,7 @@ public interface ArticuloRepository extends CrudRepository<Articulo, Long> {
     @Query(value = "select r.cantidad from articulo a\n" +
             "inner join articulo_elaborado_detalle aed on aed.id_articulo = a.id \n" +
             "inner join receta_elaborado r on r.id_articulo_elaborado_detalle = aed.id \n" +
-            "where aed.id_articulo = :idArticuloDetalle and r.id_articulo = :idArticulo", nativeQuery = true)
+            "where aed.id_articulo = :idArticuloDetalle and r.id_articulo = :idArticulo and r.fecha_baja is null", nativeQuery = true)
     Double getCantidadInsumosByElaborado(@Param("idArticuloDetalle") Long idArticuloDetalle, @Param("idArticulo") Long idArticulo);
 
 }

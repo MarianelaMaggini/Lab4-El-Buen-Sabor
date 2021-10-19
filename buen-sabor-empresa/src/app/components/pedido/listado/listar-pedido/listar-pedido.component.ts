@@ -25,12 +25,11 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
   pedidos: Pedido[];
   detallesPedido: DetallePedido[] = [];
   numeroPedido: number;
-  isChef: boolean = false;
-  isCashier: boolean = false;
   isAdmin: boolean = false;
   webSocketEndPoint: string = 'http://localhost:8080/ws';
   disabled = true;
   stompClient: any;
+  message: string;
 
   constructor(
     private pedidoService: PedidoService, 
@@ -43,8 +42,6 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
-    this.isChef = this.tokenService.isChef();
-    this.isCashier = this.tokenService.isCashier();
     this.getAllPedidos();
     this.connect();
   }
@@ -97,7 +94,10 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
       }
       if(confirmacion) {
         pedido.pedidoEstado = data;
+        this.message = "Pedido nro " + pedido.numeroPedido + " pasó a " + pedido.pedidoEstado.denominacion;
         this.pedidoService.saveUpdatePedido(pedido).subscribe();
+        this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
+        this.stompClient.send('/app/mensajes', {}, JSON.stringify({ 'message': this.message }));
       }
     });
   }
@@ -119,7 +119,7 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
       total += detalle.subtotal;
     });
     if(pedido.formaPago == "Efectivo") {
-      montoDescuento = total * 0.1;
+      montoDescuento = 0.1;
     } 
     let factura: Factura = { "numeroFactura": 0, "fecha": pedido.horaEstimadaFin, "montoDescuento": montoDescuento, "pedido": pedido };
     this.facturaService.saveFactura(factura).subscribe();
