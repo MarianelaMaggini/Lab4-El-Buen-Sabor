@@ -78,6 +78,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertaService } from './services/alerta.service';
 
+// Sweet Alert 2
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 // Usuario login y nuevo
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegistroComponent } from './components/auth/registro/registro.component';
@@ -112,7 +114,8 @@ import { interceptorProvider } from './interceptors/prod-interceptor.service';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    SweetAlert2Module.forRoot(),
   ],
   providers: [RubroService, ArticuloService, TipoArticuloService, AedService, RecetaService, HistoricoArticuloService, InventarioService, PedidoService, DetallePedidoService, FacturaService, DetalleFacturaService, UnidadMedidaService, FileService, ReporteService, AlertaService, interceptorProvider],
   bootstrap: [AppComponent]

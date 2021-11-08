@@ -13,7 +13,7 @@ import { TokenService } from 'src/app/services/token.service';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from '@stomp/stompjs';
 import { ToastrService } from 'ngx-toastr';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-listar-pedido',
   templateUrl: './listar-pedido.component.html',
@@ -88,16 +88,24 @@ export class ListarPedidoComponent implements OnInit, OnDestroy {
 
   nuevoEstado(pedido: Pedido, estado: number) {
     this.pedidoEstadoService.getPedidoEstadoById(estado).subscribe(data =>{
-      let confirmacion = true;
       if(data.id != 6) {
-        confirmacion = confirm("¿Desea cambiar el estado por " + data.denominacion + "?");
-      }
-      if(confirmacion) {
-        pedido.pedidoEstado = data;
-        this.message = "Pedido nro " + pedido.numeroPedido + " pasó a " + pedido.pedidoEstado.denominacion;
-        this.pedidoService.saveUpdatePedido(pedido).subscribe();
-        this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
-        this.stompClient.send('/app/mensajes', {}, JSON.stringify({ 'message': this.message }));
+        Swal.fire({
+          title: '¿Desea cambiar el estado por ' + data.denominacion + '?',
+          showDenyButton: true,
+          denyButtonText: `No`,
+          confirmButtonText: 'Si',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire('Estado modificado con éxito', '', 'success');
+            pedido.pedidoEstado = data;
+            this.message = "Su pedido se encuentra en "  + pedido.pedidoEstado.denominacion;
+            this.pedidoService.saveUpdatePedido(pedido).subscribe();
+            this.stompClient.send('/app/pedidos', {}, JSON.stringify(pedido));
+            this.stompClient.send('/app/notifications', {}, JSON.stringify({ 'message': this.message }));
+          } else if (result.isDenied) {
+            Swal.fire('El estado no se ha modificado', '', 'info')
+          }
+        })
       }
     });
   }
