@@ -162,10 +162,6 @@ export class PedidosComponent implements OnInit, OnDestroy {
       _this.stompClient.subscribe('/topic/pedido', function(data: any) {
         _this.showPedidos(data.body);
       });
-      _this.stompClient.subscribe('/topic/mensaje', function(message: any){
-        console.log(message.body);
-        _this.showMessage(JSON.parse(message.body).message)
-      });
     });
   }
 
@@ -183,11 +179,4 @@ export class PedidosComponent implements OnInit, OnDestroy {
     this.listOrder(this.emailUser);        
   }
 
-  showMessage(message: string){
-    Swal.fire({
-      title: 'Notificación de su pedido',
-      icon: 'success',
-      text: message,
-    });
-  }
 }

@@ -59,6 +59,7 @@ import { ArticulosModule } from './modules/articulos/articulos.module';
 import { PedidosModule } from './modules/pedidos/pedidos.module';
 import { CheckoutModule } from './modules/checkout/checkout.module';
 import { PerfilModule } from './modules/perfil/perfil.module';
+import { NotificationsComponent } from './shared/notifications/notifications.component';
 
 registerLocaleData(localeEs);
 @NgModule({
@@ -68,6 +69,7 @@ registerLocaleData(localeEs);
     FooterComponent,
     CartComponent,
     ItemCartComponent,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,

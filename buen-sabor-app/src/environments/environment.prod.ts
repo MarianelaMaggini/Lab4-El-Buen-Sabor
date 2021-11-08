@@ -1,3 +1,18 @@
 export const environment = {
-  production: true
+  production: true,
+  articuloUrl: 'https://buensabor-api.herokuapp.com/articulos',
+  mpUrl: 'https://buensabor-api.herokuapp.com/createAndRedirect',
+  authUrl: 'https://buensabor-api.herokuapp.com/auth/',
+  tipoEnvioUrl: 'https://buensabor-api.herokuapp.com/tiposEnvio',
+  domicilioUrl: 'https://buensabor-api.herokuapp.com/domicilios',
+  pedidoUrl: 'https://buensabor-api.herokuapp.com/pedidos',
+  pedidoEstadosUrl: 'https://buensabor-api.herokuapp.com/pedidoEstados',
+  detallesPedidoUrl: 'https://buensabor-api.herokuapp.com/detallesPedido',
+  localidadUrl: 'https://buensabor-api.herokuapp.com/localidades',
+  articuloElaboradoDetallesUrl:'https://buensabor-api.herokuapp.com/articuloElaboradoDetalles',
+  recetaElaboradoUrl:'https://buensabor-api.herokuapp.com/recetasElaborado',
+  tiempoUrl: 'https://buensabor-api.herokuapp.com/tiempos',
+  inventarioUrl: 'https://buensabor-api.herokuapp.com/inventarios',
+  changePasswordUrl:'https://buensabor-api.herokuapp.com/account',
+  facturaUrl: "https://buensabor-api.herokuapp.com/facturas",
 };

@@ -19,6 +19,9 @@
           <li class="nav-item">
             <a class="nav-link" *ngIf="isLogged" data-toggle="modal" data-target="#cartModal" style="cursor: pointer;"><i class="fas fa-shopping-cart"></i><span class='badge badge-warning' id='lblCartCount'>{{ cantidad }}</span> Carrito</a>
           </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" *ngIf="isLogged" data-toggle="modal" data-target="#notificationModal" style="cursor: pointer;"><i class="fas fa-bell"></i> Notificaciones</a>
+          </li> -->
           <li class="nav-item" *ngIf="!isLogged">
             <a class="nav-link" routerLink="/auth/login" data-toggle="collapse" data-target=".navbar-collapse.show"><i class="fas fa-user-check"></i> Iniciar sesión
             </a>
@@ -40,3 +43,4 @@
       </div>
   </nav>
 <app-cart></app-cart>
+<!-- <app-notifications></app-notifications> -->
