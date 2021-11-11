@@ -38,4 +38,9 @@ public class PedidoControllerWs {
         return new Message(message.getMessage());
     }
 
+    @MessageMapping("/notifications")
+    @SendTo("/topic/notification")
+    public Message getNotification(Message message){
+        return new Message(message.getMessage());
+    }
 }

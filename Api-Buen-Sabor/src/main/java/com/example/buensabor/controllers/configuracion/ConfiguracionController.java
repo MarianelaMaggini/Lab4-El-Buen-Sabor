@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201"})
 @RestController
 @RequestMapping("/configuraciones")//ruta principal
 public class ConfiguracionController {

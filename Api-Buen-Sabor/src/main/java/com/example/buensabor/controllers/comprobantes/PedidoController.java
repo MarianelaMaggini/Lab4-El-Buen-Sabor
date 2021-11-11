@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201"})
 @RestController
 @RequestMapping("/pedidos")//ruta principal
 public class PedidoController {

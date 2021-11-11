@@ -19,7 +19,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
                 .addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:4200", "http://localhost:4201")
+                .setAllowedOrigins("http://localhost:4200",
+                        "http://localhost:4201",
+                        "https://buensabor.netlify.app",
+                        "https://buensabor-admin.netlify.app")
                 .withSockJS();
     }
 }

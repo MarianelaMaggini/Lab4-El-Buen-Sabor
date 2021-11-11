@@ -21,7 +21,6 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/account")
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201"})
 public class AccountController {
     private final UsuarioService usuarioService;
     private final EnviarMailService enviarMailService;

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 public class MercadoPagoController {
     private final ConfiguracionService configuracionService;
 
