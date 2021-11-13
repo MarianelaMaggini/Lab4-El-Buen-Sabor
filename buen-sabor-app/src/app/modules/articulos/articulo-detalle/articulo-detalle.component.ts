@@ -14,6 +14,7 @@ import { ArticuloService } from 'src/app/services/articulo.service';
 import { concatMap } from 'rxjs/operators';
 import { StorageService } from 'src/app/services/storage.service';
 import { DataService } from 'src/app/services/data.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-articulo-detalle',
   templateUrl: './articulo-detalle.component.html',
@@ -30,6 +31,7 @@ export class ArticuloDetalleComponent implements OnInit {
   isLogged: boolean;
   isHour: boolean;
   active: boolean;
+  fileUrl: string;
   constructor(
     private articuloService: ArticuloService,
     private route: ActivatedRoute,
@@ -45,6 +47,7 @@ export class ArticuloDetalleComponent implements OnInit {
     this.isLogged = false;
     this.isHour = true;
     this.active = false;
+    this.fileUrl = environment.fileUrl;
   }
 
   ngOnInit(): void {
@@ -104,7 +107,7 @@ export class ArticuloDetalleComponent implements OnInit {
     this.articuloService.getArticuloById(this.id).subscribe((articulo) => {
       this.articulo = articulo;
       this.imagen =
-        'http://localhost:8080/upload/files/' + this.articulo.imagen;
+        this.fileUrl + this.articulo.imagen;
       if (articulo.tipoArticulo.id == 2) {
         this.listDetalleAndRecetaAndInventarios(articulo.id);
       }
