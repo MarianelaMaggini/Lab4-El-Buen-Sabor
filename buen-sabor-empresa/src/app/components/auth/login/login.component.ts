@@ -35,8 +35,7 @@ export class LoginComponent implements OnInit {
       window.location.href = '/'
     },
     err => {
-      console.log(err.error)
-      this.mensajeError = err.error;
+      this.mensajeError = err.error.message;
       this.toastr.error(this.mensajeError, 'Opps', {
         timeOut: 3000,
       });

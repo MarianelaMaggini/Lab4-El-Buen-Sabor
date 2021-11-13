@@ -16,13 +16,13 @@
         <a class="nav-link collapsed" href="#submenu" data-toggle="collapse" data-target="#submenu">Rubro</a>
         <div class="collapse" id="submenu" aria-expanded="false">
           <ul class="flex-column pl-2 nav">
-            <li class="nav-item" *ngFor="let articulo of articulosRubros">
+            <li class="nav-item" *ngFor="let rubro of rubros">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" (change)="valueRubro($event)"
-                  value="{{articulo.rubro.id}}" id="{{articulo.rubro.denominacion}}"
-                  name="{{articulo.rubro.denominacion}}" [checked]="checked">
+                  value="{{ rubro.id}}" id="{{ rubro.denominacion }}"
+                  name="{{ rubro.denominacion }}" [checked]="checked">
                 <label class="form-check-label" for="rubros">
-                  {{articulo.rubro.denominacion}}
+                  {{ rubro.denominacion }}
                 </label>
               </div>
             </li>

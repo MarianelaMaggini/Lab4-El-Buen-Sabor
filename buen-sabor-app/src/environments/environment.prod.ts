@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   articuloUrl: 'https://buensabor-api.herokuapp.com/articulos',
+  rubroUrl: 'https://buensabor-api.herokuapp.com/rubros',
   mpUrl: 'https://buensabor-api.herokuapp.com/createAndRedirect',
   authUrl: 'https://buensabor-api.herokuapp.com/auth/',
   tipoEnvioUrl: 'https://buensabor-api.herokuapp.com/tiposEnvio',
@@ -15,4 +16,5 @@ export const environment = {
   inventarioUrl: 'https://buensabor-api.herokuapp.com/inventarios',
   changePasswordUrl:'https://buensabor-api.herokuapp.com/account',
   facturaUrl: "https://buensabor-api.herokuapp.com/facturas",
+  fileUrl: "https://buensabor-api.herokuapp.com/upload/files/",
 };

@@ -6,6 +6,7 @@
 export const environment = {
   production: false,
   articuloUrl: 'http://localhost:8080/articulos',
+  rubroUrl: 'http://localhost:8080/rubros',
   mpUrl: 'http://localhost:8080/createAndRedirect',
   authUrl: 'http://localhost:8080/auth/',
   tipoEnvioUrl: 'http://localhost:8080/tiposEnvio',
@@ -20,6 +21,7 @@ export const environment = {
   inventarioUrl: 'http://localhost:8080/inventarios',
   changePasswordUrl:'http://localhost:8080/account',
   facturaUrl: "http://localhost:8080/facturas",
+  fileUrl: "http://localhost:8080/upload/files/",
 };
 
 /*

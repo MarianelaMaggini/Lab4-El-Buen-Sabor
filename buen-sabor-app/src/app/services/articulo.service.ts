@@ -39,15 +39,5 @@ export class ArticuloService {
   getArticulosByRubroId(id:number): Observable<Articulo[]>{
     return this.http.get<Articulo[]>(this.articuloUrl + '/idRubro?rubro=' + id, {headers: this.header});
   }
-
-  /**
-   * @param idUno 
-   * @param idDos 
-   * @returns Observable de Artículos
-   * @description Trae los artículos por tipo articulo elaborado o no elaborado agrupados por el rubro
-   */
-  getArticuloByElaboradoOrNoElaboradoGroupByRubro(idUno:number, idDos:number): Observable<Articulo[]>{
-    return this.http.get<Articulo[]>(this.articuloUrl + '/tipoArticulo?idUno=' + idUno + '&idDos=' + idDos, {headers: this.header});
-  }
-
+  
 }

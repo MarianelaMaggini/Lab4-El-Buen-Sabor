@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { SocialUser } from 'angularx-social-login';
 import { Articulo } from 'src/app/models/articulo';
 import { TokenService } from 'src/app/services/token.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -16,12 +17,11 @@ export class ItemArticuloComponent implements OnInit {
   @Output() articuloSeleccionado: EventEmitter<number>;
   isLogged = false;
   userLogged: SocialUser;
+  fileUrl: string;
 
-
-  constructor(
-    private tokenService: TokenService,
-    ) {
+  constructor(private tokenService: TokenService,) {
     this.articuloSeleccionado = new EventEmitter();
+    this.fileUrl = environment.fileUrl;
   }
 
   ngOnInit(): void {

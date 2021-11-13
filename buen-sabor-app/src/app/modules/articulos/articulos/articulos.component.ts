@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { Articulo } from 'src/app/models/articulo';
+import { Rubro } from 'src/app/models/rubro';
 import { ArticuloService } from 'src/app/services/articulo.service';
+import { RubroService } from 'src/app/services/rubro.service';
 
 @Component({
   selector: 'app-articulos',
@@ -11,17 +13,21 @@ import { ArticuloService } from 'src/app/services/articulo.service';
 })
 export class ArticulosComponent implements OnInit {
   articulos: Articulo[];
-  articulosRubros: Articulo[];
+  rubros: Rubro[];
   idRubro: number = 0;
   denominacion: string = "";
   state: boolean;
   checked: boolean;
   filters: Map<number, string> = new Map<number, string>();
-  constructor(private articuloService: ArticuloService, private router: Router) { }
+  constructor(
+    private articuloService: ArticuloService,
+    private rubroService: RubroService, 
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.listArticulos();
-    this.listRubrosByTipoArticulo();
+    this.listRubrosByNotTipoArticuloInsumo();
   }
 
   /**
@@ -37,9 +43,9 @@ export class ArticulosComponent implements OnInit {
     })
   }
 
-  listRubrosByTipoArticulo(): void {
-    this.articuloService.getArticuloByElaboradoOrNoElaboradoGroupByRubro(2, 3).subscribe((data) => {
-      this.articulosRubros = data;
+  listRubrosByNotTipoArticuloInsumo(): void {
+    this.rubroService.getRubroByIdArticuloInsumo(1).subscribe((data) => {
+      this.rubros = data;
     })
   }
 

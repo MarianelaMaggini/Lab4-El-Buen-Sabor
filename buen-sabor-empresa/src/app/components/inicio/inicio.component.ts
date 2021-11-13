@@ -31,7 +31,6 @@ export class InicioComponent implements OnInit {
     this.getDatosUsuario();
     this.isAdmin = this.tokenService.isAdmin();
     this.mensaje = this.mensajesRandom();
-    console.log(this.mensaje)
   }
   
   getDatosUsuario(): void {
