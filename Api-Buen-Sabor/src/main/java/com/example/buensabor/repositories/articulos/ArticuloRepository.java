@@ -26,12 +26,11 @@ public interface ArticuloRepository extends CrudRepository<Articulo, Long> {
 
     /**
      * SELECCIONO LOS ARTICULOS POR EL ID DEL TIPO ARTICULO ELABORADO Y NO ELABORADO
-     * @param idTipoArticuloUno
-     * @param  idTipoArticuloDos
+     * @param idTipoArticulo
      * @return
      */
-    @Query(value = "SELECT a FROM Articulo a WHERE a.tipoArticulo.id = :idTipoArticuloUno OR a.tipoArticulo.id = :idTipoArticuloDos GROUP BY a.rubro.id")
-    List<Articulo> findByElaboradoOrNoElaboradoGroupByRubro(@Param("idTipoArticuloUno") Long idTipoArticuloUno, @Param("idTipoArticuloDos") Long idTipoArticuloDos);
+    @Query(value = "SELECT DISTINCT a.rubro.id FROM Articulo a WHERE a.tipoArticulo.id <> :idTipoArticulo")
+    List<Long> getRubroIdUniqueByTipoArticuloNotInsumo(@Param("idTipoArticulo") Long idTipoArticulo);
     /**
      * SELECCIONO LOS ARTICULOS POR EL ID DEL TIPO ARTICULO
      * @param idTipo

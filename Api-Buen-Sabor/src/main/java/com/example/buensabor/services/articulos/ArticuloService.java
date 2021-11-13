@@ -67,10 +67,6 @@ public class ArticuloService {
         return getArticulos(id, articulos);
     }
 
-    public List<Articulo> getArticuloByElaboradoOrNoElaboradoGroupByRubro(Long idUno, Long idDos){
-        return articuloRepository.findByElaboradoOrNoElaboradoGroupByRubro(idUno, idDos);
-    }
-
     private List<Articulo> getArticulos(Long id, List<Articulo> articulos) {
         List<Long> articulosIdInsumos;
         if (id == 2) {

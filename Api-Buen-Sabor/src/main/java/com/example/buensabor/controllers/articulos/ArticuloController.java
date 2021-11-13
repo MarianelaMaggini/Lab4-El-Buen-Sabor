@@ -53,8 +53,5 @@ public class ArticuloController {
     public Articulo saveOrUpdateArticulo(@RequestBody Articulo articulo) {
         return articuloService.saveOrUpdateArticulo(articulo);
     }
-    @GetMapping("/tipoArticulo")
-    public List<Articulo> getArticuloByElaboradoOrNoElaboradoGroupByRubro(@RequestParam("idUno") Long idUno, @RequestParam("idDos") Long idDos) {
-        return articuloService.getArticuloByElaboradoOrNoElaboradoGroupByRubro(idUno, idDos);
-    }
+
 }

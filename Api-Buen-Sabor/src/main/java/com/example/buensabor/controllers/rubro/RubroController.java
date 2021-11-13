@@ -34,4 +34,8 @@ public class RubroController {
     @PostMapping()
     public Rubro saveOrUpdateRubro(@RequestBody Rubro rubro) { return rubroService.saveOrUpdateRubro(rubro); }
 
+    @GetMapping("/rubro")
+    public List<Rubro> getRubroByIdNotInsumo(@RequestParam("id") Long id) {
+        return rubroService.getRubroByIdArticuloInsumo(id);
+    }
 }
