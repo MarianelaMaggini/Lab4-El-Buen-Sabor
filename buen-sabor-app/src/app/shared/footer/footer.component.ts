@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Dia } from 'src/app/utils/dia';
 import { Horario } from 'src/app/utils/horario';
+import { version  } from '../../../../package.json';
 
 @Component({
   selector: 'app-footer',
@@ -13,8 +13,10 @@ export class FooterComponent implements OnInit {
   minuto = Horario.MINUTO;
   horaInicialSabDom = Horario.HORA_INICIAL_SAB_DOM;
   horaFinallSabDom = Horario.HORA_FINAL_SAB_DOM;
- 
-  constructor() { }
+  version: string;
+  constructor() {
+    this.version = version;
+   }
 
   ngOnInit(): void {
     

@@ -1,7 +1,8 @@
 <!-- JUMBOTRON -->
 <div class="jumbotron jumbotron-fluid fondoJumbo rounded-0">
   <div class="container">
-    <h1 class="display-3 text-white">¡Antojate tranquilo y pedí lo que quieras!</h1>
+    <h2 class="display-4 text-white">¡Antojate tranquilo y pedí lo que quieras!</h2>
+    
     <u class="text-white">
       <p class="lead text-white h4 d-flex justify-content-end align-items-center" *ngIf="isLogged">
         NOSOTROS TE LO LLEVAMOS
@@ -20,6 +21,9 @@
     <div class="col">
       <h3>🍔 Nuestros productos</h3>
     </div>
+    <!-- <div class="col-md-5">
+      <button (click)="announcement()" class="btn btn-info btn-block">Información importante</button>
+    </div> -->
     <div class="col">
       <span class="lead d-flex justify-content-end align-items-end text-danger" *ngIf="isLogged && state=='Cerrado'">Local {{ state }}</span>
       <span class="lead d-flex justify-content-end align-items-end text-success" *ngIf="isLogged && state=='Abierto'">Local {{ state }}</span>

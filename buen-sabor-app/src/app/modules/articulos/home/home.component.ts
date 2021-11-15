@@ -6,7 +6,7 @@ import { HourSystemService } from 'src/app/services/hour-system.service';
 import { InventarioService } from 'src/app/services/inventario.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { TokenService } from 'src/app/services/token.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -75,5 +75,24 @@ export class HomeComponent implements OnInit {
       this.storageService.clear('inventario')
       this.storageService.clear('quantity')
     }
+  }
+
+  announcement():void{
+    Swal.fire({
+      icon: 'info',
+      html: 
+      '<p>La aplicación fue realizada con fines educativos por alumnos de la Universidad Tecnológica Nacional de Mendoza Argentina.</p>'+
+      '<p>La misma es una demo, pero perfectamente puede ser usada de manera comercial bajo las normativas de comercialización y distribución de cada país.</p>'+
+      '<p>El proceso de pago con Mercado Pago solo es de prueba, por favor, no introduzca sus valores reales.</p>'+
+      '<p>Puede saber más del buen sabor <a href="https://github.com/MarianelaMaggini/Lab4-El-Buen-Sabor">aquí</a></p>',
+      width: 600,
+      padding: '3em',
+      backdrop: `
+        rgba(0,0,123,0.4)
+        url("../../../../assets/img/burguer.gif")
+        left top
+        no-repeat
+      `
+    })
   }
 }

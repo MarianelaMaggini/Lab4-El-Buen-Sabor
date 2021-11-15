@@ -3,9 +3,9 @@
     <div class="card login-card">
       <div class="card-body">
         <p class="login-card-description d-flex justify-content-center align-items-center">Mi perfil</p>
-        <div class="container d-flex justify-content-center align-items-center">
+        <div class="container border rounded d-flex justify-content-center align-items-center">
           <form [formGroup]="usuarioForm" (ngSubmit)="updateUser(usuarioForm.value)" >
-            <div class="row ">
+            <div class="row p-2">
               <div class="col">
                 <span>Nombre</span>
                 <input [readonly]="!editable" type="text" class="form-control" id="nombre" formControlName="nombre">
@@ -23,16 +23,16 @@
               <span>Teléfono</span>
               <input type="text" class="form-control" id="telefono" formControlName="telefono">
             </div>
-            <button name="login" id="login" class="btn btn-block login-btn m-4">Actualizar</button>
+            <button name="login" id="login" class="btn btn-block login-btn">Actualizar</button>
           </form>
         </div>
-        <div class="container d-flex justify-content-center align-items-center">
+        <div class="container mt-4 d-flex justify-content-center align-items-center">
           <div class="row">
             <div class="col">
-              <button type="button" class="btn btn-block login-btn m-4" data-toggle="modal" data-target="#domicilios">
+              <button type="button" class="btn btn-block login-btn" data-toggle="modal" data-target="#domicilios">
                 Mis domicilios
               </button>
-              <button type="button" (click)="localitiesInModal()" class="btn btn-block login-btn m-4" data-toggle="modal" data-target="#domicilio">
+              <button type="button" (click)="localitiesInModal()" class="btn btn-block login-btn" data-toggle="modal" data-target="#domicilio">
                 Añadir domicilio
               </button>
             </div>
@@ -45,7 +45,7 @@
 
 <!-- Modal domicilio -->
 <div class="modal fade" id="domicilios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{titulo}}</h5>
@@ -85,7 +85,7 @@
 
 <!-- Modal domicilio -->
 <div class="modal fade" id="domicilio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Nuevo domicilio</h5>

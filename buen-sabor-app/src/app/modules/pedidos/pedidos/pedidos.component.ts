@@ -14,7 +14,7 @@ import { PedidoEstadoService } from 'src/app/services/pedidoEstado.service';
 import { TokenService } from 'src/app/services/token.service';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from '@stomp/stompjs';
-import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-pedidos',
   templateUrl: './pedidos.component.html',
