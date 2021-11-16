@@ -14,15 +14,15 @@ mediante una PC o pueden hacerlo en forma remota desde su casa o su celular pers
 > El desarrollo está hecho con el lenguaje SQL para base de datos relacionales, con Mysql para la gestión.
 
 ### Recursos, paquetes o librerías utilizadas:
-1. Estilos de: [Bootstrap](https://getbootstrap.com).
-2. Implementación para crear los token de autenticación con: [JWT](https://jwt.io).
-3. Se registró la documentación en: [Swagger](https://swagger.io).
-4. Iconos de: [Fontawesome](https://fontawesome.com). 
-5. Animaciones de: [Animate.css](https://animate.style).
+1. Estilos de [Bootstrap](https://getbootstrap.com).
+2. Implementación para crear los token de autenticación con [JWT](https://jwt.io).
+3. Se registró la documentación en [Swagger](https://swagger.io).
+4. Iconos de [Fontawesome](https://fontawesome.com). 
+5. Animaciones de [Animate.css](https://animate.style).
 6. Otros paquetes y librerías son: Project Lombok, ItextPdf, Thymeleaf, SweetAlert2, Toastr, Ngx-Spinner, WebSocket.
 7. Se usó de la Api de Mercado Pago.
 
 ### Deploy en Heroku y Netlify
-* [Api Rest]:(https://buensabor-api.herokuapp.com), se debe acceder mediantes login y el token creado para los distintos endpoint.
-* [App]: (https://buensabor.netlify.app)
-* [Administración]: (https://buensabor-admin.netlify.app/)
+* [Api Rest](https://buensabor-api.herokuapp.com), se debe acceder mediantes login y el token creado para los distintos endpoint.
+* [App](https://buensabor.netlify.app).
+* [Administración](https://buensabor-admin.netlify.app).
