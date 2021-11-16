@@ -23,6 +23,6 @@ mediante una PC o pueden hacerlo en forma remota desde su casa o su celular pers
 7. Se usó de la Api de Mercado Pago.
 
 ### Deploy en Heroku y Netlify
-* [Api Rest](https://buensabor-api.herokuapp.com), se debe acceder mediantes login y el token creado para los distintos endpoint.
+* [Api Rest](https://buensabor-api.herokuapp.com), se debe acceder mediante login y el token creado para los distintos endpoint.
 * [App](https://buensabor.netlify.app).
 * [Administración](https://buensabor-admin.netlify.app).
