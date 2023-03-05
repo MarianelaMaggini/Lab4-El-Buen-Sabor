@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ILocalidadRepository extends CrudRepository<Localidad,Long> {
+public interface LocalidadRepository extends CrudRepository<Localidad,Long> {
 }

@@ -22,8 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import javax.mail.MessagingException;
-import javax.validation.Valid;
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
@@ -139,8 +139,6 @@ public class UsuarioController {
     public Optional<Usuario> getUsuario(@PathVariable("email") String email) {
         return usuarioService.getByEmail(email);
     }
-
-
 
     private JwtDto loginUsuario(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));

@@ -3,11 +3,11 @@ package com.example.buensabor.security.entities;
 import com.example.buensabor.entities.base.BaseEntity;
 import com.example.buensabor.security.enums.RolNombre;
 import lombok.Data;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 @Entity

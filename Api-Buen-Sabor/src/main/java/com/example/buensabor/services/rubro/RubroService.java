@@ -3,22 +3,22 @@ package com.example.buensabor.services.rubro;
 import com.example.buensabor.dtos.RubroDto;
 import com.example.buensabor.entities.rubro.Rubro;
 import com.example.buensabor.factories.RubroFactory;
-import com.example.buensabor.repositories.articulos.IArticuloRepository;
-import com.example.buensabor.repositories.rubro.IRubroRepository;
+import com.example.buensabor.repositories.articulos.ArticuloRepository;
+import com.example.buensabor.repositories.rubro.RubroRepository;
 import com.example.buensabor.services.base.BaseService;
-import com.example.buensabor.services.base.IBaseService;
+import com.example.buensabor.services.base.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RubroService extends BaseService<Rubro, IRubroRepository, RubroDto, Long> implements IBaseService<Rubro, RubroDto, Long> {
+public class RubroService extends BaseServiceImpl<Rubro, RubroRepository, RubroDto, Long> implements BaseService<Rubro, RubroDto, Long> {
 
-    private final IArticuloRepository articuloRepository;
+    private final ArticuloRepository articuloRepository;
 
     @Autowired
-    public RubroService(IRubroRepository iRubroRepository, RubroFactory rubroFactory, IArticuloRepository articuloRepository) {
+    public RubroService(RubroRepository iRubroRepository, RubroFactory rubroFactory, ArticuloRepository articuloRepository) {
         super(iRubroRepository, rubroFactory);
         this.articuloRepository = articuloRepository;
     }

@@ -2,7 +2,7 @@ package com.example.buensabor.controllers.base;
 
 import com.example.buensabor.dtos.BaseDto;
 import com.example.buensabor.entities.base.BaseEntity;
-import com.example.buensabor.services.base.IBaseService;
+import com.example.buensabor.services.base.BaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class BaseController <E extends BaseEntity, DTO extends BaseDto, S extends IBaseService<E, DTO, Long>> {
+public class BaseController <E extends BaseEntity, DTO extends BaseDto, S extends BaseService<E, DTO, Long>> {
 
     protected final S service;
 

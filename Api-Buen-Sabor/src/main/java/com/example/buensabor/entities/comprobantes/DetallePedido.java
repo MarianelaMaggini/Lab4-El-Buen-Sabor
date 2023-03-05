@@ -4,8 +4,8 @@ import com.example.buensabor.entities.base.BaseEntity;
 import com.example.buensabor.entities.articulos.Articulo;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @AllArgsConstructor

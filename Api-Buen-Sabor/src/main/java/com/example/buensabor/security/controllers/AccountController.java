@@ -14,8 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.util.Optional;
 import java.util.UUID;
 

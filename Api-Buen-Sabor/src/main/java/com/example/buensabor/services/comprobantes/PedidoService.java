@@ -2,9 +2,9 @@ package com.example.buensabor.services.comprobantes;
 
 import com.example.buensabor.entities.comprobantes.Pedido;
 import com.example.buensabor.entities.comprobantes.DetallePedido;
-import com.example.buensabor.repositories.articulos.IArticuloElaboradoDetalleRepository;
-import com.example.buensabor.repositories.comprobantes.IDetallePedidoRepository;
-import com.example.buensabor.repositories.comprobantes.IPedidoRepository;
+import com.example.buensabor.repositories.articulos.ArticuloElaboradoDetalleRepository;
+import com.example.buensabor.repositories.comprobantes.DetallePedidoRepository;
+import com.example.buensabor.repositories.comprobantes.PedidoRepository;
 import com.example.buensabor.repositories.configuracion.ConfiguracionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +18,16 @@ import java.util.Optional;
 public class PedidoService {
 
     @Autowired
-    IPedidoRepository pedidoRepository;
+    PedidoRepository pedidoRepository;
 
     @Autowired
     PedidoEstadoService pedidoEstadoService;
 
     @Autowired
-    IDetallePedidoRepository detallePedidoRepository;
+    DetallePedidoRepository detallePedidoRepository;
 
     @Autowired
-    IArticuloElaboradoDetalleRepository articuloElaboradoDetalleRepository;
+    ArticuloElaboradoDetalleRepository articuloElaboradoDetalleRepository;
 
     @Autowired
     ConfiguracionRepository configuracionRepository;

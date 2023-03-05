@@ -10,21 +10,15 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class EnviarMailService {
-    private final JavaMailSender javaMailSender;
-    private  final TemplateEngine templateEngine;
-
-    @Autowired
-    public EnviarMailService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
-        this.javaMailSender = javaMailSender;
-        this.templateEngine = templateEngine;
-    }
+    JavaMailSender javaMailSender;
+    TemplateEngine templateEngine;
 
     @Async
     public void sendEmail(EmailValuesDto dto, String template, String url) throws MessagingException {

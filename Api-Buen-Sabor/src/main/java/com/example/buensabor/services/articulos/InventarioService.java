@@ -1,7 +1,7 @@
 package com.example.buensabor.services.articulos;
 
 import com.example.buensabor.entities.articulos.Inventario;
-import com.example.buensabor.repositories.articulos.IInventarioRepository;
+import com.example.buensabor.repositories.articulos.InventarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
 public class InventarioService {
 
     @Autowired
-    IInventarioRepository inventarioRepository;
+    InventarioRepository inventarioRepository;
 
     /**
      * Cargo en un listado de inventarios los inventarios de la base de datos
