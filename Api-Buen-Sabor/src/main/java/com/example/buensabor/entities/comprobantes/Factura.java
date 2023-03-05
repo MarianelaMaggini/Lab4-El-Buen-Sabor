@@ -1,25 +1,20 @@
 package com.example.buensabor.entities.comprobantes;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.buensabor.entities.base.BaseEntity;
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "factura")
-public class Factura implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "numero_factura")
-    private Long numeroFactura;
+public class Factura extends BaseEntity implements Serializable {
 
     @Column(name = "fecha", nullable = false)
     @NotNull
@@ -30,7 +25,7 @@ public class Factura implements Serializable {
     private double montoDescuento;
 
     @OneToOne()
-    @JoinColumn(name = "numero_pedido")
+    @JoinColumn(name = "id_pedido")
     private Pedido pedido;
 
 }

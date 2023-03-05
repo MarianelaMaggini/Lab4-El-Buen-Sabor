@@ -1,7 +1,7 @@
 package com.example.buensabor.entities.mercadoPago;
 
 import com.example.buensabor.entities.comprobantes.Pedido;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,7 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "mercado_pago_datos")
 public class MercadoPagoDatos implements Serializable {
 
@@ -17,7 +20,7 @@ public class MercadoPagoDatos implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "identificador_pago")
-    private long identificadorPago;
+    private Long identificadorPago;
 
     @Column(name = "fecha_creacion", nullable = false)
     @NotNull

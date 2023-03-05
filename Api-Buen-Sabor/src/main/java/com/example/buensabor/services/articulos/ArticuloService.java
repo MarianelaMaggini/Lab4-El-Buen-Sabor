@@ -1,7 +1,7 @@
 package com.example.buensabor.services.articulos;
 
 import com.example.buensabor.entities.articulos.Articulo;
-import com.example.buensabor.repositories.articulos.ArticuloRepository;
+import com.example.buensabor.repositories.articulos.IArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ArticuloService {
 
     @Autowired
-    ArticuloRepository articuloRepository;
+    IArticuloRepository articuloRepository;
 
     public List<Articulo> getArticulosSinFechaDeBaja() {
         return articuloRepository.findArticuloByFechaBajaIsNull();

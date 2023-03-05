@@ -1,8 +1,6 @@
 package com.example.buensabor.entities.archivos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * Clase Archivo tiene los atributos de name y url
@@ -10,9 +8,10 @@ import lombok.NoArgsConstructor;
  * @author Maggini - Panella - Tarditi
  */
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Archivo {
     private String name;
     private String url;

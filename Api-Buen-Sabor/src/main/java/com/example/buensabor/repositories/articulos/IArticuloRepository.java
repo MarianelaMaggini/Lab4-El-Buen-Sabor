@@ -1,14 +1,14 @@
 package com.example.buensabor.repositories.articulos;
 
 import com.example.buensabor.entities.articulos.Articulo;
+import com.example.buensabor.repositories.base.IBaseRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ArticuloRepository extends CrudRepository<Articulo, Long> {
+public interface IArticuloRepository extends IBaseRepository<Articulo, Long> {
 
     /**
      * TRAE TODOS LOS ARTICULOS SIN FECHA DE BAJA

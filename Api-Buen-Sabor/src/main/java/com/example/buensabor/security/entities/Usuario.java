@@ -1,6 +1,6 @@
 package com.example.buensabor.security.entities;
 
-import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.example.buensabor.entities.comprobantes.Pedido;
 import com.example.buensabor.entities.domicilio.Domicilio;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "usuario")
-public class Usuario extends EntityBean {
+public class Usuario extends BaseEntity {
 
     @Column(name = "nombre", length = 65, nullable = false)
     @NotNull

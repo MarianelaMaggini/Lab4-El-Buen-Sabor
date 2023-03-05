@@ -1,20 +1,20 @@
 package com.example.buensabor.entities.domicilio;
 
-import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.example.buensabor.security.entities.Usuario;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "domicilio")
-public class Domicilio extends EntityBean {
+public class Domicilio extends BaseEntity {
 
     @Column(name = "calle", length = 150, nullable = false)
     @NotNull

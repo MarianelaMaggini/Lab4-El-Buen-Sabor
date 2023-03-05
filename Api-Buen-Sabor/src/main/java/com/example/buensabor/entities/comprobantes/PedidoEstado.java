@@ -1,10 +1,8 @@
 package com.example.buensabor.entities.comprobantes;
 
-import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,9 +15,10 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "pedido_estado")
-public class PedidoEstado extends EntityBean {
+public class PedidoEstado extends BaseEntity {
 
     @Column(name = "denominacion", length = 65, nullable = false)
     @NotNull

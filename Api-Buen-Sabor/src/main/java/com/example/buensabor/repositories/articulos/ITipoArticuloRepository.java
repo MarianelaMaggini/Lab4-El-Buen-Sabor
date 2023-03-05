@@ -1,9 +1,9 @@
 package com.example.buensabor.repositories.articulos;
 
 import com.example.buensabor.entities.articulos.TipoArticulo;
-import org.springframework.data.repository.CrudRepository;
+import com.example.buensabor.repositories.base.IBaseRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TipoArticuloRepository extends CrudRepository <TipoArticulo,Long>{
+public interface ITipoArticuloRepository extends IBaseRepository<TipoArticulo,Long> {
 }

@@ -1,19 +1,18 @@
 package com.example.buensabor.entities.articulos;
 
-import com.example.buensabor.entities.EntityBean;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.buensabor.entities.base.BaseEntity;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "inventario")
-public class Inventario extends EntityBean {
+public class Inventario extends BaseEntity {
 
     @Column(name = "stock_actual", nullable = false)
     @NotNull

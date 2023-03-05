@@ -21,7 +21,7 @@ public class PedidoControllerWs {
     @SendTo("/topic/pedido")
     public Pedido getPedido(Pedido pedido){
         return new Pedido(
-                pedido.getNumeroPedido(),
+                pedido.getId(),
                 pedido.getHoraEstimadaFin(),
                 pedido.getTotal(),
                 pedido.getDomicilio(),

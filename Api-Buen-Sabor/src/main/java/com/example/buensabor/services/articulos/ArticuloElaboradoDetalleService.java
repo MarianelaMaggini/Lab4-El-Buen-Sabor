@@ -1,7 +1,7 @@
 package com.example.buensabor.services.articulos;
 
 import com.example.buensabor.entities.articulos.ArticuloElaboradoDetalle;
-import com.example.buensabor.repositories.articulos.ArticuloElaboradoDetalleRepository;
+import com.example.buensabor.repositories.articulos.IArticuloElaboradoDetalleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ArticuloElaboradoDetalleService {
 
     @Autowired
-    ArticuloElaboradoDetalleRepository articuloElaboradoDetalleRepository;
+    IArticuloElaboradoDetalleRepository articuloElaboradoDetalleRepository;
 
     public List<ArticuloElaboradoDetalle> getArticuloDetalles() {
         return (List<ArticuloElaboradoDetalle>) articuloElaboradoDetalleRepository.findAll();
@@ -27,11 +27,11 @@ public class ArticuloElaboradoDetalleService {
     }
 
     public ArticuloElaboradoDetalle saveOrUpdateArticuloDetalle(ArticuloElaboradoDetalle articuloDetalle) {
-        return (ArticuloElaboradoDetalle) articuloElaboradoDetalleRepository.save(articuloDetalle);
+        return articuloElaboradoDetalleRepository.save(articuloDetalle);
     }
 
     public ArticuloElaboradoDetalle updateArticuloDetalle(ArticuloElaboradoDetalle articuloDetalle) {
-        return (ArticuloElaboradoDetalle) articuloElaboradoDetalleRepository.save(articuloDetalle);
+        return articuloElaboradoDetalleRepository.save(articuloDetalle);
     }
 
 }

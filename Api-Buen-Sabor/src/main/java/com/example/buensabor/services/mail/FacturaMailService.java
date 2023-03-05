@@ -28,7 +28,7 @@ public class FacturaMailService {
             helper.setSubject(subject);
             helper.setText(msg);
             // attach the file
-            String fileName = factura.getNumeroFactura() + "_factura.pdf";
+            String fileName = factura.getId() + "_factura.pdf";
             FileSystemResource file = new FileSystemResource(new File("src//main//resources//files//" + fileName));
             helper.addAttachment(fileName, file);//image will be sent by this name
             javaMailSender.send(message);

@@ -1,10 +1,9 @@
 package com.example.buensabor.entities.domicilio;
 
-import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -14,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "localidad")
-public class Localidad extends EntityBean {
+public class Localidad extends BaseEntity {
     @Column(name = "nombre", length = 50, nullable = false)
     @NotNull
     private  String nombre;

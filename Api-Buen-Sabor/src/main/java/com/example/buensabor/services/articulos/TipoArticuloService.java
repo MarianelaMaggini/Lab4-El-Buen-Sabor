@@ -1,7 +1,7 @@
 package com.example.buensabor.services.articulos;
 
 import com.example.buensabor.entities.articulos.TipoArticulo;
-import com.example.buensabor.repositories.articulos.TipoArticuloRepository;
+import com.example.buensabor.repositories.articulos.ITipoArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class TipoArticuloService {
 
     @Autowired
-    TipoArticuloRepository tipoArticuloRepository;
+    ITipoArticuloRepository tipoArticuloRepository;
 
     public List<TipoArticulo> getTiposArticulo() {
         return (ArrayList<TipoArticulo>) tipoArticuloRepository.findAll();

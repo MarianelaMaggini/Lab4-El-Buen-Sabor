@@ -1,10 +1,8 @@
 package com.example.buensabor.entities.comprobantes;
 
-import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.example.buensabor.entities.articulos.Articulo;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,9 +10,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "detalle_pedido")
-public class DetallePedido extends EntityBean {
+public class DetallePedido extends BaseEntity {
 
     @Column(name = "cantidad", nullable = false)
     @NotNull

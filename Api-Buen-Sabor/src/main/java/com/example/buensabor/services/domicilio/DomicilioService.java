@@ -1,7 +1,7 @@
 package com.example.buensabor.services.domicilio;
 
 import com.example.buensabor.entities.domicilio.Domicilio;
-import com.example.buensabor.repositories.domicilio.DomicilioRepository;
+import com.example.buensabor.repositories.domicilio.IDomicilioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class DomicilioService {
 
     @Autowired
-    DomicilioRepository domicilioRepository;
+    IDomicilioRepository domicilioRepository;
 
     public List<Domicilio> getDomiciliosSinFechaDeBaja() {
         return (ArrayList<Domicilio>) domicilioRepository.findByFechaBajaIsNull();

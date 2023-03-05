@@ -1,24 +1,22 @@
 package com.example.buensabor.entities.articulos;
 
 
-import com.example.buensabor.entities.EntityBean;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "articulo_elaborado_detalle")
-public class ArticuloElaboradoDetalle extends EntityBean {
+public class ArticuloElaboradoDetalle extends BaseEntity {
 
     @Column(name = "descripcion", length = 65, nullable = false)
     @NotNull

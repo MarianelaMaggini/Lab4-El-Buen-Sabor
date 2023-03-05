@@ -1,12 +1,11 @@
 package com.example.buensabor.entities.articulos;
 
-import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.example.buensabor.entities.comprobantes.DetallePedido;
 import com.example.buensabor.entities.rubro.Rubro;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -20,12 +19,13 @@ import java.util.List;
  * Se utiliza anotaciones para la persistencia en la base de datos
  * @author Maggini - Panella - Tarditi
  */
-@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "articulo")
-public class Articulo extends EntityBean {
+public class Articulo extends BaseEntity {
 
     @Column(name = "denominacion", length = 65, nullable = false)
     @NotNull

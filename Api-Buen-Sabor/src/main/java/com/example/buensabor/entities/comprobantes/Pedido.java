@@ -1,11 +1,10 @@
 package com.example.buensabor.entities.comprobantes;
 
+import com.example.buensabor.entities.base.BaseEntity;
 import com.example.buensabor.entities.domicilio.Domicilio;
 import com.example.buensabor.security.entities.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,17 +14,12 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "pedido")
-public class Pedido implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "numero_pedido")
-    private long numeroPedido;
+public class Pedido extends BaseEntity implements Serializable {
 
     @Column(name = "hora_estimada_fin", nullable = false)
     @NotNull
@@ -58,8 +52,8 @@ public class Pedido implements Serializable {
     @NotNull
     private String formaPago;
 
-    public Pedido(long numeroPedido, @NotNull Date horaEstimadaFin, double total, Domicilio domicilio, TipoEnvio tipoEnvio, Usuario usuario, PedidoEstado pedidoEstado, String formaPago) {
-        this.numeroPedido = numeroPedido;
+    public Pedido(Long id, Date horaEstimadaFin, double total, Domicilio domicilio, TipoEnvio tipoEnvio, Usuario usuario, PedidoEstado pedidoEstado, String formaPago) {
+        this.id = id;
         this.horaEstimadaFin = horaEstimadaFin;
         this.total = total;
         this.domicilio = domicilio;
@@ -68,5 +62,4 @@ public class Pedido implements Serializable {
         this.pedidoEstado = pedidoEstado;
         this.formaPago = formaPago;
     }
-
 }

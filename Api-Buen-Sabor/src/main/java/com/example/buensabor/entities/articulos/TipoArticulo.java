@@ -1,22 +1,21 @@
 package com.example.buensabor.entities.articulos;
 
-import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "tipo_articulo")
-public class TipoArticulo extends EntityBean {
+public class TipoArticulo extends BaseEntity {
 
     @Column(name = "denominacion", length = 65, nullable = false)
     @NotNull

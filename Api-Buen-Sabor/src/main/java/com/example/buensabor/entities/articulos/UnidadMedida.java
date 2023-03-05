@@ -1,10 +1,8 @@
 package com.example.buensabor.entities.articulos;
 
-import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,12 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "unidad_medida")
-public class UnidadMedida extends EntityBean {
+public class UnidadMedida extends BaseEntity {
 
     @Column(name = "denominacion", nullable = false)
     @NotNull
@@ -30,9 +29,5 @@ public class UnidadMedida extends EntityBean {
     @JsonIgnore
     @OneToMany(mappedBy = "unidadMedida")
     private List<Articulo> articulos;
-
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "unidadMedida")
-//    private List<Inventario> inventarios = new ArrayList<>();
 
 }

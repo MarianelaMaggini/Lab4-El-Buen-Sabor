@@ -1,12 +1,12 @@
 package com.example.buensabor.repositories.configuracion;
 
 import com.example.buensabor.entities.configuracion.Configuracion;
+import com.example.buensabor.repositories.base.IBaseRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ConfiguracionRepository extends CrudRepository<Configuracion,Long> {
+public interface ConfiguracionRepository extends IBaseRepository<Configuracion,Long> {
 
     @Query(value = "SELECT token_mercado_pago FROM configuracion", nativeQuery = true)
     String getTokenMercadoPago();

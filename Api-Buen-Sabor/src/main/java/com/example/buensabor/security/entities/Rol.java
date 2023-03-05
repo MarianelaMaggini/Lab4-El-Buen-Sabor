@@ -1,6 +1,6 @@
 package com.example.buensabor.security.entities;
 
-import com.example.buensabor.entities.EntityBean;
+import com.example.buensabor.entities.base.BaseEntity;
 import com.example.buensabor.security.enums.RolNombre;
 import lombok.Data;
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 @Table(name = "rol")
-public class Rol extends EntityBean {
+public class Rol extends BaseEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)

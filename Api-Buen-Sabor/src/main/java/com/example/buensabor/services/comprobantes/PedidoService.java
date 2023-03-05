@@ -2,11 +2,9 @@ package com.example.buensabor.services.comprobantes;
 
 import com.example.buensabor.entities.comprobantes.Pedido;
 import com.example.buensabor.entities.comprobantes.DetallePedido;
-import com.example.buensabor.entities.comprobantes.PedidoEstado;
-import com.example.buensabor.repositories.articulos.ArticuloElaboradoDetalleRepository;
-import com.example.buensabor.repositories.comprobantes.DetallePedidoRepository;
-import com.example.buensabor.repositories.comprobantes.PedidoEstadoRepository;
-import com.example.buensabor.repositories.comprobantes.PedidoRepository;
+import com.example.buensabor.repositories.articulos.IArticuloElaboradoDetalleRepository;
+import com.example.buensabor.repositories.comprobantes.IDetallePedidoRepository;
+import com.example.buensabor.repositories.comprobantes.IPedidoRepository;
 import com.example.buensabor.repositories.configuracion.ConfiguracionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,16 +18,16 @@ import java.util.Optional;
 public class PedidoService {
 
     @Autowired
-    PedidoRepository pedidoRepository;
+    IPedidoRepository pedidoRepository;
 
     @Autowired
     PedidoEstadoService pedidoEstadoService;
 
     @Autowired
-    DetallePedidoRepository detallePedidoRepository;
+    IDetallePedidoRepository detallePedidoRepository;
 
     @Autowired
-    ArticuloElaboradoDetalleRepository articuloElaboradoDetalleRepository;
+    IArticuloElaboradoDetalleRepository articuloElaboradoDetalleRepository;
 
     @Autowired
     ConfiguracionRepository configuracionRepository;
@@ -48,13 +46,13 @@ public class PedidoService {
             double sumatoria2 = 0;
             double tiempoFinal = 0;
             Date horaEstimadaFin = pedido.getHoraEstimadaFin();
-            List<DetallePedido> detallePedido = detallePedidoRepository.getDetalleByIdPedido(pedido.getNumeroPedido());
+            List<DetallePedido> detallePedido = detallePedidoRepository.getDetalleByIdPedido(pedido.getId());
             for (DetallePedido detalle : detallePedido) {
                 sumatoria1 += (articuloElaboradoDetalleRepository.getArticuloDetalleByIdArticulo(detalle.getArticulo().getId())).get().getTiempoEstimadoCocina();
             }
             List<Pedido> pedidosEP = pedidoRepository.findPedidoByPedidoEstadoId(2);
             for (Pedido pedidoEP : pedidosEP) {
-                List<DetallePedido> detallePedidoEP = detallePedidoRepository.getDetalleByIdPedido(pedidoEP.getNumeroPedido());
+                List<DetallePedido> detallePedidoEP = detallePedidoRepository.getDetalleByIdPedido(pedidoEP.getId());
                 for (DetallePedido detalleEP : detallePedidoEP) {
                     sumatoria2 += (articuloElaboradoDetalleRepository.getArticuloDetalleByIdArticulo(detalleEP.getArticulo().getId())).get().getTiempoEstimadoCocina();
                 }
