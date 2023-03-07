@@ -47,15 +47,14 @@ public class MainSecurity {
         httpSecurity.authorizeHttpRequests()
                 .requestMatchers("/auth/**",
                         "/articulos/**",
-                        "/rubros/**",
+                        "/api/v1/rubros/**",
                         "/account/**",
                         "/webjars/**",
                         "/ws/**",
                         "/upload/**",
                         "/v2/api-docs",
                         "/swagger-ui/**",
-                        "/swagger-resources/**",
-                        "/configuration/**").permitAll()
+                        "/swagger-resources/**").permitAll()
                 .anyRequest().authenticated();
         httpSecurity.exceptionHandling().authenticationEntryPoint(jwtEntryPoint);
         httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

@@ -19,10 +19,14 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
     private final static Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
+    private final JwtProvider jwtProvider;
+    private final UserDetailsServiceImpl userDetailsService;
+
     @Autowired
-    JwtProvider jwtProvider;
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    public JwtTokenFilter(JwtProvider jwtProvider, UserDetailsServiceImpl userDetailsService){
+        this.jwtProvider = jwtProvider;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {

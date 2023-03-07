@@ -27,7 +27,7 @@ public class AccountController {
     private static final String SUBJECT = "Cambio de contraseña.";
     @Value("${spring.mail.username}")
     private String mailFrom;
-    @Value("${mail.urlPassword}")
+    @Value("${mail.url.password}")
     private String urlPassword;
 
     @Autowired

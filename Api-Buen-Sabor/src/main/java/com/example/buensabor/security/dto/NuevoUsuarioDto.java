@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class NuevoUsuario {
+public class NuevoUsuarioDto {
 
     @NotBlank
     private String nombre;
