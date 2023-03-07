@@ -10,8 +10,12 @@ import java.util.Optional;
 @Service
 public class ArticuloService {
 
+    private final ArticuloRepository articuloRepository;
+
     @Autowired
-    ArticuloRepository articuloRepository;
+    public ArticuloService (ArticuloRepository articuloRepository){
+        this.articuloRepository = articuloRepository;
+    }
 
     public List<Articulo> getArticulosSinFechaDeBaja() {
         return articuloRepository.findArticuloByFechaBajaIsNull();

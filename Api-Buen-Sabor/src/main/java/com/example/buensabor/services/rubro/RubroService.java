@@ -18,10 +18,11 @@ public class RubroService extends BaseServiceImpl<Rubro, RubroRepository, RubroD
     private final ArticuloRepository articuloRepository;
 
     @Autowired
-    public RubroService(RubroRepository iRubroRepository, RubroFactory rubroFactory, ArticuloRepository articuloRepository) {
-        super(iRubroRepository, rubroFactory);
+    public RubroService(RubroRepository repository, RubroFactory factory, ArticuloRepository articuloRepository) {
+        super(repository, factory);
         this.articuloRepository = articuloRepository;
     }
+
 
     public List<Rubro> getRubrosSinFechaDeBaja() { return repository.findByFechaBajaIsNull(); }
 
