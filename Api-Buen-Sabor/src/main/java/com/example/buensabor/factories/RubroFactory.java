@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RubroFactory implements IFactory<Rubro, RubroDto> {
+public class RubroFactory implements Factory<Rubro, RubroDto> {
     private final ModelMapperConfig modelMapperConfig;
 
     @Autowired
@@ -17,11 +17,11 @@ public class RubroFactory implements IFactory<Rubro, RubroDto> {
 
     @Override
     public Rubro createEntity(RubroDto rubroDto) {
-        return modelMapperConfig.getModelMapper().map(rubroDto, Rubro.class);
+        return modelMapperConfig.modelMapper().map(rubroDto, Rubro.class);
     }
 
     @Override
     public RubroDto createDto(Rubro rubro) {
-        return modelMapperConfig.getModelMapper().map(rubro, RubroDto.class);
+        return modelMapperConfig.modelMapper().map(rubro, RubroDto.class);
     }
 }

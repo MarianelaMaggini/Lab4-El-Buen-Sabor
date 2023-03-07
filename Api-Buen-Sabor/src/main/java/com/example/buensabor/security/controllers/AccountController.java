@@ -14,8 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,7 +27,7 @@ public class AccountController {
     private static final String SUBJECT = "Cambio de contraseña.";
     @Value("${spring.mail.username}")
     private String mailFrom;
-    @Value("${mail.urlPassword}")
+    @Value("${mail.url.password}")
     private String urlPassword;
 
     @Autowired
@@ -43,7 +42,7 @@ public class AccountController {
         Usuario usuario = usuarioService.getByTokenPassword(token).get();
         usuario.setEnabled(true);
         usuario.setTokenPassword(null);
-        usuarioService.save(usuario);
+        usuarioService.update(usuario);
         return "cuenta-verificada";
     }
 
@@ -61,7 +60,7 @@ public class AccountController {
         String tokenPassword = uuid.toString();
         emailValuesDto.setTokenPassword(tokenPassword);
         usuario.setTokenPassword(tokenPassword);
-        usuarioService.save(usuario);
+        usuarioService.update(usuario);
         enviarMailService.sendEmail(emailValuesDto, "email-password", urlPassword);
         return new ResponseEntity<>(new Message("Te enviamos un correo para cambiar contraseña"), HttpStatus.OK);
     }
@@ -80,7 +79,7 @@ public class AccountController {
         String newPassword = passwordEncoder.encode(dto.getPassword());
         usuario.setClave(newPassword);
         usuario.setTokenPassword(null);
-        usuarioService.save(usuario);
+        usuarioService.update(usuario);
         return new ResponseEntity<>(new Message("Se ha modificado su contraseña"), HttpStatus.OK);
     }
 }

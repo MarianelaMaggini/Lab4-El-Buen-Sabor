@@ -2,13 +2,13 @@ package com.example.buensabor.security.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class NuevoUsuario {
+public class NuevoUsuarioDto {
 
     @NotBlank
     private String nombre;

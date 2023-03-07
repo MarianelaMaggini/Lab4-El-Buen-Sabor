@@ -13,5 +13,4 @@ import java.util.Date;
 @Setter
 public class RubroDto extends BaseDto{
     private String denominacion;
-    private Date fechaBaja;
 }

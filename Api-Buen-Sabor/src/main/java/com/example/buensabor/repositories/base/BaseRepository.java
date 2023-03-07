@@ -7,5 +7,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.io.Serializable;
 
 @NoRepositoryBean
-public interface IBaseRepository<E extends BaseEntity, ID extends Serializable> extends CrudRepository<E, ID> {
+public interface BaseRepository<E extends BaseEntity, ID extends Serializable> extends CrudRepository<E, ID> {
 }

@@ -25,4 +25,3 @@ mediante una PC o pueden hacerlo en forma remota desde su casa o su celular pers
 7. Dependencias desde spring initializr [Spring dependencies](https://start.spring.io/).
 8. Paquetes npm como SweetAlert2, Toastr, Ngx-Spinner en [npm](https://www.npmjs.com/).
 9. Api de [Mercado Pago](https://www.mercadopago.com.ar/developers/es/reference).
-nsabor-admin.netlify.app).

@@ -3,8 +3,8 @@ package com.example.buensabor.entities.mercadoPago;
 import com.example.buensabor.entities.comprobantes.Pedido;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 

@@ -1,7 +1,7 @@
 package com.example.buensabor.services.articulos;
 
 import com.example.buensabor.entities.articulos.RecetaElaborado;
-import com.example.buensabor.repositories.articulos.IRecetaElaboradoRepository;
+import com.example.buensabor.repositories.articulos.RecetaElaboradoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.Optional;
 public class RecetaElaboradoService {
 
     @Autowired
-    IRecetaElaboradoRepository recetaElaboradoRepository;
+    RecetaElaboradoRepository recetaElaboradoRepository;
 
     public List<RecetaElaborado> getRecetas() { return (ArrayList<RecetaElaborado>) recetaElaboradoRepository.findAll(); }
 

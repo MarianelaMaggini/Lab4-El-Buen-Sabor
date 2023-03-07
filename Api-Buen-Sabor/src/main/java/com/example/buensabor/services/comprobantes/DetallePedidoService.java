@@ -1,7 +1,7 @@
 package com.example.buensabor.services.comprobantes;
 
 import com.example.buensabor.entities.comprobantes.DetallePedido;
-import com.example.buensabor.repositories.comprobantes.IDetallePedidoRepository;
+import com.example.buensabor.repositories.comprobantes.DetallePedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class DetallePedidoService {
 
     @Autowired
-    IDetallePedidoRepository detallePedidoRepository;
+    DetallePedidoRepository detallePedidoRepository;
 
     public List<DetallePedido> getDetallesPedido() {
         return (ArrayList<DetallePedido>) detallePedidoRepository.findAll();

@@ -8,77 +8,57 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class MainSecurity extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity
+public class MainSecurity {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtEntryPoint jwtEntryPoint;
+    private final PasswordEncoder passwordEncoder;
+    AuthenticationManager authenticationManager;
+    private final JwtTokenFilter jwtTokenFilter;
 
     @Autowired
-    public MainSecurity(UserDetailsServiceImpl userDetailsService, JwtEntryPoint jwtEntryPoint){
+    public MainSecurity(UserDetailsServiceImpl userDetailsService, JwtEntryPoint jwtEntryPoint, PasswordEncoder passwordEncoder, JwtTokenFilter jwtTokenFilter) {
         this.userDetailsService = userDetailsService;
         this.jwtEntryPoint = jwtEntryPoint;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtTokenFilter = jwtTokenFilter;
     }
 
     @Bean
-    public JwtTokenFilter jwtTokenFilter() {
-        return new JwtTokenFilter();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeRequests()
-                .antMatchers(
-                        "/auth/**",
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        AuthenticationManagerBuilder builder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
+        builder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        authenticationManager = builder.build();
+        httpSecurity.authenticationManager(authenticationManager);
+        httpSecurity.csrf().disable();
+        httpSecurity.cors();
+        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.authorizeHttpRequests()
+                .requestMatchers("/auth/**",
                         "/articulos/**",
-                        "/rubros/**",
+                        "/api/v1/rubros/**",
                         "/account/**",
                         "/webjars/**",
                         "/ws/**",
                         "/upload/**",
                         "/v2/api-docs",
                         "/swagger-ui/**",
-                        "/swagger-resources/**",
-                        "/configuration/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                        "/swagger-resources/**").permitAll()
+                .anyRequest().authenticated();
+        httpSecurity.exceptionHandling().authenticationEntryPoint(jwtEntryPoint);
+        httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        return httpSecurity.build();
     }
+
 }

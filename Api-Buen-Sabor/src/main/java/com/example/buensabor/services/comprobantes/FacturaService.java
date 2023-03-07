@@ -2,7 +2,7 @@ package com.example.buensabor.services.comprobantes;
 
 import com.example.buensabor.entities.comprobantes.Factura;
 import com.example.buensabor.entities.comprobantes.DetallePedido;
-import com.example.buensabor.repositories.comprobantes.IFacturaRepository;
+import com.example.buensabor.repositories.comprobantes.FacturaRepository;
 import com.example.buensabor.services.mail.FacturaMailService;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 public class FacturaService {
 
     @Autowired
-    IFacturaRepository facturaRepository;
+    FacturaRepository facturaRepository;
 
     @Autowired
     DetallePedidoService detallePedidoService;

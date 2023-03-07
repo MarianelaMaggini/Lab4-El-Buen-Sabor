@@ -1,7 +1,7 @@
 package com.example.buensabor.services.articulos;
 
 import com.example.buensabor.entities.articulos.UnidadMedida;
-import com.example.buensabor.repositories.articulos.IUnidadMedidaRepository;
+import com.example.buensabor.repositories.articulos.UnidadMedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class UnidadMedidaService {
 
     @Autowired
-    IUnidadMedidaRepository unidadMedidaRepository;
+    UnidadMedidaRepository unidadMedidaRepository;
 
     public List<UnidadMedida> getUnidades() {
         return (ArrayList<UnidadMedida>) unidadMedidaRepository.findAll();
